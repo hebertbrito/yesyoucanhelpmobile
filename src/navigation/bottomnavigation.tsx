@@ -1,33 +1,77 @@
 import * as React from 'react';
+import { View } from 'react-native'
+import { Text, BottomNavigation } from 'react-native-paper'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { Button, View, Text } from 'react-native';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {
+    NavigationContainer
+} from '@react-navigation/native';
 
 const Tab = createMaterialBottomTabNavigator();
 
-function HomeScreen({ navigation }) {
+const MusicRoute = () => <View><Text>MusicRoute</Text></View>;
+
+const AlbumsRoute = () => <View><Text>AlbumsRoute</Text></View>;
+
+const RecentsRoute = () => <View><Text>RecentsRoute</Text></View>;
+const coco = () => <View><Text>coco</Text></View>;
+
+function BottomNavigator() {
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Home - Bottom Navigation</Text>
-        </View>
+
+        <Tab.Navigator
+            initialRouteName="MusicRoute"
+            activeColor="#fafafa"
+            inactiveColor="#424242"
+            labeled={true}
+        >
+            <Tab.Screen
+                name="Feed"
+                component={MusicRoute}
+                options={{
+                    tabBarLabel: 'MusicRoute',
+                    tabBarColor: '#ef6c00',
+                    tabBarIcon: ({ color }) => (
+                        <Icon name="play" color={color} size={20} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="AlbumsRoute"
+                component={AlbumsRoute}
+                options={{
+                    tabBarLabel: 'AlbumsRoute',
+                    tabBarColor: '#A85008',
+                    tabBarIcon: ({ color }) => (
+                        <Icon name="search" color={color} size={20} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="RecentsRoute"
+                component={RecentsRoute}
+                options={{
+                    tabBarLabel: 'RecentsRoute',
+                    tabBarColor: '#914100',
+                    tabBarIcon: ({ color }) => (
+                        <Icon name="heart" color={color} size={20} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="coco"
+                component={coco}
+                options={{
+                    tabBarLabel: 'coco',
+                    tabBarColor: '#A85008',
+                    tabBarIcon: ({ color }) => (
+                        <Icon name="trash" color={color} size={20} />
+                    ),
+                }}
+            />
+        </Tab.Navigator>
+
     );
 }
 
-
-class BottomNavigation extends React.Component {
-    constructor(props: any) {
-        super(props);
-
-    }
-
-    render() {
-        return (
-            <Tab.Navigator>
-                <Tab.Screen name="Home" component={HomeScreen} />
-            </Tab.Navigator>
-        )
-    }
-
-}
-
-export default BottomNavigation;
+export default BottomNavigator;
