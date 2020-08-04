@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View } from 'react-native'
-import { Text, BottomNavigation } from 'react-native-paper'
+import { Text, BottomNavigation, useTheme } from 'react-native-paper'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {
@@ -17,6 +17,10 @@ const RecentsRoute = () => <View><Text>RecentsRoute</Text></View>;
 const coco = () => <View><Text>coco</Text></View>;
 
 function BottomNavigator() {
+
+    const paperTheme = useTheme();
+
+
     return (
 
         <Tab.Navigator
@@ -26,13 +30,14 @@ function BottomNavigator() {
             labeled={true}
         >
             <Tab.Screen
-                name="Feed"
+                name="MusicRoute"
                 component={MusicRoute}
                 options={{
                     tabBarLabel: 'MusicRoute',
                     tabBarColor: '#ef6c00',
+                    
                     tabBarIcon: ({ color }) => (
-                        <Icon name="play" color={color} size={20} />
+                        <Icon name="play" color={paperTheme.colors.text} size={20} />
                     ),
                 }}
             />
@@ -43,7 +48,7 @@ function BottomNavigator() {
                     tabBarLabel: 'AlbumsRoute',
                     tabBarColor: '#A85008',
                     tabBarIcon: ({ color }) => (
-                        <Icon name="search" color={color} size={20} />
+                        <Icon name="search" color={paperTheme.colors.text} size={20} />
                     ),
                 }}
             />
@@ -54,7 +59,7 @@ function BottomNavigator() {
                     tabBarLabel: 'RecentsRoute',
                     tabBarColor: '#914100',
                     tabBarIcon: ({ color }) => (
-                        <Icon name="heart" color={color} size={20} />
+                        <Icon name="heart" color={paperTheme.colors.text} size={20} />
                     ),
                 }}
             />
@@ -63,9 +68,9 @@ function BottomNavigator() {
                 component={coco}
                 options={{
                     tabBarLabel: 'coco',
-                    tabBarColor: '#A85008',
+                    tabBarColor: '#B35000',
                     tabBarIcon: ({ color }) => (
-                        <Icon name="trash" color={color} size={20} />
+                        <Icon name="trash" color={paperTheme.colors.text} size={20} />
                     ),
                 }}
             />

@@ -10,7 +10,8 @@ import {
 import {
   Provider as PaperProvider,
   DefaultTheme as PaperDefaultTheme,
-  DarkTheme as PaperDarkTheme
+  DarkTheme as PaperDarkTheme,
+  Button
 } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 //import navigation bottom
@@ -19,41 +20,69 @@ import BottomNavigator from './bottomnavigation'
 //import screens
 import LoginScreen from '../pages/loginscreen'
 
+//components
+import { DrawContent } from './drawcontent'
 
 const Drawer = createDrawerNavigator();
 
+
 class DrawNavigation extends React.Component {
-  constructor(props: any) {
-    super(props);
+
+  state = {
+    darkTheme: false
   }
-  state ={
-    status: true
+
+  CustomDefaultTheme = {
+    ...NavigationDefaultTheme,
+    ...PaperDefaultTheme,
+    colors: {
+      ...NavigationDefaultTheme.colors,
+      ...PaperDefaultTheme.colors,
+      background: '#fafafa',
+      text: '#000000'
+    }
   }
-   
+
+  CustomDarkTheme = {
+    ...PaperDefaultTheme,
+    ...NavigationDefaultTheme,
+    colors: {
+      ...PaperDefaultTheme.colors,
+      ...NavigationDefaultTheme.colors,
+      background: '#212121',
+      text: '#fafafa'
+    }
+  }
+
   render() {
 
-        
-    // const [status, setStatus] = React.useState('checked');
+    const toggleTheme = () => {
+      this.setState({ darkTheme: !this.state.darkTheme ? true : false })
+    }
+
+    const verify = this.state.darkTheme;
+    let isDarkTheme = this.CustomDefaultTheme
+    if (verify) {
+      isDarkTheme = this.CustomDarkTheme
+    }
 
     return (
-      <PaperProvider theme={PaperDarkTheme}>
-        <NavigationContainer theme={NavigationDarkTheme}>
+      <PaperProvider theme={isDarkTheme}>
+        <NavigationContainer theme={isDarkTheme} >
           <StatusBar animated={true} backgroundColor={'#ef6c00'} />
-          <Drawer.Navigator initialRouteName="Home" >
+          <Drawer.Navigator initialRouteName="Login"
+            backBehavior="history"
+            drawerContent={props => <DrawContent props={props} valueSwitch={this.state.darkTheme} toggleTheme={toggleTheme} />}
+            drawerType="front"
+            drawerStyle={{backgroundColor: isDarkTheme.colors.background}}
+          >
             <Drawer.Screen name="Login" component={LoginScreen} />
-            <Drawer.Screen name="BottomNavigator" component={BottomNavigator}/>
+            <Drawer.Screen name="BottomNavigator" component={BottomNavigator} />
           </Drawer.Navigator>
         </NavigationContainer>
       </PaperProvider>
     )
   }
-
 }
 
 export default DrawNavigation;
-
-// export default function DrawNavigation() {
-//   return (
-
-//   );
-// }
