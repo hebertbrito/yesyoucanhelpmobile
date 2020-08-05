@@ -56,6 +56,10 @@ class DrawNavigation extends React.Component {
     }
   }
 
+  componentDidMount() {
+
+  }
+
   render() {
 
     const toggleTheme = () => {
@@ -74,9 +78,9 @@ class DrawNavigation extends React.Component {
           <StatusBar animated={true} backgroundColor={'#ef6c00'} />
           <Drawer.Navigator initialRouteName="Login"
             backBehavior="history"
-            drawerContent={props => <DrawContent props={props} valueSwitch={this.state.darkTheme} toggleTheme={toggleTheme} />}
+            drawerContent={props => <DrawContent props={props} SwitchDarkTheme={this.state.darkTheme} toggleTheme={toggleTheme} />}
             drawerType="front"
-            drawerStyle={{backgroundColor: isDarkTheme.colors.background}}
+            drawerStyle={{ backgroundColor: isDarkTheme.colors.background }}
           >
             <Drawer.Screen name="Login" component={LoginScreen} />
             <Drawer.Screen name="BottomNavigator" component={BottomNavigator} />

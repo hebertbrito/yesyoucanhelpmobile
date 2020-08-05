@@ -2,10 +2,9 @@ import * as React from 'react';
 import { View } from 'react-native'
 import { Text, BottomNavigation, useTheme } from 'react-native-paper'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import {
-    NavigationContainer
-} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+
+import translate from '../services/translate/translate'
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -28,16 +27,17 @@ function BottomNavigator() {
             activeColor="#fafafa"
             inactiveColor="#424242"
             labeled={true}
+            shifting={true}
         >
             <Tab.Screen
                 name="MusicRoute"
                 component={MusicRoute}
                 options={{
-                    tabBarLabel: 'MusicRoute',
-                    tabBarColor: '#ef6c00',
-                    
+                    tabBarLabel: `${translate('home_menu')}`,
+                    tabBarColor: '#A85008',
+
                     tabBarIcon: ({ color }) => (
-                        <Icon name="play" color={paperTheme.colors.text} size={20} />
+                        <Icon name="home" color={paperTheme.colors.text} size={20} />
                     ),
                 }}
             />
@@ -45,10 +45,10 @@ function BottomNavigator() {
                 name="AlbumsRoute"
                 component={AlbumsRoute}
                 options={{
-                    tabBarLabel: 'AlbumsRoute',
-                    tabBarColor: '#A85008',
+                    tabBarLabel: `${translate('ask_contribution_menu')}`,
+                    tabBarColor: '#ef6c00',
                     tabBarIcon: ({ color }) => (
-                        <Icon name="search" color={paperTheme.colors.text} size={20} />
+                        <Icon name="hand-holding" color={paperTheme.colors.text} size={20} />
                     ),
                 }}
             />
@@ -56,21 +56,10 @@ function BottomNavigator() {
                 name="RecentsRoute"
                 component={RecentsRoute}
                 options={{
-                    tabBarLabel: 'RecentsRoute',
+                    tabBarLabel: `${translate('maps_menu')}`,
                     tabBarColor: '#914100',
                     tabBarIcon: ({ color }) => (
-                        <Icon name="heart" color={paperTheme.colors.text} size={20} />
-                    ),
-                }}
-            />
-            <Tab.Screen
-                name="coco"
-                component={coco}
-                options={{
-                    tabBarLabel: 'coco',
-                    tabBarColor: '#B35000',
-                    tabBarIcon: ({ color }) => (
-                        <Icon name="trash" color={paperTheme.colors.text} size={20} />
+                        <Icon name="map-marker-alt" color={paperTheme.colors.text} size={20} />
                     ),
                 }}
             />

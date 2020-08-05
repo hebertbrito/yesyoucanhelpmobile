@@ -1,54 +1,50 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native';
 import { DrawerContentScrollView, DrawerItem, DrawerContentComponentProps, DrawerContentOptions } from '@react-navigation/drawer';
-import { useNavigation, NavigationState, NavigationProp } from '@react-navigation/native';
 import { useTheme, Text, Switch, Avatar, Subheading, Divider, Caption, Drawer } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { State } from 'react-native-gesture-handler';
+
+import translate from '../services/translate/translate'
 
 
 interface Props {
     toggleTheme?: () => void,
-    valueSwitch?: boolean,
+    SwitchDarkTheme?: boolean,
     props: DrawerContentComponentProps<DrawerContentOptions>
 }
 
 export const DrawContent = (props: Props) => {
+
     const { navigation } = props.props;
 
-    const valueSwitch = props.valueSwitch;
+    const SwitchDarkTheme = props.SwitchDarkTheme;
 
     const paperTheme = useTheme();
 
-    const ahaha = () => {
-        console.log('**********************************************************')
-        // console.log(state)
-    }
-
     const sidebarMenus = [
         {
-            icon: () => <Icon color={paperTheme.colors.text} size={20} name="user" style={styles.styleIcons} />,
-            labelName: 'Profile',
+            icon: () => <Icon color={paperTheme.colors.text} size={20} name="user-cog" style={styles.styleIcons} />,
+            labelName: 'profile_menu',
             route: 'profilescreen'
         },
         {
             icon: () => <Icon color={paperTheme.colors.text} size={20} name="home" style={styles.styleIcons} />,
-            labelName: 'Home',
+            labelName: 'home_menu',
             route: 'homescreen'
         },
         {
             icon: () => <Icon color={paperTheme.colors.text} size={20} name="map-marker-alt" style={styles.styleIcons} />,
-            labelName: 'Maps',
+            labelName: 'maps_menu',
             route: 'mapsscreen'
         },
         {
             icon: () => <Icon color={paperTheme.colors.text} size={20} name="hands-helping" style={styles.styleIcons} />,
-            labelName: 'Contribution',
+            labelName: 'contribution_menu',
             route: 'contributionscreen'
         },
         {
             icon: () => <Icon color={paperTheme.colors.text} size={20} name="hand-holding" style={styles.styleIcons} />,
-            labelName: 'Ask Contribution',
+            labelName: 'ask_contribution_menu',
             route: 'akscontributionscreen'
         },
     ]
@@ -72,7 +68,7 @@ export const DrawContent = (props: Props) => {
                     {sidebarMenus.length > 0 && (
                         sidebarMenus.map(menu => {
                             return (
-                                <DrawerItem key={menu.labelName} label={menu.labelName} icon={menu.icon}
+                                <DrawerItem key={menu.labelName} label={translate(menu.labelName)} icon={menu.icon}
                                     onPress={() => navigation.navigate('BottomNavigator', { screen: 'RecentsRoute' })}
                                     labelStyle={{ display: "flex", width: 160, textAlign: "left" }}
                                     style={{ display: "flex", alignItems: "flex-end", alignContent: "center" }}
@@ -83,18 +79,22 @@ export const DrawContent = (props: Props) => {
                 </Drawer.Section>
                 <Divider style={{ backgroundColor: paperTheme.colors.accent }} />
                 <View style={styles.viewCommum}>
-                    <Text style={{ alignSelf: 'center', fontSize: 15 }}>Preferences</Text>
+                    <Text style={{ alignSelf: 'center', fontSize: 15 }}>{translate('preferences_menu')}</Text>
                     <View style={styles.subPreferences}>
-                        <Caption children={<Text>DarkTheme</Text>} />
-                        <Switch value={valueSwitch} onValueChange={props.toggleTheme} trackColor={{ true: "#ffa000", false: "#e0e0e0" }} thumbColor="#ef6c00" />
+                        <Caption children={<Text>{translate('theme_menu')}</Text>} />
+                        <Switch value={SwitchDarkTheme} onValueChange={props.toggleTheme}
+                            trackColor={{ true: "#ffa000", false: "#e0e0e0" }}
+                            thumbColor="#ef6c00"
+                        />
                     </View>
                 </View>
                 <Divider style={{ backgroundColor: paperTheme.colors.accent }} />
             </DrawerContentScrollView>
             <Divider style={{ backgroundColor: paperTheme.colors.accent }} />
             <Drawer.Section style={styles.signOut}>
-                <DrawerItem key="Sing Out" label="Sing Out" icon={singOutIcon}
-                    onPress={() => { }} />
+                <DrawerItem key="Sing Out" label={translate('sing_out')} icon={singOutIcon}
+                    onPress={() => { }}
+                />
             </Drawer.Section>
         </>
     )
