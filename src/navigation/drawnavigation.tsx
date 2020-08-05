@@ -39,7 +39,8 @@ class DrawNavigation extends React.Component {
       ...NavigationDefaultTheme.colors,
       ...PaperDefaultTheme.colors,
       background: '#fafafa',
-      text: '#000000'
+      text: '#000000',
+      accent: '#D2D2D2'
     }
   }
 
@@ -50,7 +51,8 @@ class DrawNavigation extends React.Component {
       ...PaperDefaultTheme.colors,
       ...NavigationDefaultTheme.colors,
       background: '#212121',
-      text: '#fafafa'
+      text: '#fafafa',
+      accent: '#757575'
     }
   }
 
