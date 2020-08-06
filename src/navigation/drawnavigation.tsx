@@ -73,14 +73,15 @@ class DrawNavigation extends React.Component {
     }
 
     return (
-      <PaperProvider theme={isDarkTheme}>
-        <NavigationContainer theme={isDarkTheme} >
+      <PaperProvider theme={isDarkTheme} {...this.props}>
+        <NavigationContainer theme={isDarkTheme} {...this.props}>
           <StatusBar animated={true} backgroundColor={'#ef6c00'} />
           <Drawer.Navigator initialRouteName="Login"
-            backBehavior="history"
+            backBehavior="none"
             drawerContent={props => <DrawContent props={props} SwitchDarkTheme={this.state.darkTheme} toggleTheme={toggleTheme} />}
             drawerType="front"
             drawerStyle={{ backgroundColor: isDarkTheme.colors.background }}
+            {...this.props}
           >
             <Drawer.Screen name="Login" component={LoginScreen} />
             <Drawer.Screen name="BottomNavigator" component={BottomNavigator} />
