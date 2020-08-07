@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     safeareContainer:{
         flex: 1,
         padding: 0,
-        margin: 0,
+        margin: 10,
         display: "flex",
         alignItems: "center",
         justifyContent: "center"

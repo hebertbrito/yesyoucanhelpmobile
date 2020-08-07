@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { View, SafeAreaView, TextInput } from 'react-native';
+import { View, SafeAreaView, TextInput, Image } from 'react-native';
 import { DrawerContentComponentProps, DrawerContentOptions } from '@react-navigation/drawer';
 import { Button, Text, useTheme, TextInput as PaperTextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+
+import * as Animatable from 'react-native-animatable';
 
 //styles
 import styles from './styles'
@@ -13,24 +15,27 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
 
     const paperTheme = useTheme()
 
-    const [ password, setPassword ] = useState('')
-    const [ email, setEmail ] = useState('')
+    const [password, setPassword] = useState('')
+    const [email, setEmail] = useState('')
 
     const { navigation } = props;
-    
-    
-    const iconbutton = () =>{
+
+
+    const iconbutton = () => {
         return <Icon name="sign-in-alt" size={20} />
     }
 
-    const teste = () =>{
+    const teste = () => {
         console.log(paperTheme)
     }
 
     return (
 
         <SafeAreaView style={styles.safeareContainer}>
-            <View style={styles.formView}>
+
+            <Animatable.Image animation="bounceInDown" delay={1100} useNativeDriver={true}  source={require('../../assets/fotospublic/logoLetra.png')} style={{ height: '40%', width: '43%' }} />
+
+            <Animatable.View style={styles.formView} animation="fadeInLeft" delay={1200}  useNativeDriver={true}>
                 <TextInput
                     value={email}
                     onChangeText={text => { setEmail(text) }}
@@ -46,21 +51,21 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
                 <TextInput
                     secureTextEntry={true}
                     value={password}
-                    onChangeText={text => { setPassword(text)}}
+                    onChangeText={text => { setPassword(text) }}
                     placeholder="Password"
                     keyboardAppearance="light"
                     style={{ margin: 10 }}
                     underlineColorAndroid={paperTheme.colors.text}
                     placeholderTextColor={paperTheme.colors.text}
                 />
-                
+
                 <Button icon={iconbutton} mode="contained" onPress={() => navigation.navigate('BottomNavigator', { screen: 'MusicRoute' })}
                     style={{ width: '45%', padding: 2, alignSelf: "center" }}
                     color="#ef6c00"
                 >
                     Press me
-                    </Button>
-            </View>
+                </Button>
+            </Animatable.View>
         </SafeAreaView>
     )
 }
