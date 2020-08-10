@@ -17,7 +17,7 @@ export const DrawContent = (props: Props) => {
 
     const { navigation } = props.props;
 
-    const SwitchDarkTheme = props.SwitchDarkTheme;
+    const SwitchDarkTheme = props.SwitchDarkTheme; 
 
     const paperTheme = useTheme();
 

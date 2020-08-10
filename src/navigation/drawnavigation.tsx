@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StatusBar, CheckBox, TextBase } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import {
@@ -13,7 +13,13 @@ import {
   DarkTheme as PaperDarkTheme,
   Button
 } from 'react-native-paper';
+import AsyncStorage from '@react-native-community/async-storage';
+import { toString } from 'lodash'
+
 import Icon from 'react-native-vector-icons/FontAwesome';
+
+// import { ChangeDataDarkTheme } from '../data/asyncstorage'
+
 //import navigation bottom
 import BottomNavigator from './bottomnavigation'
 
@@ -28,9 +34,13 @@ const Drawer = createDrawerNavigator();
 
 class DrawNavigation extends React.Component {
 
+  idDarkTheme = 'idDarkTheme';
+
   state = {
     darkTheme: false
   }
+
+  //#region ABOUT THEME APPLICATION
 
   CustomDefaultTheme = {
     ...NavigationDefaultTheme,
@@ -56,15 +66,72 @@ class DrawNavigation extends React.Component {
     }
   }
 
-  componentDidMount() {
+  //#endregion
 
+  //#region CHANGES OF THE DARKTHEME
+
+  getInicialDarkThemeValue = async () => {
+
+    try {
+
+      const retornoDataTheme = await AsyncStorage.getItem(this.idDarkTheme)
+
+      if (retornoDataTheme !== null) {
+
+        if (retornoDataTheme === 'true') {
+
+          this.setState({ darkTheme: true })
+
+        } else {
+
+          this.setState({ darkTheme: false })
+
+        }
+
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  ChangeDataDarkTheme = async (value: string) => {
+
+    try {
+
+      let retornoGet = await AsyncStorage.getItem(this.idDarkTheme)
+
+      if (retornoGet !== null) {
+
+        await AsyncStorage.removeItem(this.idDarkTheme)
+        await AsyncStorage.setItem(this.idDarkTheme, value)
+
+      } else {
+
+        await AsyncStorage.setItem(this.idDarkTheme, value)
+
+      }
+
+
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  //#endregion
+
+
+  componentDidMount() {
+    this.getInicialDarkThemeValue()
   }
 
   render() {
 
     const toggleTheme = () => {
+      this.ChangeDataDarkTheme(toString(!this.state.darkTheme))
       this.setState({ darkTheme: !this.state.darkTheme ? true : false })
     }
+
+
 
     const verify = this.state.darkTheme;
     let isDarkTheme = this.CustomDefaultTheme
