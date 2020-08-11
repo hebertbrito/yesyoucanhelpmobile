@@ -3,7 +3,6 @@ import { View, SafeAreaView, TextInput, Image } from 'react-native';
 import { DrawerContentComponentProps, DrawerContentOptions } from '@react-navigation/drawer';
 import { Button, Text, useTheme, TextInput as PaperTextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
 import * as Animatable from 'react-native-animatable';
 
 //styles
@@ -59,7 +58,7 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
                     placeholderTextColor={paperTheme.colors.text}
                 />
 
-                <Button icon={iconbutton} mode="contained" onPress={() => navigation.navigate('BottomNavigator', { screen: 'MusicRoute' })}
+                <Button icon={iconbutton} mode="contained" onPress={() => navigation.navigate('BottomNavigator', { screen: 'HomeScreen' })}
                     style={{ width: '45%', padding: 2, alignSelf: "center" }}
                     color="#ef6c00"
                 >

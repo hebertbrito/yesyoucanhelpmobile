@@ -6,6 +6,10 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import translate from '../services/translate/translate'
 
+
+//screens
+import HomeScreen from '../pages/homescreen'
+
 const Tab = createMaterialBottomTabNavigator();
 
 const MusicRoute = () => <View><Text>MusicRoute</Text></View>;
@@ -23,15 +27,15 @@ function BottomNavigator() {
     return (
 
         <Tab.Navigator
-            initialRouteName="MusicRoute"
+            initialRouteName="HomeScreen"
             activeColor="#fafafa"
             inactiveColor="#424242"
             labeled={true}
             shifting={true}
         >
             <Tab.Screen
-                name="MusicRoute"
-                component={MusicRoute}
+                name="HomeScreen"
+                component={HomeScreen}
                 options={{
                     tabBarLabel: `${translate('home_menu')}`,
                     tabBarColor: '#A85008',
