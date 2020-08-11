@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, StatusBar, CheckBox, TextBase } from 'react-native';
+import { View, Text, StatusBar, CheckBox, TextBase, NativeModules } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import {
   NavigationContainer,
@@ -14,8 +14,8 @@ import {
   Button
 } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
+import { LoginUser } from '../services/api'
 import { toString } from 'lodash'
-
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 // import { ChangeDataDarkTheme } from '../data/asyncstorage'
@@ -28,6 +28,9 @@ import LoginScreen from '../pages/loginscreen'
 
 //components
 import { DrawContent } from './drawcontent'
+
+import axios from 'axios';
+
 
 const Drawer = createDrawerNavigator();
 
@@ -120,9 +123,16 @@ class DrawNavigation extends React.Component {
   //#endregion
 
 
-  componentDidMount() {
-    this.getInicialDarkThemeValue()
+  testeUser = async (email: string, password: string) => {
+    const teste = await axios.get('https://apiyesyoucanhelp.herokuapp.com/auth/login');
+    console.log(teste.data)
   }
+
+  componentDidMount() {
+    this.getInicialDarkThemeValue();
+    this.testeUser('teste', 'teste');
+  }
+
 
   render() {
 

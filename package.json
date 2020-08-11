@@ -17,6 +17,7 @@
     "@react-navigation/native": "^5.7.2",
     "@types/lodash": "^4.14.159",
     "@types/react-native-vector-icons": "^6.4.5",
+    "axios": "^0.19.2",
     "lodash": "^4.17.19",
     "react": "16.13.1",
     "react-native": "0.63.0",
