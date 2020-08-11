@@ -20,7 +20,7 @@ export const ProgressBarComponent = (props: Props) => {
                 <ProgressBar color="#ef6c00" progress={props.value * 0.1} style={styles.progressBar}/>
             </View>
             <View style={{width: '25%'}}>
-                <Text style={{ color: paperTheme.colors.text, alignSelf: "flex-end", textAlign: "center" }}>{props.value}</Text>
+                <Text style={{ color: paperTheme.colors.text, alignSelf: "flex-end", textAlign: "center" }}>{props.value * 10}%</Text>
             </View>
         </View>
     )
