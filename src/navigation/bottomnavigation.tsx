@@ -9,6 +9,7 @@ import translate from '../services/translate/translate'
 
 //screens
 import HomeScreen from '../pages/homescreen'
+import OrderScreen from '../pages/orderscreen'
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -57,13 +58,13 @@ function BottomNavigator() {
                 }}
             />
             <Tab.Screen
-                name="RecentsRoute"
-                component={RecentsRoute}
+                name="Contributionscreen"
+                component={OrderScreen}
                 options={{
-                    tabBarLabel: `${translate('maps_menu')}`,
+                    tabBarLabel: `${translate('contribution_menu')}`,
                     tabBarColor: '#914100',
                     tabBarIcon: ({ color }) => (
-                        <Icon name="map-marker-alt" color={paperTheme.colors.text} size={20} />
+                        <Icon name="hands-helping" color={paperTheme.colors.text} size={20} />
                     ),
                 }}
             />

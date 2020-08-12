@@ -14,20 +14,21 @@ import {
   Button
 } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
-import { toString } from 'lodash'
+import { toString } from 'lodash';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 // import { ChangeDataDarkTheme } from '../data/asyncstorage'
 
 //import navigation bottom
-import BottomNavigator from './bottomnavigation'
+import BottomNavigator from './bottomnavigation';
 
 //import screens
-import LoginScreen from '../pages/loginscreen'
+import LoginScreen from '../pages/loginscreen';
+import OderScreen from '../pages/orderscreen'
 
 //components
-import { DrawContent } from './drawcontent'
+import { DrawContent } from './drawcontent';
 
 const Drawer = createDrawerNavigator();
 
@@ -151,6 +152,7 @@ class DrawNavigation extends React.Component {
             {...this.props}
           >
             <Drawer.Screen name="Login" component={LoginScreen} />
+            <Drawer.Screen name="Contributionscreen" component={OderScreen} />
             <Drawer.Screen name="BottomNavigator" component={BottomNavigator} />
           </Drawer.Navigator>
         </NavigationContainer>
