@@ -4,8 +4,6 @@ import { useTheme, Text, Title, Subheading, List, Button, IconButton, Paragraph,
 import { Picker } from '@react-native-community/picker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-
-
 //dataOrderMenu
 import { itemsDropdown, addressesDropdown } from '../../data/dataOrderscreen'
 
@@ -30,14 +28,19 @@ const OrderScreen = () => {
     }
 
     return (
-        <SafeAreaView style={styles.containerSafe}>
+        <ScrollView style={styles.containerSafe}
+            contentContainerStyle={{
+                alignContent: "center",
+                alignItems: "center",
+            }}
+        >
             <Title style={{ color: paperTheme.colors.text, marginTop: 10, marginBottom: 10 }}>Contributions</Title>
             <View style={styles.containerCard}>
-                <View style={{ display: "flex", flexDirection: "column" }}>
-                    <View style={{ height: '23%', alignItems: "center", justifyContent: "center", backgroundColor: "#ef6c00", borderBottomWidth: 1, borderColor: '#000000' }}>
-                        <Subheading style={{ alignSelf: "center", color: '#000000' }}>Item Product</Subheading>
+                <View style={styles.card}>
+                    <View style={styles.titleCard}>
+                        <Subheading style={styles.titleText}>Item Product</Subheading>
                     </View>
-                    <View style={{ display: "flex", flexDirection: "row", padding: 5 }}>
+                    <View style={styles.bodyCard_1}>
                         <Picker mode="dropdown" style={{ width: '50%', color: paperTheme.colors.text }}
                             selectedValue={dropdownvalueproduct}
                             onValueChange={(itemvalue, itemindex) => setDropdownValueProduct(itemvalue.toString())}
@@ -61,7 +64,7 @@ const OrderScreen = () => {
                             style={{ width: '50%', color: paperTheme.colors.text }}
                         />
                     </View>
-                    <View>
+                    <View style={{padding: 5}}>
                         <TextInput
                             value={descriptionInput}
                             onChangeText={(text) => setDescriptionInput(text)}
@@ -72,28 +75,29 @@ const OrderScreen = () => {
                             placeholder="Description"
                             underlineColorAndroid={paperTheme.colors.text}
                             placeholderTextColor={paperTheme.colors.text}
-                            style={{ color: paperTheme.colors.text }}
+                            style={{ color: paperTheme.colors.text, width: '99%' }}
                         />
                     </View>
                 </View>
             </View>
-            <Button color={'#fafafa'} style={{ margin: 5, backgroundColor: '#000000', width: '70%' }}>+ Product</Button>
+            <Button color={'#fafafa'} style={styles.button_produt_add}>+ Product</Button>
 
+            <Divider style={{ backgroundColor: paperTheme.colors.accent, width: '95%', height: 1, marginTop: 15, marginBottom: 8 }} />
 
-            <View style={{ width: '95%', height: 120, marginTop: 15 }}>
-                <Subheading style={{ alignSelf: "center" }}>List of All Products</Subheading>
-                <ScrollView style={{ width: '100%', backgroundColor: '#eeeeee', paddingTop: 5 }}
+            <View style={styles.containerlist}>
+                <Subheading style={{ alignSelf: "center", color: paperTheme.colors.text }}>List of All Products</Subheading>
+                <ScrollView style={styles.scrollViewDisplay}
                     showsVerticalScrollIndicator={true}
                     indicatorStyle="black"
                     pinchGestureEnabled={true}
                 >
-                    <View style={{ width: '95%', display: "flex", flexDirection: "column", borderColor: '#fdd835', borderWidth: 2, alignSelf: "center" }}>
-                        <View style={{ display: "flex", flexDirection: "row", backgroundColor: "#fdd835", alignItems: "center" }}>
+                    <View style={styles.scrollViewDisplay}>
+                        <View style={styles.titleList}>
                             <Subheading style={{ margin: 8, color: paperTheme.colors.onBackground }}>Clothes</Subheading>
                             <Text style={{ color: paperTheme.colors.onBackground }}> - </Text>
                             <Text style={{ margin: 8, color: paperTheme.colors.onBackground }}>16</Text>
                         </View>
-                        <View style={{ display: "flex", flexDirection: "row", alignItems: "center", backgroundColor: "#fafafa" }}>
+                        <View style={styles.info_list}>
                             <View style={{ width: '90%' }}>
                                 <Paragraph style={{ margin: 5, color: paperTheme.colors.onBackground }}>descrição</Paragraph>
                             </View>
@@ -107,11 +111,23 @@ const OrderScreen = () => {
                     <Divider style={{ backgroundColor: paperTheme.colors.accent, marginTop: 10, marginBottom: 10 }} />
                 </ScrollView>
             </View>
-            <View style={{ width: '95%', display: "flex", flexDirection: "column", marginTop: 15 }}>
-                <Subheading style={{ alignSelf: "flex-start", margin: 5, padding: 3 }}>Checkpoint</Subheading>
-                <View style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-                    <View style={{ display: "flex", flexDirection: "row", alignItems: "center", backgroundColor: "#ef6c00" }}>
-                        <Text style={{color: '#000000'}}>Send Product to branch</Text>
+
+            <Divider style={{ backgroundColor: paperTheme.colors.accent, width: '95%', height: 1, marginTop: 15, marginBottom: 8 }} />
+
+            <View style={styles.containerCheckpoint}>
+                <Subheading style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    color: paperTheme.colors.text,
+                    padding: 5
+                }}
+                >
+                    Checkpoint</Subheading>
+                <View style={styles.viewCardCheckBox}>
+                    <View style={styles.itemCheckBox}>
+                        <Text style={{ color: '#000000' }}>Send Product to branch</Text>
                         <RadioButton
                             value="first"
                             status={checked === 'first' ? 'checked' : 'unchecked'}
@@ -120,8 +136,8 @@ const OrderScreen = () => {
                             uncheckedColor={'#000000'}
                         />
                     </View>
-                    <View style={{ display: "flex", flexDirection: "row", alignItems: "center", backgroundColor: "#ef6c00"}}>
-                        <Text style={{color: '#000000'}}>Choose a meeting place</Text>
+                    <View style={styles.itemCheckBox}>
+                        <Text style={{ color: '#000000' }}>Choose a meeting place</Text>
                         <RadioButton
                             value="second"
                             status={checked === 'second' ? 'checked' : 'unchecked'}
@@ -131,20 +147,22 @@ const OrderScreen = () => {
                         />
                     </View>
                 </View>
-                <Picker mode="dropdown" style={{ width: '50%', color: paperTheme.colors.text }}
-                    selectedValue={dropdownvalueaddress}
-                    onValueChange={(itemvalue, itemindex) => setDropdownValueAddress(itemvalue.toString())}
-                >
-                    {addressesDropdown.length > 0 && (
-                        addressesDropdown.map((item) => {
-                            return (
-                                <Picker.Item key={item.id} label={item.address} value={item.address} />
-                            )
-                        })
-                    )}
-                </Picker>
+                <View>
+                    <Picker mode="dropdown" style={{ width: '50%', color: paperTheme.colors.text }}
+                        selectedValue={dropdownvalueaddress}
+                        onValueChange={(itemvalue, itemindex) => setDropdownValueAddress(itemvalue.toString())}
+                    >
+                        {addressesDropdown.length > 0 && (
+                            addressesDropdown.map((item) => {
+                                return (
+                                    <Picker.Item key={item.id} label={item.address} value={item.address} />
+                                )
+                            })
+                        )}
+                    </Picker>
+                </View>
             </View>
-        </SafeAreaView>
+        </ScrollView>
     )
 }
 
