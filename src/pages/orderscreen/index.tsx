@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, ScrollView, TextInput, Keyboard, StyleSheet, Alert } from 'react-native';
 import { useTheme, Text, Title, Subheading, List, Button, IconButton, Paragraph, Divider, RadioButton } from 'react-native-paper';
 import { Picker } from '@react-native-community/picker';
@@ -9,22 +9,44 @@ import { itemsDropdown, addressesDropdown } from '../../data/dataOrderscreen'
 
 //screens
 import { styles } from './styles'
+import { CurrentRenderContext } from '@react-navigation/native';
 
+
+import ListProduct from './listproduct'
+
+interface ModelList {
+    product: string,
+    number: string,
+    description: string
+}
 
 const OrderScreen = () => {
     const paperTheme = useTheme();
+    let LSTPRODUCTS: ModelList[]=[];
 
-    const [numberInput, setNumberInput] = useState('')
-    const [descriptionInput, setDescriptionInput] = useState('')
-    const [dropdownvalueproduct, setDropdownValueProduct] = useState('')
-    const [dropdownvalueaddress, setDropdownValueAddress] = useState('')
-    const [lstProducts, setLstProducts] = useState([])
+    const [numberInput, setNumberInput] = useState("")
+    const [descriptionInput, setDescriptionInput] = useState("")
+    const [dropdownvalueproduct, setDropdownValueProduct] = useState("")
+    const [dropdownvalueaddress, setDropdownValueAddress] = useState("")
+    const [lstProducts, setLstProducts] = useState<any>([]);
     const [checked, setChecked] = useState('first');
 
     const iconExclude = () => {
         return (
             <Icon name="trash-alt" size={20} color="red" />
         )
+    }
+
+    const teste = () => {
+        
+        setLstProducts([...lstProducts,
+        {
+            id: Math.floor(Math.random() * 10) +1,
+            product: dropdownvalueproduct,
+            description: descriptionInput,
+            number: numberInput
+        }])
+        console.log(lstProducts)
     }
 
     return (
@@ -34,7 +56,7 @@ const OrderScreen = () => {
                 alignItems: "center",
             }}
         >
-            <Title style={{ color: paperTheme.colors.text, marginTop: 10, marginBottom: 10 }}>Contributions</Title>
+            <Title style={{ color: paperTheme.colors.text, marginTop: 10, marginBottom: 10, fontWeight: "bold", letterSpacing: 1.3 }}>Contributions</Title>
             <View style={styles.containerCard}>
                 <View style={styles.card}>
                     <View style={styles.titleCard}>
@@ -46,28 +68,31 @@ const OrderScreen = () => {
                             onValueChange={(itemvalue, itemindex) => setDropdownValueProduct(itemvalue.toString())}
                         >
                             {itemsDropdown.length > 0 && (
-                                itemsDropdown.map((item) => {
+                                itemsDropdown.map((item) => { 
                                     return (
-                                        <Picker.Item key={item.id} label={item.name} value={item.name} />
+                                        <Picker.Item key={item.id} label={item.name} value={item.name}/>
                                     )
                                 })
                             )}
                         </Picker>
                         <TextInput
+                            
+                            defaultValue=""
                             value={numberInput}
-                            onChangeText={(text) => setNumberInput(text)}
+                            onChangeText={text => setNumberInput(text)}
                             placeholder="number"
                             keyboardType="number-pad"
                             maxLength={3}
                             underlineColorAndroid={paperTheme.colors.text}
                             placeholderTextColor={paperTheme.colors.text}
                             style={{ width: '50%', color: paperTheme.colors.text }}
+
                         />
                     </View>
-                    <View style={{padding: 5}}>
+                    <View style={{ padding: 5 }}>
                         <TextInput
                             value={descriptionInput}
-                            onChangeText={(text) => setDescriptionInput(text)}
+                            onChangeText={(text) => setDescriptionInput(text.toString())}
                             multiline={true}
                             numberOfLines={4}
                             maxLength={150}
@@ -80,37 +105,12 @@ const OrderScreen = () => {
                     </View>
                 </View>
             </View>
-            <Button color={'#fafafa'} style={styles.button_produt_add}>+ Product</Button>
+            <Button color={'#fafafa'} style={styles.button_produt_add}
+                onPress={() => teste()}
+            >+ Product</Button>
+                
+            {<ListProduct lstProducts={lstProducts}/>}
 
-            <Divider style={{ backgroundColor: paperTheme.colors.accent, width: '95%', height: 1, marginTop: 15, marginBottom: 8 }} />
-
-            <View style={styles.containerlist}>
-                <Subheading style={{ alignSelf: "center", color: paperTheme.colors.text }}>List of All Products</Subheading>
-                <ScrollView style={styles.scrollViewDisplay}
-                    showsVerticalScrollIndicator={true}
-                    indicatorStyle="black"
-                    pinchGestureEnabled={true}
-                >
-                    <View style={styles.scrollViewDisplay}>
-                        <View style={styles.titleList}>
-                            <Subheading style={{ margin: 8, color: paperTheme.colors.onBackground }}>Clothes</Subheading>
-                            <Text style={{ color: paperTheme.colors.onBackground }}> - </Text>
-                            <Text style={{ margin: 8, color: paperTheme.colors.onBackground }}>16</Text>
-                        </View>
-                        <View style={styles.info_list}>
-                            <View style={{ width: '90%' }}>
-                                <Paragraph style={{ margin: 5, color: paperTheme.colors.onBackground }}>descrição</Paragraph>
-                            </View>
-                            <IconButton
-                                icon={iconExclude}
-                                onPress={() => console.log('Pressed')}
-                                animated={true}
-                            />
-                        </View>
-                    </View>
-                    <Divider style={{ backgroundColor: paperTheme.colors.accent, marginTop: 10, marginBottom: 10 }} />
-                </ScrollView>
-            </View>
 
             <Divider style={{ backgroundColor: paperTheme.colors.accent, width: '95%', height: 1, marginTop: 15, marginBottom: 8 }} />
 
@@ -148,7 +148,7 @@ const OrderScreen = () => {
                     </View>
                 </View>
                 <View>
-                    <Picker mode="dropdown" style={{ width: '50%', color: paperTheme.colors.text }}
+                    <Picker mode="dropdown" style={{ width: '50%', color: paperTheme.colors.text }} 
                         selectedValue={dropdownvalueaddress}
                         onValueChange={(itemvalue, itemindex) => setDropdownValueAddress(itemvalue.toString())}
                     >

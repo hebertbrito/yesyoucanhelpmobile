@@ -41,6 +41,7 @@ class DrawNavigation extends React.Component {
     darkTheme: false
   }
 
+   
   //#region ABOUT THEME APPLICATION
 
   CustomDefaultTheme = {
@@ -131,8 +132,6 @@ class DrawNavigation extends React.Component {
       this.ChangeDataDarkTheme(toString(!this.state.darkTheme))
       this.setState({ darkTheme: !this.state.darkTheme ? true : false })
     }
-
-
 
     const verify = this.state.darkTheme;
     let isDarkTheme = this.CustomDefaultTheme
