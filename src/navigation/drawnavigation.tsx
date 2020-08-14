@@ -25,7 +25,7 @@ import BottomNavigator from './bottomnavigation';
 
 //import screens
 import LoginScreen from '../pages/loginscreen';
-import OderScreen from '../pages/orderscreen'
+import RegisterUserScreen from '../pages/registerscreen'
 
 //components
 import { DrawContent } from './drawcontent';
@@ -41,7 +41,7 @@ class DrawNavigation extends React.Component {
     darkTheme: false
   }
 
-   
+
   //#region ABOUT THEME APPLICATION
 
   CustomDefaultTheme = {
@@ -146,12 +146,12 @@ class DrawNavigation extends React.Component {
           <Drawer.Navigator initialRouteName="Login"
             backBehavior="none"
             drawerContent={props => <DrawContent props={props} SwitchDarkTheme={this.state.darkTheme} toggleTheme={toggleTheme} />}
-            drawerType="front"
+            drawerType="slide"
             drawerStyle={{ backgroundColor: isDarkTheme.colors.background }}
             {...this.props}
           >
             <Drawer.Screen name="Login" component={LoginScreen} />
-            <Drawer.Screen name="Contributionscreen" component={OderScreen} />
+            <Drawer.Screen name="RegisterUserScreen"  children={ () => { return (<RegisterUserScreen theme={isDarkTheme} {...this.props}/>) } } />
             <Drawer.Screen name="BottomNavigator" component={BottomNavigator} />
           </Drawer.Navigator>
         </NavigationContainer>

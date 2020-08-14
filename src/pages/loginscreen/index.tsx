@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, SafeAreaView, TextInput, Image, NativeEventEmitter, Alert } from 'react-native';
+import { View, SafeAreaView, TextInput, Alert, TouchableOpacity } from 'react-native';
 import { DrawerContentComponentProps, DrawerContentOptions } from '@react-navigation/drawer';
 import { Button, Text, useTheme, TextInput as PaperTextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -40,7 +40,7 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
             <Animatable.View style={styles.formView} animation="fadeInLeft" delay={1200}  useNativeDriver={true}>
                 <TextInput
                     value={email}
-                    onChangeText={text => {  }}
+                    onChangeText={text => setEmail(text)}
                     placeholder="Email"
                     keyboardAppearance="light"
                     keyboardType="email-address"
@@ -48,6 +48,7 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
                     focusable={false}
                     underlineColorAndroid={paperTheme.colors.text}
                     placeholderTextColor={paperTheme.colors.text}
+                    
                 />
 
                 <TextInput
@@ -59,6 +60,7 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
                     style={{ margin: 10 }}
                     underlineColorAndroid={paperTheme.colors.text}
                     placeholderTextColor={paperTheme.colors.text}
+                    selectionColor={paperTheme.colors.text}
                 />
 
                 <Button icon={iconbutton} mode="contained" onPress={() => navigation.navigate('BottomNavigator', { screen: 'HomeScreen' })}
@@ -67,6 +69,13 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
                 >
                     Press me
                 </Button>
+                <TouchableOpacity style={{width: 120, height: 50, alignSelf: "center"}}
+                onPress={()=> navigation.navigate('RegisterUserScreen')}
+                >
+                    <Text style={{alignSelf: "center", margin: 3, color: 'red'}}>
+                        Register
+                    </Text>
+                </TouchableOpacity>
             </Animatable.View>
         </SafeAreaView>
     )

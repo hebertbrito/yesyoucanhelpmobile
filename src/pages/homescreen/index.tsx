@@ -25,7 +25,7 @@ const HomeScreen = ({ ...props }) => {
                     <ProgressBarComponent title="Contributions" value={4} />
                     <ProgressBarComponent title="Requests" value={6} />
                 </View>
-                <ButtonCommum nameButton="Contribuition" width="50%" height={40} iconName="hands-helping" navigate={navigate} screenNameNavigate="RecentsRoute"/>
+                <ButtonCommum nameButton="Contribuition" width="50%" height={40} iconName="hands-helping" navigate={navigate} screenNameNavigate="Contributionscreen" colorHexa="#ef6c00" setNameNavigation="BottomNavigator"/>
 
             </Animatable.View>
 

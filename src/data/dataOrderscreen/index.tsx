@@ -43,21 +43,5 @@ export const addressesDropdown = [
     {
         id: 3,
         address: 'R Itapoan da Serra, 56 - Paulinia/SP'
-    },
-    {
-        id: 4,
-        address: 'R Itapoan da Serra, 56 - Paulinia/SP'
-    },
-    {
-        id: 5,
-        address: 'R Itapoan da Serra, 56 - Paulinia/SP'
-    },
-    {
-        id: 6,
-        address: 'R Itapoan da Serra, 56 - Paulinia/SP'
-    },
-    {
-        id: 7,
-        address: 'R Itapoan da Serra, 56 - Paulinia/SP'
     }
 ]
