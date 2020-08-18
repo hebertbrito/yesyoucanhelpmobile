@@ -149,8 +149,9 @@ class DrawNavigation extends React.Component {
             drawerType="slide"
             drawerStyle={{ backgroundColor: isDarkTheme.colors.background }}
             {...this.props}
+            edgeWidth={65}
           >
-            <Drawer.Screen name="Login" component={LoginScreen} />
+            <Drawer.Screen name="Login" component={LoginScreen}/>
             <Drawer.Screen name="RegisterUserScreen"  children={ () => { return (<RegisterUserScreen theme={isDarkTheme} {...this.props}/>) } } />
             <Drawer.Screen name="BottomNavigator" component={BottomNavigator} />
           </Drawer.Navigator>

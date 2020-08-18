@@ -17,7 +17,7 @@ export const DrawContent = (props: Props) => {
 
     const { navigation } = props.props;
 
-    const SwitchDarkTheme = props.SwitchDarkTheme; 
+    const SwitchDarkTheme = props.SwitchDarkTheme;
 
     const paperTheme = useTheme();
 
@@ -64,7 +64,14 @@ export const DrawContent = (props: Props) => {
                     </View>
                 </View>
                 <Divider style={{ backgroundColor: paperTheme.colors.accent }} />
-                <Drawer.Section style={styles.drawSection}>
+                <Drawer.Section style={{
+                    marginTop: 15,
+                    borderColor: 'red',
+                    borderBottomColor: `${paperTheme.colors.accent}`,
+                    borderBottomWidth: 0.4
+                }}
+
+                >
                     {sidebarMenus.length > 0 && (
                         sidebarMenus.map(menu => {
                             return (
@@ -77,7 +84,7 @@ export const DrawContent = (props: Props) => {
                         })
                     )}
                 </Drawer.Section>
-                <Divider style={{ backgroundColor: paperTheme.colors.accent }} />
+
                 <View style={styles.viewCommum}>
                     <Text style={{ alignSelf: 'center', fontSize: 15 }}>{translate('preferences_menu')}</Text>
                     <View style={styles.subPreferences}>
@@ -129,7 +136,10 @@ const styles = StyleSheet.create({
         marginBottom: 15,
     },
     drawSection: {
-        marginTop: 15
+        marginTop: 15,
+        borderColor: 'red',
+        borderBottomColor: 'red',
+        borderBottomWidth: 2
     },
     styleIcons: {
         display: "flex",

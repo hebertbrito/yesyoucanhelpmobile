@@ -10,6 +10,7 @@ import translate from '../services/translate/translate'
 //screens
 import HomeScreen from '../pages/homescreen'
 import OrderScreen from '../pages/orderscreen'
+import ProfileScreen from '../pages/profilescreen'
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -20,7 +21,7 @@ const AlbumsRoute = () => <View><Text>AlbumsRoute</Text></View>;
 const RecentsRoute = () => <View><Text>RecentsRoute</Text></View>;
 const coco = () => <View><Text>coco</Text></View>;
 
-function BottomNavigator() {
+function BottomNavigator({...props}) {
 
     const paperTheme = useTheme();
 
@@ -48,7 +49,8 @@ function BottomNavigator() {
             />
             <Tab.Screen
                 name="AlbumsRoute"
-                component={AlbumsRoute}
+                children={ () => { return (<ProfileScreen theme={paperTheme} {...props}/>) } }
+                // component={ProfileScreen}
                 options={{
                     tabBarLabel: `${translate('ask_contribution_menu')}`,
                     tabBarColor: '#ef6c00',

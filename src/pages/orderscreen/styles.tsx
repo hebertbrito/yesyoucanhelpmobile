@@ -99,8 +99,8 @@ export const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        backgroundColor: "#ef6c00",
         borderRadius: 10,
+        backgroundColor: "#ef6c00",
         alignContent: "center",
     },
 
