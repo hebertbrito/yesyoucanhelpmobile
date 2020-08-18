@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View } from 'react-native'
 import { Text, BottomNavigation, useTheme } from 'react-native-paper'
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { createMaterialBottomTabNavigator, MaterialBottomTabView } from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import translate from '../services/translate/translate'
@@ -10,18 +10,18 @@ import translate from '../services/translate/translate'
 //screens
 import HomeScreen from '../pages/homescreen'
 import OrderScreen from '../pages/orderscreen'
-import ProfileScreen from '../pages/profilescreen'
+import HouseLessScreen from '../pages/houselessscreen'
 
 const Tab = createMaterialBottomTabNavigator();
 
 const MusicRoute = () => <View><Text>MusicRoute</Text></View>;
 
-const AlbumsRoute = () => <View><Text>AlbumsRoute</Text></View>;
+const AksContributionScreen = () => <View><Text>AksContributionScreen</Text></View>;
 
 const RecentsRoute = () => <View><Text>RecentsRoute</Text></View>;
 const coco = () => <View><Text>coco</Text></View>;
 
-function BottomNavigator({...props}) {
+function BottomNavigator({ ...props }) {
 
     const paperTheme = useTheme();
 
@@ -34,10 +34,15 @@ function BottomNavigator({...props}) {
             inactiveColor="#424242"
             labeled={true}
             shifting={true}
+            backBehavior="history"
+            keyboardHidesNavigationBar={true}
+            sceneAnimationEnabled={true}
+            
         >
             <Tab.Screen
                 name="HomeScreen"
                 component={HomeScreen}
+
                 options={{
                     tabBarLabel: `${translate('home_menu')}`,
                     tabBarColor: '#A85008',
@@ -48,9 +53,9 @@ function BottomNavigator({...props}) {
                 }}
             />
             <Tab.Screen
-                name="AlbumsRoute"
-                children={ () => { return (<ProfileScreen theme={paperTheme} {...props}/>) } }
-                // component={ProfileScreen}
+                name="AksContributionScreen"
+                // children={ () => { return (<ProfileScreen theme={paperTheme} {...props}/>) } }
+                component={AksContributionScreen}
                 options={{
                     tabBarLabel: `${translate('ask_contribution_menu')}`,
                     tabBarColor: '#ef6c00',
@@ -60,7 +65,18 @@ function BottomNavigator({...props}) {
                 }}
             />
             <Tab.Screen
-                name="Contributionscreen"
+                name="HouseLessScreen"
+                component={HouseLessScreen}
+                options={{
+                    tabBarLabel: 'Inform Houseless',
+                    tabBarColor: '#ef6c00',
+                    tabBarIcon: ({ color }) => (
+                        <Icon name="user-injured" color={paperTheme.colors.text} size={20} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="ContributionScreen"
                 component={OrderScreen}
                 options={{
                     tabBarLabel: `${translate('contribution_menu')}`,

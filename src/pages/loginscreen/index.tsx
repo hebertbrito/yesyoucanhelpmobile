@@ -35,7 +35,7 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
 
         <View ></View>
 
-            <Animatable.Image animation="bounceInDown" delay={1100} useNativeDriver={true}  source={require('../../assets/fotospublic/logoLetra.png')} style={{ height: '40%', width: '43%' }} />
+            <Animatable.Image animation="bounceInDown" delay={1100} useNativeDriver={true}  source={require('../../assets/fotospublic/logoLetra.png')} style={{ height: '40%', width: '50%' }} />
 
             <Animatable.View style={styles.formView} animation="fadeInLeft" delay={1200}  useNativeDriver={true}>
                 <TextInput

@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native';
-import { DrawerContentScrollView, DrawerItem, DrawerContentComponentProps, DrawerContentOptions } from '@react-navigation/drawer';
+import { DrawerContentScrollView, DrawerItem, DrawerContentComponentProps, DrawerContentOptions, } from '@react-navigation/drawer';
 import { useTheme, Text, Switch, Avatar, Subheading, Divider, Caption, Drawer } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -25,27 +25,32 @@ export const DrawContent = (props: Props) => {
         {
             icon: () => <Icon color={paperTheme.colors.text} size={20} name="user-cog" style={styles.styleIcons} />,
             labelName: 'profile_menu',
-            route: 'profilescreen'
+            route: 'ProfileScreen',
+            navigate: ()=> navigation.navigate('ProfileScreen')
         },
         {
             icon: () => <Icon color={paperTheme.colors.text} size={20} name="home" style={styles.styleIcons} />,
             labelName: 'home_menu',
-            route: 'homescreen'
+            route: 'HomeScreen',
+            navigate: ()=> navigation.navigate('BottomNavigator', { screen: 'HomeScreen' })
         },
         {
             icon: () => <Icon color={paperTheme.colors.text} size={20} name="map-marker-alt" style={styles.styleIcons} />,
             labelName: 'maps_menu',
-            route: 'mapsscreen'
+            route: 'mapsscreen',
+            navigate: ()=> navigation.navigate('BottomNavigator', { screen: 'RecentsRoute' })
         },
         {
             icon: () => <Icon color={paperTheme.colors.text} size={20} name="hands-helping" style={styles.styleIcons} />,
             labelName: 'contribution_menu',
-            route: 'contributionscreen'
+            route: 'ContributionScreen',
+            navigate: ()=> navigation.navigate('BottomNavigator', { screen: 'ContributionScreen' })
         },
         {
             icon: () => <Icon color={paperTheme.colors.text} size={20} name="hand-holding" style={styles.styleIcons} />,
             labelName: 'ask_contribution_menu',
-            route: 'akscontributionscreen'
+            route: 'AksContributionScreen',
+            navigate: ()=> navigation.navigate('BottomNavigator', { screen: 'AksContributionScreen' })
         },
     ]
 
@@ -76,9 +81,10 @@ export const DrawContent = (props: Props) => {
                         sidebarMenus.map(menu => {
                             return (
                                 <DrawerItem key={menu.labelName} label={translate(menu.labelName)} icon={menu.icon}
-                                    onPress={() => navigation.navigate('BottomNavigator', { screen: 'RecentsRoute' })}
+                                    onPress={() => menu.navigate()}
                                     labelStyle={{ display: "flex", width: 160, textAlign: "left" }}
                                     style={{ display: "flex", alignItems: "flex-end", alignContent: "center" }}
+
                                 />
                             )
                         })
