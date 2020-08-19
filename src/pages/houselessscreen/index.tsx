@@ -5,6 +5,7 @@ import Geolocation from 'react-native-geolocation-service';
 import * as Animatable from 'react-native-animatable'
 import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { GeolocationUI } from '../../models/Geolocation'
 
 
 interface Geo {
@@ -42,7 +43,7 @@ const HouseLessScreen = () => {
     const [street, setStreet] = useState('');
     const [neighborhood, setNeighborhood] = useState('');
     const [checked, setChecked] = useState('GPS');
-    const [geolocalization, setGeolocalization] = useState<Geo>();
+    const [geolocalization, setGeolocalization] = useState<GeolocationUI>();
 
 
     async function GetAuthorization() {
