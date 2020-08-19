@@ -28,16 +28,26 @@ const HouseLessScreen = () => {
     const [street, setStreet] = useState('');
     const [neighborhood, setNeighborhood] = useState('');
     const [checked, setChecked] = useState('GPS');
-    const [geolocalization, setGeolocalization] = useState<{lat: string, long: string}>();
+    const [geolocalization, setGeolocalization] = useState<{ lat: string, long: string }>();
+
+    async function teste() {
+        const hehe = await Geolocation.getCurrentPosition(sucess => {
+            console.log(JSON.stringify(sucess))
+            setGeolocalization({ lat: sucess.coords.latitude.toString(), long: sucess.coords.longitude.toString() })
+        }, erro => {
+            console.log(JSON.stringify(erro))
+        }, { enableHighAccuracy: true, timeout: 2000 });
+    }
 
     useEffect(() => {
 
-        Geolocation.getCurrentPosition(sucess => {
-            console.log(JSON.stringify(sucess))
-            setGeolocalization({lat: sucess.coords.latitude.toString(), long: sucess.coords.longitude.toString()})
-        }, erro => {
-            console.log(JSON.stringify(erro))
-        }, { enableHighAccuracy: true, distanceFilter: 100, });
+        setTimeout(function () {
+
+            teste()
+
+        }, 2000);
+
+        
 
     }, [])
 
@@ -70,8 +80,12 @@ const HouseLessScreen = () => {
                 <View style={styles.viewTitle}>
                     <Title>Inform Houseless</Title>
                 </View>
-                <Text>latitude: {geolocalization?.lat}</Text>
-                <Text>latitude: {geolocalization?.long}</Text>
+                {geolocalization &&
+                    <>
+                        <Text>latitude: {geolocalization?.lat}</Text>
+                        <Text>latitude: {geolocalization?.long}</Text>
+                    </>
+                }
                 <View style={{ width: '95%' }}>
                     <TextInput
                         value={name}
