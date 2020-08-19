@@ -1,11 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, View, ScrollView } from 'react-native';
 import { useTheme, Text, Title, TextInput, RadioButton, Button, Paragraph, Subheading } from 'react-native-paper'
-import Geolocation from '@react-native-community/geolocation';
+import Geolocation from 'react-native-geolocation-service';
 import * as Animatable from 'react-native-animatable'
 import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
+
+interface Geo {
+    coords: {
+        latitude: number
+        longitude: number
+        accuracy: number
+        altitude: number | null
+        heading: number | null
+        speed: number | null
+        altitudeAccuracy: number | null
+    },
+    mocked?: boolean,
+    timestamp: number
+}
 
 import styles from './styles'
 
@@ -28,27 +42,29 @@ const HouseLessScreen = () => {
     const [street, setStreet] = useState('');
     const [neighborhood, setNeighborhood] = useState('');
     const [checked, setChecked] = useState('GPS');
-    const [geolocalization, setGeolocalization] = useState<{ lat: string, long: string }>();
+    const [geolocalization, setGeolocalization] = useState<Geo>();
 
-    async function teste() {
-        const hehe = await Geolocation.getCurrentPosition(sucess => {
-            console.log(JSON.stringify(sucess))
-            setGeolocalization({ lat: sucess.coords.latitude.toString(), long: sucess.coords.longitude.toString() })
+
+    async function GetAuthorization() {
+
+    }
+
+
+
+    async function GetLocation() {
+        await Geolocation.getCurrentPosition(sucess => {
+            console.log(JSON.stringify(sucess.timestamp))
+            setGeolocalization(sucess)
         }, erro => {
             console.log(JSON.stringify(erro))
         }, { enableHighAccuracy: true, timeout: 2000 });
+
     }
 
+
+
     useEffect(() => {
-
-        setTimeout(function () {
-
-            teste()
-
-        }, 2000);
-
-        
-
+        GetLocation()
     }, [])
 
     const getImage = () => {
@@ -82,8 +98,8 @@ const HouseLessScreen = () => {
                 </View>
                 {geolocalization &&
                     <>
-                        <Text>latitude: {geolocalization?.lat}</Text>
-                        <Text>latitude: {geolocalization?.long}</Text>
+                        <Text>latitude: {geolocalization.coords.latitude}</Text>
+                        <Text>latitude: {geolocalization.coords.longitude}</Text>
                     </>
                 }
                 <View style={{ width: '95%' }}>
