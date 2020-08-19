@@ -22,14 +22,14 @@ interface ModelList {
 
 const OrderScreen = () => {
     const paperTheme = useTheme();
-    let LSTPRODUCTS: ModelList[]=[];
+    let LSTPRODUCTS: ModelList[] = [];
 
     const [numberInput, setNumberInput] = useState("")
     const [descriptionInput, setDescriptionInput] = useState("")
     const [dropdownvalueproduct, setDropdownValueProduct] = useState("")
     const [dropdownvalueaddress, setDropdownValueAddress] = useState("")
     const [lstProducts, setLstProducts] = useState<any>([]);
-    const [checked, setChecked] = useState('first');
+    const [checked, setChecked] = useState('ChoseMPlace');
 
     const iconExclude = () => {
         return (
@@ -38,10 +38,10 @@ const OrderScreen = () => {
     }
 
     const teste = () => {
-        
+
         setLstProducts([...lstProducts,
         {
-            id: Math.floor(Math.random() * 10) +1,
+            id: Math.floor(Math.random() * 10) + 1,
             product: dropdownvalueproduct,
             description: descriptionInput,
             number: numberInput
@@ -68,15 +68,15 @@ const OrderScreen = () => {
                             onValueChange={(itemvalue, itemindex) => setDropdownValueProduct(itemvalue.toString())}
                         >
                             {itemsDropdown.length > 0 && (
-                                itemsDropdown.map((item) => { 
+                                itemsDropdown.map((item) => {
                                     return (
-                                        <Picker.Item key={item.id} label={item.name} value={item.name}/>
+                                        <Picker.Item key={item.id} label={item.name} value={item.name} />
                                     )
                                 })
                             )}
                         </Picker>
                         <TextInput
-                            
+
                             defaultValue=""
                             value={numberInput}
                             onChangeText={text => setNumberInput(text)}
@@ -108,8 +108,8 @@ const OrderScreen = () => {
             <Button color={'#fafafa'} style={styles.button_produt_add}
                 onPress={() => teste()}
             >+ Product</Button>
-                
-            {<ListProduct lstProducts={lstProducts}/>}
+
+            {<ListProduct lstProducts={lstProducts} />}
 
 
             <Divider style={{ backgroundColor: paperTheme.colors.accent, width: '95%', height: 1, marginTop: 15, marginBottom: 8 }} />
@@ -127,39 +127,50 @@ const OrderScreen = () => {
                     Checkpoint</Subheading>
                 <View style={styles.viewCardCheckBox}>
                     <View style={styles.itemCheckBox}>
-                        <Text style={{ color: '#000000' }}>Send Product to branch</Text>
+                        <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>Send Product to branch</Text>
                         <RadioButton
-                            value="first"
-                            status={checked === 'first' ? 'checked' : 'unchecked'}
-                            onPress={() => setChecked('first')}
+                            value="SendBranch"
+                            status={checked === 'SendBranch' ? 'checked' : 'unchecked'}
+                            onPress={() => setChecked('SendBranch')}
                             color={'#000000'}
                             uncheckedColor={'#000000'}
                         />
                     </View>
                     <View style={styles.itemCheckBox}>
-                        <Text style={{ color: '#000000' }}>Choose a meeting place</Text>
+                        <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>Choose a meeting place</Text>
                         <RadioButton
-                            value="second"
-                            status={checked === 'second' ? 'checked' : 'unchecked'}
-                            onPress={() => setChecked('second')}
+                            value="ChoseMPlace"
+                            status={checked === 'ChoseMPlace' ? 'checked' : 'unchecked'}
+                            onPress={() => setChecked('ChoseMPlace')}
                             color={'#000000'}
                             uncheckedColor={'#000000'}
                         />
                     </View>
                 </View>
-                <View>
-                    <Picker mode="dropdown" style={{ width: '50%', color: paperTheme.colors.text }} 
-                        selectedValue={dropdownvalueaddress}
-                        onValueChange={(itemvalue, itemindex) => setDropdownValueAddress(itemvalue.toString())}
+                {checked === "ChoseMPlace" &&
+                    <View>
+                        <Picker mode="dropdown" style={{ width: '50%', color: paperTheme.colors.text }}
+                            selectedValue={dropdownvalueaddress}
+                            onValueChange={(itemvalue, itemindex) => setDropdownValueAddress(itemvalue.toString())}
+                        >
+                            {addressesDropdown.length > 0 && (
+                                addressesDropdown.map((item) => {
+                                    return (
+                                        <Picker.Item key={item.id} label={item.address} value={item.address} />
+                                    )
+                                })
+                            )}
+                        </Picker>
+                    </View>
+                }
+                <View style={{ width: '95%' }}>
+                    <Button icon={() => <Icon name='paper-plane' size={20} />}
+                        mode="contained" color="#76ff03"
+                        style={{ width: '55%', alignSelf: "center", marginBottom: 10, marginTop: 15 }}
+                        onPress={() => { }}
                     >
-                        {addressesDropdown.length > 0 && (
-                            addressesDropdown.map((item) => {
-                                return (
-                                    <Picker.Item key={item.id} label={item.address} value={item.address} />
-                                )
-                            })
-                        )}
-                    </Picker>
+                        Send
+                        </Button>
                 </View>
             </View>
         </ScrollView>

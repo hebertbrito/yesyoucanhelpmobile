@@ -93,15 +93,20 @@ export const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-between"
+        alignContent: "center",
+        justifyContent: "space-evenly",
+        width: '95%',
     },
     itemCheckBox: {
+        paddingLeft: "2.5%",
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        borderRadius: 10,
-        backgroundColor: "#ef6c00",
         alignContent: "center",
+        backgroundColor: '#ef6c00',
+        justifyContent: "center",
+        borderRadius: 10,
+        width: '45%'
     },
 
 })

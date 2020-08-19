@@ -6,8 +6,35 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '100%'
     },
-    viewContainer: {
+    scrollContainer: {
         width: '100%'
+    },
+    contentContainerStyle: {
+        flexGrow: 1,
+        alignContent: "center",
+        alignItems: "center"
+    },
+    viewTitle: {
+        width: '100%',
+        alignItems: "center",
+        justifyContent: "center",
+        margin: 25
+    },
+    informationAnimatable: {
+        width: '90%',
+        paddingLeft: '2%',
+        marginTop: 20,
+        marginBottom: 10,
+        backgroundColor: "#e0e0e0"
+    },
+    containerButton: {
+        width: '100%',
+        display: "flex",
+        flexDirection: "row",
+        alignContent: "center",
+        alignItems: "center",
+        justifyContent: "space-evenly",
+        marginTop: 10, marginBottom: 10
     },
     viewCardCheckBox: {
         display: "flex",

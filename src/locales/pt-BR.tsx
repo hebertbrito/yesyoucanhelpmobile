@@ -5,6 +5,7 @@ export default {
     "contribution_menu": "Fazer Doações",
     "ask_contribution_menu": "Pedir Doações",
     "sing_out": "Sair",
+    "inform_houseless": "Inf Desabrigado",
     "preferences_menu": "Preferências",
     "theme_menu": "Tema escuro"
 }

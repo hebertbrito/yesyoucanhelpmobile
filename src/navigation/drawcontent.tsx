@@ -26,31 +26,37 @@ export const DrawContent = (props: Props) => {
             icon: () => <Icon color={paperTheme.colors.text} size={20} name="user-cog" style={styles.styleIcons} />,
             labelName: 'profile_menu',
             route: 'ProfileScreen',
-            navigate: ()=> navigation.navigate('ProfileScreen')
+            navigate: () => navigation.navigate('ProfileScreen')
         },
         {
             icon: () => <Icon color={paperTheme.colors.text} size={20} name="home" style={styles.styleIcons} />,
             labelName: 'home_menu',
             route: 'HomeScreen',
-            navigate: ()=> navigation.navigate('BottomNavigator', { screen: 'HomeScreen' })
+            navigate: () => navigation.navigate('BottomNavigator', { screen: 'HomeScreen' })
         },
         {
             icon: () => <Icon color={paperTheme.colors.text} size={20} name="map-marker-alt" style={styles.styleIcons} />,
             labelName: 'maps_menu',
             route: 'mapsscreen',
-            navigate: ()=> navigation.navigate('BottomNavigator', { screen: 'RecentsRoute' })
+            navigate: () => navigation.navigate('BottomNavigator', { screen: 'RecentsRoute' })
         },
         {
             icon: () => <Icon color={paperTheme.colors.text} size={20} name="hands-helping" style={styles.styleIcons} />,
             labelName: 'contribution_menu',
             route: 'ContributionScreen',
-            navigate: ()=> navigation.navigate('BottomNavigator', { screen: 'ContributionScreen' })
+            navigate: () => navigation.navigate('BottomNavigator', { screen: 'ContributionScreen' })
+        },
+        {
+            icon: () => <Icon color={paperTheme.colors.text} size={20} name="user-injured" style={styles.styleIcons} />,
+            labelName: 'inform_houseless',
+            route: 'HouseLessScreen',
+            navigate: () => navigation.navigate('BottomNavigator', { screen: 'HouseLessScreen' })
         },
         {
             icon: () => <Icon color={paperTheme.colors.text} size={20} name="hand-holding" style={styles.styleIcons} />,
             labelName: 'ask_contribution_menu',
             route: 'AksContributionScreen',
-            navigate: ()=> navigation.navigate('BottomNavigator', { screen: 'AksContributionScreen' })
+            navigate: () => navigation.navigate('BottomNavigator', { screen: 'AksContributionScreen' })
         },
     ]
 
@@ -71,7 +77,6 @@ export const DrawContent = (props: Props) => {
                 <Divider style={{ backgroundColor: paperTheme.colors.accent }} />
                 <Drawer.Section style={{
                     marginTop: 15,
-                    borderColor: 'red',
                     borderBottomColor: `${paperTheme.colors.accent}`,
                     borderBottomWidth: 0.4
                 }}
@@ -104,7 +109,10 @@ export const DrawContent = (props: Props) => {
                 <Divider style={{ backgroundColor: paperTheme.colors.accent }} />
             </DrawerContentScrollView>
             <Divider style={{ backgroundColor: paperTheme.colors.accent }} />
-            <Drawer.Section style={styles.signOut}>
+            <Drawer.Section style={{
+                borderBottomColor: `${paperTheme.colors.accent}`,
+                borderBottomWidth: 0.4
+            }}>
                 <DrawerItem key="Sing Out" label={translate('sing_out')} icon={singOutIcon}
                     onPress={() => { }}
                 />

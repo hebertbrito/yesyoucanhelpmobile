@@ -20,7 +20,7 @@ const HouseLessScreen = () => {
         },
     };
 
-    const [photo, setPhoto] = useState<{}>();
+    const [photo, setPhoto] = useState<any>();
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [CEP, setCEP] = useState('');
@@ -28,11 +28,13 @@ const HouseLessScreen = () => {
     const [street, setStreet] = useState('');
     const [neighborhood, setNeighborhood] = useState('');
     const [checked, setChecked] = useState('GPS');
+    const [geolocalization, setGeolocalization] = useState<{lat: string, long: string}>();
 
     useEffect(() => {
 
         Geolocation.getCurrentPosition(sucess => {
             console.log(JSON.stringify(sucess))
+            setGeolocalization({lat: sucess.coords.latitude.toString(), long: sucess.coords.longitude.toString()})
         }, erro => {
             console.log(JSON.stringify(erro))
         }, { enableHighAccuracy: true, distanceFilter: 100, });
@@ -64,10 +66,12 @@ const HouseLessScreen = () => {
 
     return (
         <SafeAreaView style={styles.safeView}>
-            <ScrollView style={styles.viewContainer} contentContainerStyle={{ flexGrow: 1, alignContent: "center", alignItems: "center" }}>
-                <View style={{ width: '100%', alignItems: "center", justifyContent: "center", margin: 25 }}>
-                    <Title >Inform Houseless</Title>
+            <ScrollView style={styles.scrollContainer} contentContainerStyle={styles.contentContainerStyle}>
+                <View style={styles.viewTitle}>
+                    <Title>Inform Houseless</Title>
                 </View>
+                <Text>latitude: {geolocalization?.lat}</Text>
+                <Text>latitude: {geolocalization?.long}</Text>
                 <View style={{ width: '95%' }}>
                     <TextInput
                         value={name}
@@ -190,22 +194,18 @@ const HouseLessScreen = () => {
                     </View>
                 }
                 {checked === "GPS" &&
-                    <Animatable.View style={{width: '90%', paddingLeft: '2%', marginTop: 20, marginBottom: 10, backgroundColor: "#e0e0e0"}} animation="fadeIn" easing="ease-in-out" delay={200}>
-                        <Subheading style={{color: '#e53935'}}>Warning *</Subheading>
-                        <Paragraph style={{color: '#000000'}}>
+                    <Animatable.View style={styles.informationAnimatable} animation="fadeIn" easing="ease-in-out" delay={200}>
+                        <Subheading style={{ color: '#e53935' }}>Warning *</Subheading>
+                        <Paragraph style={{ color: '#000000' }}>
                             For the best possible use, check if there is an internet connection and if the GPS is turned on, check the app's permissions in the system tools.
                         </Paragraph>
                     </Animatable.View>
                 }
                 <View style={{ width: "95%", display: "flex", flexDirection: "column" }}>
                     {photo &&
-                        <Animatable.Image source={{ uri: photo.uri }} style={styles.ImageAnimatable} animation="bounceIn" easing="ease-in-out" delay={200}/>
+                        <Animatable.Image source={{ uri: photo.uri }} style={styles.ImageAnimatable} animation="bounceIn" easing="ease-in-out" delay={200} />
                     }
-                    <View style={{
-                        width: '100%', display: "flex", flexDirection: "row",
-                        alignContent: "center", alignItems: "center", justifyContent: "space-evenly",
-                        marginTop: 10, marginBottom: 10
-                    }}>
+                    <View style={styles.containerButton}>
                         <Button icon={() => <Icon name="camera-retro" size={20} />}
                             mode="contained" style={{ width: '40%' }}
                             theme={{ colors: { primary: paperTheme.colors.primary } }}
@@ -225,7 +225,7 @@ const HouseLessScreen = () => {
                     </View>
                     <Button icon={() => <Icon name='paper-plane' size={20} />}
                         mode="contained" color="#76ff03"
-                        style={{ width: '55%', alignSelf: "center", marginBottom: 10 }}
+                        style={{ width: '55%', alignSelf: "center", marginBottom: 10, marginTop: 15 }}
                         onPress={() => { }}
                     >
                         Send

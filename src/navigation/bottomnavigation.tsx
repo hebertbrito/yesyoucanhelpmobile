@@ -68,7 +68,7 @@ function BottomNavigator({ ...props }) {
                 name="HouseLessScreen"
                 component={HouseLessScreen}
                 options={{
-                    tabBarLabel: 'Inform Houseless',
+                    tabBarLabel: `${translate('inform_houseless')}`,
                     tabBarColor: '#ef6c00',
                     tabBarIcon: ({ color }) => (
                         <Icon name="user-injured" color={paperTheme.colors.text} size={20} />
