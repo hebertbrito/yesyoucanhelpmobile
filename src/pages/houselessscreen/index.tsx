@@ -7,21 +7,6 @@ import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { GeolocationUI } from '../../models/Geolocation'
 
-
-interface Geo {
-    coords: {
-        latitude: number
-        longitude: number
-        accuracy: number
-        altitude: number | null
-        heading: number | null
-        speed: number | null
-        altitudeAccuracy: number | null
-    },
-    mocked?: boolean,
-    timestamp: number
-}
-
 import styles from './styles'
 
 const HouseLessScreen = () => {

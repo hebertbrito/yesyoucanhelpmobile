@@ -55,8 +55,8 @@ export const DrawContent = (props: Props) => {
         {
             icon: () => <Icon color={paperTheme.colors.text} size={20} name="hand-holding" style={styles.styleIcons} />,
             labelName: 'ask_contribution_menu',
-            route: 'AksContributionScreen',
-            navigate: () => navigation.navigate('BottomNavigator', { screen: 'AksContributionScreen' })
+            route: 'AskContributionScreen',
+            navigate: () => navigation.navigate('BottomNavigator', { screen: 'AskContributionScreen' })
         },
     ]
 
