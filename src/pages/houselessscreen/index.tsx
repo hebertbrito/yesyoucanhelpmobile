@@ -233,7 +233,9 @@ const HouseLessScreen = () => {
                 }
                 <View style={{ width: "95%", display: "flex", flexDirection: "column" }}>
                     {photo &&
-                        <Animatable.Image source={{ uri: photo.uri }} style={styles.ImageAnimatable} animation="bounceIn" easing="ease-in-out" delay={200} />
+                        <Animatable.Image source={{ uri: photo.uri }} style={styles.ImageAnimatable} animation="bounceIn"
+                            easing="ease-in-out" delay={200} resizeMode="cover" useNativeDriver={true} resizeMethod="scale"
+                        />
                     }
                     <View style={styles.containerButton}>
                         <Button icon={() => <Icon name="camera-retro" size={20} />}
