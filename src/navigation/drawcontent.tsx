@@ -4,7 +4,7 @@ import { DrawerContentScrollView, DrawerItem, DrawerContentComponentProps, Drawe
 import { useTheme, Text, Switch, Avatar, Subheading, Divider, Caption, Drawer } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import translate from '../services/translate/translate'
+import translate from '../services/translate/translate';
 
 
 interface Props {
@@ -55,8 +55,8 @@ export const DrawContent = (props: Props) => {
         {
             icon: () => <Icon color={paperTheme.colors.text} size={20} name="hand-holding" style={styles.styleIcons} />,
             labelName: 'ask_contribution_menu',
-            route: 'AksContributionScreen',
-            navigate: () => navigation.navigate('BottomNavigator', { screen: 'AksContributionScreen' })
+            route: 'AskContributionScreen',
+            navigate: () => navigation.navigate('BottomNavigator', { screen: 'AskContributionScreen' })
         },
     ]
 

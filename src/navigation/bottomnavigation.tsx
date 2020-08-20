@@ -11,15 +11,9 @@ import translate from '../services/translate/translate'
 import HomeScreen from '../pages/homescreen'
 import OrderScreen from '../pages/orderscreen'
 import HouseLessScreen from '../pages/houselessscreen'
+import AskContributionScreen from '../pages/askcontributionscreen'
 
 const Tab = createMaterialBottomTabNavigator();
-
-const MusicRoute = () => <View><Text>MusicRoute</Text></View>;
-
-const AksContributionScreen = () => <View><Text>AksContributionScreen</Text></View>;
-
-const RecentsRoute = () => <View><Text>RecentsRoute</Text></View>;
-const coco = () => <View><Text>coco</Text></View>;
 
 function BottomNavigator({ ...props }) {
 
@@ -37,7 +31,7 @@ function BottomNavigator({ ...props }) {
             backBehavior="history"
             keyboardHidesNavigationBar={true}
             sceneAnimationEnabled={true}
-            
+
         >
             <Tab.Screen
                 name="HomeScreen"
@@ -53,9 +47,9 @@ function BottomNavigator({ ...props }) {
                 }}
             />
             <Tab.Screen
-                name="AksContributionScreen"
+                name="AskContributionScreen"
                 // children={ () => { return (<ProfileScreen theme={paperTheme} {...props}/>) } }
-                component={AksContributionScreen}
+                component={AskContributionScreen}
                 options={{
                     tabBarLabel: `${translate('ask_contribution_menu')}`,
                     tabBarColor: '#ef6c00',
