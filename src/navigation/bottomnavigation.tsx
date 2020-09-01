@@ -6,7 +6,6 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import translate from '../services/translate/translate'
 
-
 //screens
 import HomeScreen from '../pages/homescreen'
 import OrderScreen from '../pages/orderscreen'

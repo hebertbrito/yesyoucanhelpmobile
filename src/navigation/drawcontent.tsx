@@ -38,7 +38,7 @@ export const DrawContent = (props: Props) => {
             icon: () => <Icon color={paperTheme.colors.text} size={20} name="map-marker-alt" style={styles.styleIcons} />,
             labelName: 'maps_menu',
             route: 'mapsscreen',
-            navigate: () => navigation.navigate('BottomNavigator', { screen: 'RecentsRoute' })
+            navigate: () => navigation.navigate('MapsScreen')
         },
         {
             icon: () => <Icon color={paperTheme.colors.text} size={20} name="hands-helping" style={styles.styleIcons} />,

@@ -27,6 +27,7 @@ import BottomNavigator from './bottomnavigation';
 import LoginScreen from '../pages/loginscreen';
 import RegisterUserScreen from '../pages/registerscreen'
 import ProfileScreen from '../pages/profilescreen'
+import MapsScreen from '../pages/mapsscreen'
 
 //components
 import { DrawContent } from './drawcontent';
@@ -152,9 +153,10 @@ class DrawNavigation extends React.Component {
             {...this.props}
             edgeWidth={65}
           >
-            <Drawer.Screen name="Login" component={LoginScreen}/>
-            <Drawer.Screen name="RegisterUserScreen"  children={ () => { return (<RegisterUserScreen theme={isDarkTheme} {...this.props}/>) } } />
-            <Drawer.Screen name="ProfileScreen"  children={ () => { return (<ProfileScreen theme={isDarkTheme} {...this.props}/>) } } />
+            <Drawer.Screen name="Login" component={LoginScreen} />
+            <Drawer.Screen name="RegisterUserScreen" children={() => { return (<RegisterUserScreen theme={isDarkTheme} {...this.props} />) }} />
+            <Drawer.Screen name="ProfileScreen" children={() => { return (<ProfileScreen theme={isDarkTheme} {...this.props} />) }} />
+            <Drawer.Screen name="MapsScreen" component={MapsScreen} />
             <Drawer.Screen name="BottomNavigator" component={BottomNavigator} />
           </Drawer.Navigator>
         </NavigationContainer>
