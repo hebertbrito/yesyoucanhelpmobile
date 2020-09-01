@@ -39,8 +39,6 @@ const MapsScreen = () => {
         },
     ]
 
-
-
     return (
         <MapView style={{ flex: 1 }} provider={PROVIDER_GOOGLE} initialRegion={region[0]} mapType="hybrid">
             <Marker
