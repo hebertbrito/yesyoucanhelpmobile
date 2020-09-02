@@ -13,14 +13,13 @@ const Drawer = createDrawerNavigator();
 
 interface Props {
     toggleTheme?: () => void,
-    SwitchDarkTheme?: boolean,
-    propschildren: DrawerContentComponentProps<DrawerContentOptions>
+    SwitchDarkTheme?: boolean
 }
 
 
 export const Routes = (props: Props) => {
     const papertheme = useTheme();
-    const { toggleTheme, SwitchDarkTheme, propschildren } = props;
+    const { toggleTheme, SwitchDarkTheme } = props;
 
     return (
 
@@ -34,8 +33,8 @@ export const Routes = (props: Props) => {
         >
 
             <Drawer.Screen name="Login" component={LoginScreen} />
-            <Drawer.Screen name="RegisterUserScreen" children={() => { return (<RegisterUserScreen theme={papertheme} {...propschildren} />) }} />
-            <Drawer.Screen name="ProfileScreen" children={() => { return (<ProfileScreen theme={papertheme} {...propschildren} />) }} />
+            <Drawer.Screen name="RegisterUserScreen" children={() => { return (<RegisterUserScreen theme={papertheme} {...props} />) }} />
+            <Drawer.Screen name="ProfileScreen" children={() => { return (<ProfileScreen theme={papertheme} {...props} />) }} />
             <Drawer.Screen name="MapsScreen" component={MapsScreen} />
             <Drawer.Screen name="BottomNavigator" component={BottomNavigator} />
         </Drawer.Navigator>
