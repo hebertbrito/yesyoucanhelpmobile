@@ -39,7 +39,6 @@ function BottomNavigator({ ...props }) {
                 options={{
                     tabBarLabel: `${translate('home_menu')}`,
                     tabBarColor: '#A85008',
-
                     tabBarIcon: ({ color }) => (
                         <Icon name="home" color={paperTheme.colors.text} size={20} />
                     ),
@@ -62,7 +61,7 @@ function BottomNavigator({ ...props }) {
                 component={HouseLessScreen}
                 options={{
                     tabBarLabel: `${translate('inform_houseless')}`,
-                    tabBarColor: '#ef6c00',
+                    tabBarColor: '#b53d00',
                     tabBarIcon: ({ color }) => (
                         <Icon name="user-injured" color={paperTheme.colors.text} size={20} />
                     ),
