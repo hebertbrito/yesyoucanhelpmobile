@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { View, StyleSheet } from 'react-native';
-import { DrawerContentScrollView, DrawerItem, DrawerContentComponentProps, DrawerContentOptions, } from '@react-navigation/drawer';
+import { DrawerContentScrollView, DrawerItem, DrawerContentComponentProps, DrawerContentOptions, DrawerNavigationProp, DrawerNavigationOptions } from '@react-navigation/drawer';
 import { useTheme, Text, Switch, Avatar, Subheading, Divider, Caption, Drawer } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -63,6 +63,7 @@ export const DrawContent = (props: Props) => {
     ]
 
     function singout() {
+        navigation.closeDrawer();
         SingOut();
     }
 
