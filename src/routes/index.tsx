@@ -1,6 +1,7 @@
-import React, { } from 'react';
+import React, { useContext } from 'react';
 import { useTheme } from 'react-native-paper'
-import { createDrawerNavigator, DrawerContentComponentProps, DrawerContentOptions } from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import AuthContext from '../context/auth'
 
 import LoginScreen from '../pages/loginscreen';
 import RegisterUserScreen from '../pages/registerscreen'
@@ -18,12 +19,13 @@ interface Props {
 
 
 export const Routes = (props: Props) => {
+    const { signed } = useContext(AuthContext)
     const papertheme = useTheme();
     const { toggleTheme, SwitchDarkTheme } = props;
 
     return (
 
-        <Drawer.Navigator initialRouteName="Login"
+        <Drawer.Navigator
             backBehavior="none"
             drawerContent={props => <DrawContent props={props} SwitchDarkTheme={SwitchDarkTheme} toggleTheme={toggleTheme} />}
             drawerType="slide"
@@ -32,11 +34,22 @@ export const Routes = (props: Props) => {
             edgeWidth={65}
         >
 
-            <Drawer.Screen name="Login" component={LoginScreen} />
-            <Drawer.Screen name="RegisterUserScreen" children={() => { return (<RegisterUserScreen theme={papertheme} {...props} />) }} />
-            <Drawer.Screen name="ProfileScreen" children={() => { return (<ProfileScreen theme={papertheme} {...props} />) }} />
-            <Drawer.Screen name="MapsScreen" component={MapsScreen} />
-            <Drawer.Screen name="BottomNavigator" component={BottomNavigator} />
+            {signed ? (
+
+                <>
+                    <Drawer.Screen name="BottomNavigator" component={BottomNavigator} />
+                    <Drawer.Screen name="ProfileScreen" children={() => { return (<ProfileScreen theme={papertheme} {...props} />) }} />
+                    <Drawer.Screen name="MapsScreen" component={MapsScreen} />
+
+                </>
+
+            ) : (
+                    <>
+                        <Drawer.Screen name="Login" component={LoginScreen} options={{ swipeEnabled: false }} />
+                        <Drawer.Screen name="RegisterUserScreen" children={() => { return (<RegisterUserScreen theme={papertheme} {...props} />) }} options={{ swipeEnabled: false }} />
+                    </>
+                )}
+
         </Drawer.Navigator>
 
     )
