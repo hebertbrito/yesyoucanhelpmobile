@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { View, StyleSheet } from 'react-native';
-import { DrawerContentScrollView, DrawerItem, DrawerContentComponentProps, DrawerContentOptions, } from '@react-navigation/drawer';
+import { DrawerContentScrollView, DrawerItem, DrawerContentComponentProps, DrawerContentOptions, DrawerNavigationProp, DrawerNavigationOptions } from '@react-navigation/drawer';
 import { useTheme, Text, Switch, Avatar, Subheading, Divider, Caption, Drawer } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import translate from '../services/translate/translate';
-
+import AuthContext from '../context/auth'
 
 interface Props {
     toggleTheme?: () => void,
@@ -14,6 +14,8 @@ interface Props {
 }
 
 export const DrawContent = (props: Props) => {
+
+    const { SingOut } = useContext(AuthContext)
 
     const { navigation } = props.props;
 
@@ -59,6 +61,11 @@ export const DrawContent = (props: Props) => {
             navigate: () => navigation.navigate('BottomNavigator', { screen: 'AskContributionScreen' })
         },
     ]
+
+    function singout() {
+        navigation.closeDrawer();
+        SingOut();
+    }
 
     const singOutIcon = () => {
         return (
@@ -114,7 +121,7 @@ export const DrawContent = (props: Props) => {
                 borderBottomWidth: 0.4
             }}>
                 <DrawerItem key="Sing Out" label={translate('sing_out')} icon={singOutIcon}
-                    onPress={() => { }}
+                    onPress={() => singout()}
                 />
             </Drawer.Section>
         </>

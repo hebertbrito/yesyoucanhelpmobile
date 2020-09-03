@@ -6,22 +6,6 @@ import * as Animatable from 'react-native-animatable'
 import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { GeolocationUI } from '../../models/Geolocation'
-
-
-interface Geo {
-    coords: {
-        latitude: number
-        longitude: number
-        accuracy: number
-        altitude: number | null
-        heading: number | null
-        speed: number | null
-        altitudeAccuracy: number | null
-    },
-    mocked?: boolean,
-    timestamp: number
-}
-
 import styles from './styles'
 
 const HouseLessScreen = () => {
@@ -45,13 +29,6 @@ const HouseLessScreen = () => {
     const [checked, setChecked] = useState('GPS');
     const [geolocalization, setGeolocalization] = useState<GeolocationUI>();
 
-
-    async function GetAuthorization() {
-
-    }
-
-
-
     async function GetLocation() {
         await Geolocation.getCurrentPosition(sucess => {
             console.log(JSON.stringify(sucess.timestamp))
@@ -61,8 +38,6 @@ const HouseLessScreen = () => {
         }, { enableHighAccuracy: true, timeout: 2000 });
 
     }
-
-
 
     useEffect(() => {
         GetLocation()
@@ -87,8 +62,6 @@ const HouseLessScreen = () => {
             }
         });
     }
-
-
 
 
     return (

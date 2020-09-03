@@ -15,7 +15,7 @@ import {
 } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 import { toString } from 'lodash';
-
+import { AuthProvider } from '../context/auth'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 // import { ChangeDataDarkTheme } from '../data/asyncstorage'
@@ -24,6 +24,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import BottomNavigator from './bottomnavigation';
 
 //import screens
+import { Routes } from '../routes'
 import LoginScreen from '../pages/loginscreen';
 import RegisterUserScreen from '../pages/registerscreen'
 import ProfileScreen from '../pages/profilescreen'
@@ -145,20 +146,25 @@ class DrawNavigation extends React.Component {
       <PaperProvider theme={isDarkTheme} {...this.props}>
         <NavigationContainer theme={isDarkTheme} {...this.props}>
           <StatusBar animated={true} backgroundColor={'#ef6c00'} />
-          <Drawer.Navigator initialRouteName="Login"
-            backBehavior="none"
-            drawerContent={props => <DrawContent props={props} SwitchDarkTheme={this.state.darkTheme} toggleTheme={toggleTheme} />}
-            drawerType="slide"
-            drawerStyle={{ backgroundColor: isDarkTheme.colors.background }}
-            {...this.props}
-            edgeWidth={65}
-          >
-            <Drawer.Screen name="Login" component={LoginScreen} />
-            <Drawer.Screen name="RegisterUserScreen" children={() => { return (<RegisterUserScreen theme={isDarkTheme} {...this.props} />) }} />
-            <Drawer.Screen name="ProfileScreen" children={() => { return (<ProfileScreen theme={isDarkTheme} {...this.props} />) }} />
-            <Drawer.Screen name="MapsScreen" component={MapsScreen} />
-            <Drawer.Screen name="BottomNavigator" component={BottomNavigator} />
-          </Drawer.Navigator>
+          <AuthProvider>
+            {/* <Drawer.Navigator initialRouteName="Login"
+              backBehavior="none"
+              drawerContent={props => <DrawContent props={props} SwitchDarkTheme={this.state.darkTheme} toggleTheme={toggleTheme} />}
+              drawerType="slide"
+              drawerStyle={{ backgroundColor: isDarkTheme.colors.background }}
+              {...this.props}
+              edgeWidth={65}
+            >
+
+              <Drawer.Screen name="Login" component={LoginScreen} />
+              <Drawer.Screen name="RegisterUserScreen" children={() => { return (<RegisterUserScreen theme={isDarkTheme} {...this.props} />) }} />
+              <Drawer.Screen name="ProfileScreen" children={() => { return (<ProfileScreen theme={isDarkTheme} {...this.props} />) }} />
+              <Drawer.Screen name="MapsScreen" component={MapsScreen} />
+              <Drawer.Screen name="BottomNavigator" component={BottomNavigator} />
+            </Drawer.Navigator> */}
+            <Routes toggleTheme={toggleTheme} SwitchDarkTheme={this.state.darkTheme} {...this.props} />
+
+          </AuthProvider>
         </NavigationContainer>
       </PaperProvider>
     )
