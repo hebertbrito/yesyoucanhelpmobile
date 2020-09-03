@@ -9,11 +9,11 @@ import * as Animatable from 'react-native-animatable';
 import { styles } from './styles'
 
 import { ButtonCommum } from '../../components/buttonCommum'
+import { DrawerContentComponentProps, DrawerContentOptions } from '@react-navigation/drawer';
 
 interface Others {
-    theme: any,
+    theme: any
 }
-
 
 
 class RegisterScreen extends React.Component<Others> {
@@ -205,12 +205,12 @@ class RegisterScreen extends React.Component<Others> {
                                 />
                             </View>
 
-                                <Button mode="contained">Register. Click Here!</Button>
+                            <Button mode="contained">Register. Click Here!</Button>
                         </Animatable.View>
                         :
                         null
                     }
-                    <ButtonCommum iconName="home" nameButton="Go to Screen Home" height={40} width="50%" screenNameNavigate="LoginScreen" colorHexa="#ef6c00"/>
+                    <Button mode="contained" onPress={() => { }}>Go Back</Button>
                 </ScrollView>
             </SafeAreaView >
         )

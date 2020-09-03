@@ -20,7 +20,7 @@ export const ButtonCommum = (props: Props) => {
     const navigation = useNavigation()
     const paperTheme = useTheme();
 
-    const teste =()=>{
+    const teste = () => {
         // console.log(props.navigate)
         console.log(navigation)
     }
@@ -31,8 +31,8 @@ export const ButtonCommum = (props: Props) => {
             height: props.height, width: props.width, alignSelf: "center", margin: 10, alignItems: "center", alignContent: "center", justifyContent: "center"
         }}
             color={paperTheme.colors.text} mode="outlined"
-            icon={()=> <Icon name={props.iconName} size={20} color={paperTheme.colors.text} />}
-            onPress={() =>  navigation.navigate('BottomNavigator', { screen: props.screenNameNavigate.toString() })}
+            icon={() => <Icon name={props.iconName} size={20} color={paperTheme.colors.text} />}
+            onPress={() => navigation.navigate(props.screenNameNavigate)}
         >
             {props.nameButton}
         </Button>

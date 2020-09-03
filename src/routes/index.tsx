@@ -9,6 +9,7 @@ import MapsScreen from '../pages/mapsscreen'
 import ProfileScreen from '../pages/profilescreen'
 import BottomNavigator from '../navigation/bottomnavigation'
 import { DrawContent } from '../navigation/drawcontent'
+import { useNavigation } from '@react-navigation/native';
 
 const Drawer = createDrawerNavigator();
 
@@ -19,7 +20,7 @@ interface Props {
 
 
 export const Routes = (props: Props) => {
-    const { signed } = useContext(AuthContext)
+    const { signed } = useContext(AuthContext);
     const papertheme = useTheme();
     const { toggleTheme, SwitchDarkTheme } = props;
 
@@ -46,7 +47,10 @@ export const Routes = (props: Props) => {
             ) : (
                     <>
                         <Drawer.Screen name="Login" component={LoginScreen} options={{ swipeEnabled: false }} />
-                        <Drawer.Screen name="RegisterUserScreen" children={() => { return (<RegisterUserScreen theme={papertheme} {...props} />) }} options={{ swipeEnabled: false }} />
+                        <Drawer.Screen name="RegisterUserScreen" children={() => {
+                            return (<RegisterUserScreen
+                                theme={papertheme} {...props} />)
+                        }} options={{ swipeEnabled: false }} />
                     </>
                 )}
 
