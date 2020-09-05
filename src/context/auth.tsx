@@ -6,7 +6,7 @@ import { accessibilityProps } from 'react-native-paper/lib/typescript/src/compon
 interface AutheContextData {
     signed: boolean,
     user: UserLogin | undefined;
-    SignIn(): any,
+    SignIn(email: string, password: string): any,
     SingOut(): void
 }
 
@@ -28,12 +28,16 @@ export const AuthProvider: React.FC = ({ children }) => {
         loadStorageData()
     }, [])
 
-    async function SignIn() {
-        const response = await GetLoginUser();
+    async function SignIn(email: string, password: string) {
+        const response = await GetLoginUser(email, password);
 
-        setUser(response)
+        if (response.message != undefined && response.message === 'login sucessfull') {
 
-        await AsyncStorage.setItem('@yycanhelp:user', JSON.stringify(response))
+            setUser(response)
+
+            await AsyncStorage.setItem('@yycanhelp:user', JSON.stringify(response))
+
+        }
 
         return response;
     }
