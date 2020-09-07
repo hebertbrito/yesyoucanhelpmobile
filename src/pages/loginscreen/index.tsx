@@ -68,13 +68,13 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
                     onChangeText={text => setEmail(text)}
                     placeholder="Email"
                     label="Email"
-                    keyboardAppearance="light"
                     keyboardType="email-address"
                     style={{ margin: 10, color: paperTheme.colors.text }}
                     placeholderTextColor={paperTheme.colors.text}
                     selectionColor={paperTheme.colors.text}
-                    mode={"outlined"}
+                    mode="outlined"
                     theme={{ colors: { primary: '#ef6c00' } }}
+                    maxLength={50}
                 />
 
                 <PaperTextInput
@@ -83,12 +83,12 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
                     onChangeText={(text) => setPassword(text)}
                     placeholder="Password"
                     label="Password"
-                    keyboardAppearance="light"
                     style={{ margin: 10 }}
                     placeholderTextColor={paperTheme.colors.text}
                     selectionColor={paperTheme.colors.text}
-                    mode={"outlined"}
+                    mode="outlined"
                     theme={{ colors: { primary: '#ef6c00' } }}
+                    maxLength={30}
                 />
 
                 <Button icon={iconbutton} mode="contained" onPress={() => Login(email, password)}
