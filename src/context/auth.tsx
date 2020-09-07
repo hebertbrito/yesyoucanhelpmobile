@@ -2,7 +2,6 @@ import React, { createContext, useState, useEffect } from 'react';
 import { GetLoginUser } from '../services/api/Login'
 import { UserLogin } from '../models/UserLogin';
 import AsyncStorage from '@react-native-community/async-storage';
-import { accessibilityProps } from 'react-native-paper/lib/typescript/src/components/MaterialCommunityIcon';
 interface AutheContextData {
     signed: boolean,
     user: UserLogin | undefined;
@@ -31,7 +30,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     async function SignIn(email: string, password: string) {
         const response = await GetLoginUser(email, password);
 
-        if (response.message != undefined && response.message === 'login sucessfull') {
+        if (response.message != undefined && response.message === 'login_sucessfull') {
 
             setUser(response)
 

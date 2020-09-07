@@ -9,7 +9,6 @@ import MapsScreen from '../pages/mapsscreen'
 import ProfileScreen from '../pages/profilescreen'
 import BottomNavigator from '../navigation/bottomnavigation'
 import { DrawContent } from '../navigation/drawcontent'
-import { useNavigation } from '@react-navigation/native';
 
 const Drawer = createDrawerNavigator();
 
@@ -39,7 +38,7 @@ export const Routes = (props: Props) => {
 
                 <>
                     <Drawer.Screen name="BottomNavigator" component={BottomNavigator} />
-                    <Drawer.Screen name="ProfileScreen" children={() => { return (<ProfileScreen theme={papertheme} {...props} />) }} />
+                    <Drawer.Screen name="ProfileScreen" component={ProfileScreen} />
                     <Drawer.Screen name="MapsScreen" component={MapsScreen} />
 
                 </>

@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { SafeAreaView, View, ScrollView, StatusBar } from 'react-native';
 import { useTheme, TextInput, Text, Title, Avatar, IconButton, Subheading } from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import ImagePicker from 'react-native-image-picker';
+import ImagePicker, { ImagePickerResponse } from 'react-native-image-picker';
+import AuthContext from '../../context/auth';
+
+import { GetUserProfile } from '../../services/api/GetProfile'
+import { User } from 'src/models/User';
+
 
 import { styles } from './styles'
 
@@ -11,9 +16,30 @@ interface Props {
     theme: any,
 }
 
-class ProfileScreen extends React.Component<Props> {
+function ProfileScreen() {
 
-    options = {
+    const theme = useTheme();
+    const { user } = useContext(AuthContext);
+
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setlastName] = useState('');
+    const [dataBirth, setDataBirth] = useState('');
+    const [genderCheck, setGenderCheck] = useState('first');
+    const [country, setCountry] = useState('');
+    const [street, setStreet] = useState('');
+    const [city, setCity] = useState('');
+    const [number, setNumber] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [State, setState] = useState('');
+    const [editableInput, setEditableInput] = useState(false);
+    const [avatarSource, setAvatarSource] = useState<ImagePickerResponse>({} as ImagePickerResponse);
+    const [isLoading, setIsloading] = useState(true);
+    const [findData, setFindData] = useState(true);
+    const [usermodel, setUserModel] = useState<User | undefined>({} as User);
+
+
+    const options = {
         title: 'Select Avatar',
         storageOptions: {
             skipBackup: true,
@@ -21,41 +47,44 @@ class ProfileScreen extends React.Component<Props> {
         },
     };
 
-    state = {
-        step: 1,
-        firstName: '',
-        lastName: '',
-        dataBirth: '',
-        genderCheck: 'first',
-        cpf_cnpj: '',
-        RG: '',
-        country: '',
-        street: '',
-        city: '',
-        number: '',
-        email: '',
-        password: '',
-        State: '',
-        editableInput: false,
-        avatarSource: ''
-    }
+    console.log(findData)
 
-    componentDidMount() {
-        this.setState({ editableInput: false })
-    }
+    useEffect(() => {
+        setEditableInput(false);
+        setFindData(true)
+    }, [])
 
-    iconEdit = () => {
+    useEffect(() => {
+
+        async function any() {
+            const response = await GetUserProfile(user);
+
+            if (response) {
+                setUserModel(response)
+                setIsloading(false)
+                console.log(response)
+            }
+        }
+        if (findData) {
+            any();
+            setFindData(false);
+        }
+
+    }, [findData])
+
+
+    const iconEdit = () => {
         return (
             <Icon name="user-edit" color="#3B58FF" size={20} />
         )
     }
 
-    enableInput = () => {
-        this.setState({ editableInput: !this.state.editableInput ? true : false })
+    const enableInput = () => {
+        setEditableInput(!editableInput ? true : false)
     }
 
-    getImage = () => {
-        ImagePicker.launchImageLibrary(this.options, (response) => {
+    const getImage = () => {
+        ImagePicker.launchImageLibrary(options, (response) => {
             console.log('Response = ', response);
 
             if (response.didCancel) {
@@ -66,25 +95,22 @@ class ProfileScreen extends React.Component<Props> {
                 console.log('User tapped custom button: ', response.customButton);
             } else {
                 // const source = { uri: response.uri };
-
-                this.setState({
-                    avatarSource: response,
-                });
+                setAvatarSource(response);
             }
         });
     }
 
-    render() {
+    return (
 
-        const { theme } = this.props
-
-        return (
+        isLoading ?
+            <View><Text>Poha</Text></View>
+            :
             <SafeAreaView style={styles.safeView}>
                 <View style={styles.viewContainer} >
                     <LinearGradient colors={['#F06C00', '#F8B00C', '#fdd835']} style={styles.LinearGradient}>
-                        <Title style={{marginTop: '5%'}}>
+                        <Title style={{ marginTop: '5%' }}>
                             Profile
-                        </Title>
+                                </Title>
                     </LinearGradient>
                     <View style={{
                         width: '85%', height: '25%', marginTop: '20%',
@@ -93,8 +119,8 @@ class ProfileScreen extends React.Component<Props> {
                         alignItems: "center", justifyContent: "center"
                     }}>
                         <View style={styles.bodyCard}>
-                            {this.state.avatarSource ?
-                                <Avatar.Image size={100} source={{ uri: this.state.avatarSource.uri }} style={{ alignSelf: "center", }} />
+                            {avatarSource ?
+                                <Avatar.Image size={100} source={{ uri: avatarSource.uri }} style={{ alignSelf: "center", }} />
                                 :
                                 <Avatar.Image size={100} source={require('../../assets/imageperfil/hebert.jpg')} style={{ alignSelf: "center", }} />
                             }
@@ -102,19 +128,17 @@ class ProfileScreen extends React.Component<Props> {
                                 icon="camera"
                                 size={20}
                                 color={theme.colors.text}
-                                onPress={
-                                    () => this.getImage()
-                                }
+                                onPress={() => getImage()}
                                 style={{ position: "absolute", bottom: 0, alignSelf: "flex-end" }}
                             />
                         </View>
                     </View>
                     <View style={{ width: '100%' }}>
                         <IconButton
-                            icon={this.iconEdit}
+                            icon={iconEdit}
                             size={25}
                             style={{ marginRight: '9%', marginTop: '2%', alignSelf: "flex-end" }}
-                            onPress={() => this.enableInput()}
+                            onPress={() => enableInput()}
                         />
                     </View>
                     <ScrollView style={{ width: '100%', marginTop: '1%' }} contentContainerStyle={{ flexGrow: 1 }}>
@@ -122,12 +146,12 @@ class ProfileScreen extends React.Component<Props> {
                             <View style={styles.containerInput}>
                                 <View style={styles.view_1_input}>
                                     <Subheading>First Name: </Subheading>
-                                    <Text>Hebert</Text>
+                                    <Text>{usermodel!.firstname!}</Text>
                                 </View>
-                                {this.state.editableInput &&
+                                {editableInput &&
                                     <TextInput
-                                        value={this.state.firstName}
-                                        onChangeText={text => this.setState({ firstName: text })}
+                                        value={firstName}
+                                        onChangeText={text => setFirstName(text)}
                                         placeholder="New FirstName"
                                         keyboardAppearance="light"
                                         keyboardType="email-address"
@@ -139,7 +163,7 @@ class ProfileScreen extends React.Component<Props> {
                                         placeholderTextColor={theme.colors.text}
                                         selectionColor={theme.colors.text}
                                         theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
-                                        editable={this.state.editableInput}
+                                        editable={editableInput}
                                     />
                                 }
                             </View>
@@ -147,13 +171,13 @@ class ProfileScreen extends React.Component<Props> {
                             <View style={styles.containerInput}>
                                 <View style={styles.view_1_input}>
                                     <Subheading>Lastname: </Subheading>
-                                    <Text>Oliviera</Text>
+                                    <Text>{usermodel!.lastname!}</Text>
                                 </View>
 
-                                {this.state.editableInput &&
+                                {editableInput &&
                                     <TextInput
-                                        value={this.state.lastName}
-                                        onChangeText={text => this.setState({ lastName: text })}
+                                        value={lastName}
+                                        onChangeText={text => setlastName(text)}
                                         placeholder="New LastName"
                                         keyboardAppearance="light"
                                         keyboardType="email-address"
@@ -165,7 +189,7 @@ class ProfileScreen extends React.Component<Props> {
                                         placeholderTextColor={theme.colors.text}
                                         selectionColor={theme.colors.text}
                                         theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
-                                        editable={this.state.editableInput}
+                                        editable={editableInput}
                                     />
                                 }
                             </View>
@@ -176,10 +200,10 @@ class ProfileScreen extends React.Component<Props> {
                                     <Text>18/09/1997</Text>
                                 </View>
 
-                                {this.state.editableInput &&
+                                {editableInput &&
                                     <TextInput
-                                        value={this.state.dataBirth}
-                                        onChangeText={text => this.setState({ dataBirth: text })}
+                                        value={dataBirth}
+                                        onChangeText={text => setDataBirth(text)}
                                         placeholder="New DataBirth"
                                         keyboardAppearance="light"
                                         keyboardType="email-address"
@@ -191,7 +215,7 @@ class ProfileScreen extends React.Component<Props> {
                                         placeholderTextColor={theme.colors.text}
                                         selectionColor={theme.colors.text}
                                         theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
-                                        editable={this.state.editableInput}
+                                        editable={editableInput}
                                     />
                                 }
                             </View>
@@ -199,7 +223,7 @@ class ProfileScreen extends React.Component<Props> {
                             <View style={styles.containerInput}>
                                 <View style={styles.view_1_input}>
                                     <Subheading>CPF/CNPJ: </Subheading>
-                                    <Text>26156286873</Text>
+                                    <Text>{usermodel!.cpf_cnpj!}</Text>
                                 </View>
                             </View>
 
@@ -213,13 +237,13 @@ class ProfileScreen extends React.Component<Props> {
                             <View style={styles.containerInput}>
                                 <View style={styles.view_1_input}>
                                     <Subheading>Country: </Subheading>
-                                    <Text>BR</Text>
+                                    <Text>{usermodel!.country!}</Text>
                                 </View>
 
-                                {this.state.editableInput &&
+                                {editableInput &&
                                     <TextInput
-                                        value={this.state.country}
-                                        onChangeText={text => this.setState({ country: text })}
+                                        value={country}
+                                        onChangeText={text => setCountry(text)}
                                         placeholder="New Country"
                                         keyboardAppearance="light"
                                         keyboardType="default"
@@ -231,7 +255,7 @@ class ProfileScreen extends React.Component<Props> {
                                         placeholderTextColor={theme.colors.text}
                                         selectionColor={theme.colors.text}
                                         theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
-                                        editable={this.state.editableInput}
+                                        editable={editableInput}
                                     />
                                 }
                             </View>
@@ -239,13 +263,13 @@ class ProfileScreen extends React.Component<Props> {
                             <View style={styles.containerInput}>
                                 <View style={styles.view_1_input}>
                                     <Subheading>State: </Subheading>
-                                    <Text>SP</Text>
+                                    <Text>{usermodel!.address!?.state!}</Text>
                                 </View>
 
-                                {this.state.editableInput &&
+                                {editableInput &&
                                     <TextInput
-                                        value={this.state.State}
-                                        onChangeText={text => this.setState({ State: text })}
+                                        value={State}
+                                        onChangeText={text => setState(text)}
                                         placeholder="New State"
                                         keyboardAppearance="light"
                                         keyboardType="default"
@@ -257,7 +281,7 @@ class ProfileScreen extends React.Component<Props> {
                                         placeholderTextColor={theme.colors.text}
                                         selectionColor={theme.colors.text}
                                         theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
-                                        editable={this.state.editableInput}
+                                        editable={editableInput}
                                     />
                                 }
                             </View>
@@ -265,13 +289,13 @@ class ProfileScreen extends React.Component<Props> {
                             <View style={styles.containerInput}>
                                 <View style={styles.view_1_input}>
                                     <Subheading>City: </Subheading>
-                                    <Text>Paulinia</Text>
+                                    <Text>{usermodel!.address!?.city!}</Text>
                                 </View>
 
-                                {this.state.editableInput &&
+                                {editableInput &&
                                     <TextInput
-                                        value={this.state.city}
-                                        onChangeText={text => this.setState({ city: text })}
+                                        value={city}
+                                        onChangeText={text => setCity(text)}
                                         placeholder="New City"
                                         keyboardAppearance="light"
                                         keyboardType="email-address"
@@ -283,7 +307,7 @@ class ProfileScreen extends React.Component<Props> {
                                         placeholderTextColor={theme.colors.text}
                                         selectionColor={theme.colors.text}
                                         theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
-                                        editable={this.state.editableInput}
+                                        editable={editableInput}
                                     />
                                 }
                             </View>
@@ -291,13 +315,13 @@ class ProfileScreen extends React.Component<Props> {
                             <View style={styles.containerInput}>
                                 <View style={styles.view_1_input}>
                                     <Subheading>Number: </Subheading>
-                                    <Text>344</Text>
+                                    <Text>{usermodel!.address!?.number!}</Text>
                                 </View>
 
-                                {this.state.editableInput &&
+                                {editableInput &&
                                     <TextInput
-                                        value={this.state.number}
-                                        onChangeText={text => this.setState({ number: text })}
+                                        value={number}
+                                        onChangeText={text => setNumber(text)}
                                         placeholder="New Number"
                                         keyboardAppearance="light"
                                         keyboardType="numeric"
@@ -309,7 +333,7 @@ class ProfileScreen extends React.Component<Props> {
                                         placeholderTextColor={theme.colors.text}
                                         selectionColor={theme.colors.text}
                                         theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
-                                        editable={this.state.editableInput}
+                                        editable={editableInput}
                                     />
                                 }
                             </View>
@@ -317,13 +341,13 @@ class ProfileScreen extends React.Component<Props> {
                             <View style={styles.containerInput}>
                                 <View style={styles.view_1_input}>
                                     <Subheading>Email: </Subheading>
-                                    <Text>name@example.com</Text>
+                                    <Text>{usermodel!.email!}</Text>
                                 </View>
 
-                                {this.state.editableInput &&
+                                {editableInput &&
                                     <TextInput
-                                        value={this.state.email}
-                                        onChangeText={text => this.setState({ country: text })}
+                                        value={email}
+                                        onChangeText={text => setEmail(text)}
                                         placeholder="name@example.com"
                                         keyboardAppearance="light"
                                         keyboardType="email-address"
@@ -335,7 +359,7 @@ class ProfileScreen extends React.Component<Props> {
                                         placeholderTextColor={theme.colors.text}
                                         selectionColor={theme.colors.text}
                                         theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
-                                        editable={this.state.editableInput}
+                                        editable={editableInput}
                                     />
                                 }
                             </View>
@@ -343,14 +367,14 @@ class ProfileScreen extends React.Component<Props> {
                             <View style={styles.containerInput}>
                                 <View style={styles.view_1_input}>
                                     <Subheading>Passsword: </Subheading>
-                                    <Text>*******************</Text>
+                                    <Text>{usermodel!.password!}</Text>
                                 </View>
 
-                                {this.state.editableInput &&
+                                {editableInput &&
                                     <TextInput
                                         secureTextEntry={true}
-                                        value={this.state.password}
-                                        onChangeText={text => this.setState({ password: text })}
+                                        value={password}
+                                        onChangeText={text => setPassword(text)}
                                         placeholder="New Password"
                                         keyboardAppearance="light"
                                         style={{ margin: 10, color: `${theme.colors.text}`, width: '90%' }}
@@ -360,7 +384,7 @@ class ProfileScreen extends React.Component<Props> {
                                         placeholderTextColor={theme.colors.text}
                                         selectionColor={theme.colors.text}
                                         theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
-                                        editable={this.state.editableInput}
+                                        editable={editableInput}
                                     />
                                 }
                             </View>
@@ -368,9 +392,9 @@ class ProfileScreen extends React.Component<Props> {
                     </ScrollView>
                 </View>
             </SafeAreaView>
-        )
-    }
-
+    )
 }
+
+
 
 export default ProfileScreen;

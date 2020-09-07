@@ -45,15 +45,15 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
 
             if (ValidateInputs(email, password)) {
                 const response = await SignIn(email, password);
-                console.log(response);
-                console.log(signed)
+                // console.log(response);
+                // console.log(signed)
             }
 
         } catch (error) {
 
         }
     }
-    console.log(signed);
+    // console.log(signed);
     return (
 
         <SafeAreaView style={styles.safeareContainer}>
