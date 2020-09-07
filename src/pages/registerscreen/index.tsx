@@ -1,220 +1,152 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { SafeAreaView, View, ScrollView, TextInput, Keyboard, StyleSheet, Alert } from 'react-native';
-import { Text, Title, Subheading, List, Button, IconButton, Divider, RadioButton } from 'react-native-paper';
-import { Picker } from '@react-native-community/picker';
+import { SafeAreaView, ScrollView, Keyboard, View } from 'react-native';
+import { Title, Button, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import * as Animatable from 'react-native-animatable';
-
 
 import { styles } from './styles'
 
-import { ButtonCommum } from '../../components/buttonCommum'
-import { DrawerContentComponentProps, DrawerContentOptions } from '@react-navigation/drawer';
+import { CommomData, IdentificationInfo, AddressInfo, LoginDatas } from './step-by-step'
 
-interface Others {
-    theme: any
-}
+function RegisterScreen({ ...props }) {
 
+    const theme = useTheme();
 
-class RegisterScreen extends React.Component<Others> {
-    state = {
-        step: 1,
-        firstName: '',
-        lastName: '',
-        dataBirth: '',
-        genderCheck: 'first',
-        cpf_cnpj: '',
-        RG: '',
-        country: '',
-        street: '',
-        city: '',
-        number: '',
-        email: '',
-        password: '',
-        State: ''
+    const [firstname, setFirstName] = useState('');
+    const [lastname, setLastName] = useState('');
+    const [datebirth, setDateBirth] = useState('');
+    const [cpf_cnpj, setCPF_CNPJ] = useState('');
+    const [RG, setRG] = useState('');
+    const [country, setCountry] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [state, setState] = useState('');
+    const [city, setCity] = useState('');
+    const [number, setNumber] = useState('');
+    const [CEP, setCEP] = useState('');
+    const [neighbourhood, setNeighbourhood] = useState('');
+    const [gender, setGender] = useState('Man');
+    const [cellphone, setCellPhone] = useState('');
+    const [street, setStreet] = useState('');
+    const [typeuser, setTypeUser] = useState('1');
+    const [step, setStep] = useState(1);
+
+    function renderSwitch(step: number) {
+        switch (step) {
+            case 1:
+                return (
+                    <CommomData firstname={firstname} setFirstName={setFirstName}
+                        datebirth={datebirth} setDateBirth={setDateBirth}
+                        gender={gender} setGender={setGender}
+                        lastname={lastname} setLastName={setLastName}
+                        typeuser={typeuser} setTypeUser={setTypeUser}
+                    />
+                )
+                break;
+            case 2:
+                return (
+                    <IdentificationInfo RG={RG} setRG={setRG}
+                        cpf_cnpj={cpf_cnpj} setCPF_CNPJ={setCPF_CNPJ}
+                        cellphone={cellphone} setCellPhone={setCellPhone}
+                        typeuser={typeuser}
+                    />
+                )
+                break;
+            case 3:
+                return (
+                    <AddressInfo CEP={CEP} setCEP={setCEP}
+                        city={city} setCity={setCity}
+                        country={country} setCountry={setCountry}
+                        neighbourhood={neighbourhood} setNeighbourhood={setNeighbourhood}
+                        number={number} setNumber={setNumber}
+                        state={state} setState={setState}
+                        street={street} setStreet={setStreet}
+                    />
+                )
+                break;
+            case 4:
+                return (
+                    <LoginDatas email={email} setEmail={setEmail}
+                        password={password} setPassword={setPassword}
+                    />
+                )
+            default:
+                return null
+                break;
+        }
     }
 
-
-    render() {
-        const { theme } = this.props;
-
-        return (
-            <SafeAreaView style={styles.safeView}>
-
-                <ScrollView style={{ width: '100%' }} contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: "center" }}>
-                    <Title style={{}}>Register</Title>
-
-                    <Animatable.View style={{ justifyContent: "center", margin: 5, width: '90%' }} animation="fadeInLeft" delay={1200} useNativeDriver={true}>
-
-                        <View>
-                            {this.state.firstName.length > 1 && <Text style={{ marginLeft: '4%' }}>Firstname:</Text>}
-                            <TextInput
-                                value={this.state.firstName}
-                                onChangeText={text => this.setState({ firstName: text })}
-                                placeholder="First Name"
-                                keyboardAppearance="light"
-                                keyboardType="email-address"
-                                style={{ margin: 10, color: `${theme.colors.text}`, width: '50%', }}
-                                focusable={false}
-                                underlineColorAndroid={theme.colors.text}
-                                placeholderTextColor={theme.colors.text}
-
-                            />
-                            {this.state.lastName.length > 1 && <Text style={{ marginLeft: '4%' }}>LastName:</Text>}
-                            <TextInput
-                                value={this.state.lastName}
-                                onChangeText={text => this.setState({ lastName: text })}
-                                placeholder="LastName"
-                                keyboardAppearance="light"
-                                keyboardType="email-address"
-                                style={{ margin: 10, color: `${theme.colors.text}`, width: '60%' }}
-                                focusable={false}
-                                underlineColorAndroid={theme.colors.text}
-                                placeholderTextColor={theme.colors.text}
-                            />
-                        </View>
-                    </Animatable.View>
-
-                    {this.state.firstName.length > 3 && this.state.lastName.length > 4 ?
+    function FowardStep() {
+        if (step < 4)
+            setStep(step + 1)
 
 
-                        < Animatable.View style={{ justifyContent: "center", margin: 5, width: '90%' }} animation="fadeInRight" useNativeDriver={true}>
-                            <View>
-                                {this.state.cpf_cnpj.length > 1 && <Text style={{ marginLeft: '4%' }}>CPF/CNPJ:</Text>}
-                                <TextInput
-                                    value={this.state.cpf_cnpj}
-                                    onChangeText={text => this.setState({ cpf_cnpj: text })}
-                                    placeholder="CPF/CNPJ"
-                                    keyboardAppearance="light"
-                                    keyboardType="numeric"
-                                    style={{ margin: 10, color: `${theme.colors.text}`, width: '55%' }}
-                                    focusable={false}
-                                    underlineColorAndroid={theme.colors.text}
-                                    placeholderTextColor={theme.colors.text}
-                                />
-
-                                {this.state.RG.length > 1 && <Text style={{ marginLeft: '4%' }}>RG:</Text>}
-                                <TextInput
-                                    value={this.state.RG}
-                                    onChangeText={text => this.setState({ RG: text })}
-                                    placeholder="RG"
-                                    keyboardAppearance="light"
-                                    keyboardType="numeric"
-                                    style={{ margin: 10, color: `${theme.colors.text}`, width: '55%' }}
-                                    focusable={false}
-                                    underlineColorAndroid={theme.colors.text}
-                                    placeholderTextColor={theme.colors.text}
-                                />
-                            </View>
-                        </Animatable.View>
-
-                        :
-
-                        null
-                    }
-
-                    {this.state.cpf_cnpj.length > 5 || this.state.RG.length > 8 ?
-                        <Animatable.View style={{ justifyContent: "center", margin: 5, width: '90%' }} animation="fadeInLeft" delay={1200} useNativeDriver={true}>
-
-                            <View>
-                                {this.state.country.length > 1 && <Text style={{ marginLeft: '4%' }}>Country:</Text>}
-                                <TextInput
-                                    value={this.state.country}
-                                    onChangeText={text => this.setState({ country: text })}
-                                    placeholder="country"
-                                    keyboardAppearance="light"
-                                    keyboardType="default"
-                                    style={{ margin: 10, color: `${theme.colors.text}`, width: '40%' }}
-                                    focusable={false}
-                                    underlineColorAndroid={theme.colors.text}
-                                    placeholderTextColor={theme.colors.text}
-                                />
-
-                                {this.state.State.length > 1 && <Text style={{ marginLeft: '4%' }}>State:</Text>}
-                                <TextInput
-                                    value={this.state.State}
-                                    onChangeText={text => this.setState({ State: text })}
-                                    placeholder="State"
-                                    keyboardAppearance="light"
-                                    keyboardType="default"
-                                    style={{ margin: 10, color: `${theme.colors.text}`, width: '40%' }}
-                                    focusable={false}
-                                    underlineColorAndroid={theme.colors.text}
-                                    placeholderTextColor={theme.colors.text}
-                                />
-
-                                {this.state.city.length > 1 && <Text style={{ marginLeft: '4%' }}>City:</Text>}
-                                <TextInput
-                                    value={this.state.city}
-                                    onChangeText={text => this.setState({ city: text })}
-                                    placeholder="City"
-                                    keyboardAppearance="light"
-                                    keyboardType="email-address"
-                                    style={{ margin: 10, color: `${theme.colors.text}`, width: '50%' }}
-                                    focusable={false}
-                                    underlineColorAndroid={theme.colors.text}
-                                    placeholderTextColor={theme.colors.text}
-                                />
-
-                                {this.state.number.length > 1 && <Text style={{ marginLeft: '4%' }}>Number:</Text>}
-                                <TextInput
-                                    value={this.state.number}
-                                    onChangeText={text => this.setState({ number: text })}
-                                    placeholder="Number"
-                                    keyboardAppearance="light"
-                                    keyboardType="numeric"
-                                    style={{ margin: 10, color: `${theme.colors.text}`, width: '30%' }}
-                                    focusable={false}
-                                    underlineColorAndroid={theme.colors.text}
-                                    placeholderTextColor={theme.colors.text}
-                                />
-                            </View>
-                        </Animatable.View>
-                        :
-                        null
-                    }
-
-                    {this.state.country.length > 3 && this.state.State.length > 3 ?
-                        <Animatable.View style={{ justifyContent: "center", margin: 5, width: '90%' }} animation="fadeInRight" delay={1200} useNativeDriver={true}>
-
-                            <View>
-                                {this.state.email.length > 1 && <Text style={{ marginLeft: '4%' }}>Email:</Text>}
-                                <TextInput
-                                    value={this.state.email}
-                                    onChangeText={text => this.setState({ country: text })}
-                                    placeholder="Email"
-                                    keyboardAppearance="light"
-                                    keyboardType="email-address"
-                                    style={{ margin: 10, color: `${theme.colors.text}`, width: '90%' }}
-                                    focusable={false}
-                                    underlineColorAndroid={theme.colors.text}
-                                    placeholderTextColor={theme.colors.text}
-                                />
-
-                                {this.state.password.length > 1 && <Text style={{ marginLeft: '4%' }}>Email:</Text>}
-                                <TextInput
-                                    secureTextEntry={true}
-                                    value={this.state.password}
-                                    onChangeText={text => this.setState({ password: text })}
-                                    placeholder="Password"
-                                    keyboardAppearance="light"
-                                    style={{ margin: 10, color: `${theme.colors.text}`, width: '90%' }}
-                                    underlineColorAndroid={theme.colors.text}
-                                    placeholderTextColor={theme.colors.text}
-                                    selectionColor={theme.colors.text}
-                                />
-                            </View>
-
-                            <Button mode="contained">Register. Click Here!</Button>
-                        </Animatable.View>
-                        :
-                        null
-                    }
-                    <Button mode="contained" onPress={() => { }}>Go Back</Button>
-                </ScrollView>
-            </SafeAreaView >
-        )
     }
+
+    function Stepback() {
+        if (step > 1)
+            setStep(step - 1)
+
+    }
+
+    return (
+        <SafeAreaView style={styles.safeView}>
+            <ScrollView style={{ width: "100%" }} contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: "center" }}>
+
+                {renderSwitch(step)}
+
+                <View style={{ display: "flex", flexDirection: "row", width: '90%', justifyContent: "space-evenly", marginTop: '3%' }}>
+                    {step > 1 ?
+                        <Button mode="outlined"
+                            onPress={() => Stepback()}
+                            icon={() => <Icon size={13} name="step-backward" color={theme.colors.text} />}
+                            style={{ width: '30%', padding: 2, alignSelf: "center", justifyContent: "space-evenly", borderWidth: 1, borderColor: theme.colors.text }}
+                            color={theme.colors.text}
+                        >
+                            Back
+                        </Button>
+                        :
+                        null
+                    }
+
+                    <Button mode="outlined"
+                        onPress={() => FowardStep()}
+                        icon={() => <Icon size={13} name="step-forward" color={theme.colors.text} />}
+                        style={{ width: '30%', padding: 2, alignSelf: "center", justifyContent: "space-evenly", borderWidth: 1, borderColor: theme.colors.text }}
+                        color={theme.colors.text}
+                    >
+                        Next
+                    </Button>
+                </View>
+
+                <View style={{ display: "flex", flexDirection: "column", width: '90%', justifyContent: "center", padding: 10, marginTop: 5 }}>
+                    {step === 4 ?
+                        <Button mode="contained"
+                            onPress={() => { }}
+                            icon={() => <Icon size={15} name='paper-plane' color='#000000' />}
+                            style={{ width: '50%', padding: 2, alignSelf: "center", justifyContent: "space-evenly" }}
+                            color="#76ff03"
+                        >
+                            Send
+                        </Button>
+                        :
+                        null
+                    }
+
+
+                    <Button mode="text"
+                        onPress={() => { }}
+                        style={{ width: '50%', padding: 2, alignSelf: "center", justifyContent: "space-evenly" }}
+                        color="#ff3d00"
+                    >
+                        Cancel
+                    </Button>
+
+                </View>
+
+            </ScrollView>
+        </SafeAreaView>
+    )
 }
+
 
 export default RegisterScreen

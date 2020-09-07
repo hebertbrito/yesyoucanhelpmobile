@@ -46,10 +46,7 @@ export const Routes = (props: Props) => {
             ) : (
                     <>
                         <Drawer.Screen name="Login" component={LoginScreen} options={{ swipeEnabled: false }} />
-                        <Drawer.Screen name="RegisterUserScreen" children={() => {
-                            return (<RegisterUserScreen
-                                theme={papertheme} {...props} />)
-                        }} options={{ swipeEnabled: false }} />
+                        <Drawer.Screen name="RegisterUserScreen" component={RegisterUserScreen} options={{ swipeEnabled: false }} />
                     </>
                 )}
 
