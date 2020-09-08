@@ -11,6 +11,8 @@ import { SearchCEP } from '../../services/SearchCEP';
 import { CEPjson } from 'src/models/CEPjson';
 import { User } from '../../models/User';
 
+import { CreateUser } from '../../services/api/CreateUser'
+
 function RegisterScreen({ ...props }) {
 
     const theme = useTheme();
@@ -34,8 +36,9 @@ function RegisterScreen({ ...props }) {
     const [typeuser, setTypeUser] = useState('1');
     const [step, setStep] = useState(1);
     const [cepJSON, setCEPJSON] = useState<CEPjson | undefined>({} as CEPjson);
-    const [showsErros, setShowsErros] = useState(false);
-    const [avatarSource, setAvatarSource] = useState<any>();
+    const [showsErros, setShowsErros] = useState<boolean>(false);
+    const [avatarsource, setAvatarSource] = useState<ImagePickerResponse | null>();
+    const [objUser, setObjUser] = useState<User | null>();
 
     const options = {
         title: 'Select Avatar',
@@ -45,9 +48,9 @@ function RegisterScreen({ ...props }) {
         },
     };
 
+
     const getImage = () => {
         ImagePicker.launchImageLibrary(options, (response) => {
-            console.log('Response = ', response);
 
             if (response.didCancel) {
                 console.log('User cancelled image picker');
@@ -57,6 +60,7 @@ function RegisterScreen({ ...props }) {
                 console.log('User tapped custom button: ', response.customButton);
             } else {
                 // const source = { uri: response.uri };
+                console.log(response.data)
                 setAvatarSource(response);
             }
         });
@@ -84,7 +88,7 @@ function RegisterScreen({ ...props }) {
     useEffect(() => {
 
         if (cepJSON) {
-
+            Keyboard.dismiss()
             setStreet(cepJSON.logradouro!)
             setCity(cepJSON.localidade!);
             setNeighbourhood(cepJSON.bairro!);
@@ -95,40 +99,106 @@ function RegisterScreen({ ...props }) {
     }, [cepJSON])
 
     function ValidateDATA() {
-        const objUser: User = {
-            firstname, lastname, datebirth, cpf_cnpj, RG, email,
-            password, gender, cellphone, typeuser,
-            address: {
-                CEP, city, country, neighbourhood,
-                number, state, street
-            },
-            avatarsource: avatarSource
-        }
+        // const objUser: User = {
+        //     firstname, lastname, datebirth, cpf_cnpj, RG, email,
+        //     password, gender, cellphone, typeuser,
+        //     address: {
+        //         CEP, city, country, neighbourhood,
+        //         number, state, street
+        //     },
+        //     avatarsource
+        // }
 
-        if (objUser) {
-            setShowsErros(true)
-        }
+        // setObjUser({
+        //     firstname, lastname, datebirth, cpf_cnpj, RG, email,
+        //     password, gender, cellphone, typeuser,
+        // })
 
-        if (objUser.firstname!.length == 0)
-            setShowsErros(true)
+        // if (firstname == undefined || firstname!.length < 3)
+        //     setShowsErros(true)
 
-        if (objUser.lastname!.length == 0)
-            setShowsErros(true)
+        // console.log('******depois do if *****')
+        // console.log(showsErros)
+        // if (lastname == undefined || lastname!.length < 3)
+        //     setShowsErros(true)
 
-        if (objUser.typeuser! === '1') {
+        // if (typeuser! === '1') {
 
-            if (objUser.datebirth!.length != 8)
-                setShowsErros(true)
+        //     if (datebirth!.length != 8)
+        //         setShowsErros(true)
 
-            if (objUser.RG!.length < 7 || objUser.RG!.length == 8)
-                setShowsErros(true)
+        //     if (RG!.length < 7 || RG!.length == 8)
+        //         setShowsErros(true)
 
-        }
+        // }
+
+        // if (cellphone == undefined || cellphone!.length < 10)
+        //     setShowsErros(true)
+
+
+        // if (CEP == undefined || CEP!.length != 8)
+        //     setShowsErros(true)
+
+        // if (number == undefined || number!.length < 1)
+        //     setShowsErros(true)
+
+        // if (neighbourhood == undefined || neighbourhood!.length < 10)
+        //     setShowsErros(true)
+
+        // if (street == undefined || street!.length < 10)
+        //     setShowsErros(true)
+
+        // if (city == undefined || city!.length < 5)
+        //     setShowsErros(true)
+
+        // if (state == undefined || state!.length != 2)
+        //     setShowsErros(true)
+
+        // if (country == undefined || country!.length != 2)
+        //     setShowsErros(true)
+
+        // if (email == undefined || email!.length < 10)
+        //     setShowsErros(true)
+
+        // if (password == undefined || password!.length < 6)
+        //     setShowsErros(true)
 
 
 
     }
 
+    async function testeInsertUser() {
+        try {
+
+            setObjUser({
+                firstname, lastname, datebirth, cpf_cnpj, RG, email,
+                password, gender, cellphone, typeuser,
+                address: {
+                    CEP, city, country, neighbourhood,
+                    number, state, street
+                },
+                avatarsource: {
+                    uri: avatarsource?.uri,
+                    fileSize: avatarsource?.fileSize,
+                    fileName: avatarsource?.fileName,
+                    type: avatarsource?.type,
+                    path: avatarsource?.path
+                }
+            })
+
+            console.log('*****dentro da função testeInsertUser')
+            console.log(objUser)
+
+            if (objUser != null && objUser != undefined) {
+                await CreateUser(objUser)
+
+            }
+
+
+        } catch (error) {
+
+        }
+    }
 
     function renderSwitch(step: number) {
         switch (step) {
@@ -139,6 +209,7 @@ function RegisterScreen({ ...props }) {
                         gender={gender} setGender={setGender}
                         lastname={lastname} setLastName={setLastName}
                         typeuser={typeuser} setTypeUser={setTypeUser}
+                        showsErros={showsErros}
                     />
                 )
                 break;
@@ -167,7 +238,7 @@ function RegisterScreen({ ...props }) {
                 return (
                     <LoginDatas email={email} setEmail={setEmail}
                         password={password} setPassword={setPassword}
-                        avatarSource={avatarSource} getImage={getImage}
+                        avatarSource={avatarsource} getImage={getImage}
                     />
                 )
             default:
@@ -222,7 +293,7 @@ function RegisterScreen({ ...props }) {
                 <View style={{ display: "flex", flexDirection: "column", width: '90%', justifyContent: "center", padding: 10, marginTop: 5 }}>
                     {step === 4 ?
                         <Button mode="contained"
-                            onPress={() => { }}
+                            onPress={() => testeInsertUser()}
                             icon={() => <Icon size={15} name='paper-plane' color='#000000' />}
                             style={{ width: '50%', padding: 2, alignSelf: "center", justifyContent: "space-evenly" }}
                             color="#76ff03"

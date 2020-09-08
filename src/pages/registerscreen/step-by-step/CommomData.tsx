@@ -20,7 +20,8 @@ interface DataCommum {
     gender: string,
     setGender: React.Dispatch<React.SetStateAction<string>>,
     typeuser: string,
-    setTypeUser: React.Dispatch<React.SetStateAction<string>>
+    setTypeUser: React.Dispatch<React.SetStateAction<string>>,
+    showsErros: boolean
 }
 
 
@@ -30,7 +31,7 @@ export function CommomData(props: DataCommum) {
 
     const { firstname, setFirstName, lastname, setLastName,
         datebirth, setDateBirth, gender, setGender,
-        typeuser, setTypeUser
+        typeuser, setTypeUser, showsErros
     } = props;
 
     return (
@@ -77,7 +78,7 @@ export function CommomData(props: DataCommum) {
                             mode="outlined"
                             returnKeyType="next"
                             blurOnSubmit={false}
-
+                            error={firstname.length < 3 && showsErros == true ? true : false}
                         />
 
                         <TextInput

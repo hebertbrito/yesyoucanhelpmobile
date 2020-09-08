@@ -3,7 +3,7 @@ import { useTheme, TextInput, Card, Title, Avatar, IconButton } from 'react-nati
 import * as Animatable from 'react-native-animatable';
 import { View } from 'react-native';
 import { ImagePickerResponse } from 'react-native-image-picker';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/EvilIcons';
 
 interface LoginDatas {
     email: string,
@@ -26,19 +26,25 @@ export function LoginDatas(props: LoginDatas) {
                 <Card.Content>
                     <Title style={{ color: '#000000' }}> Login Datas</Title>
 
-                    <View style={{ display: "flex", alignItems: "center" }}>
-                        {avatarSource ?
-                            <Avatar.Image size={100} source={{ uri: avatarSource.uri }} style={{ alignSelf: "center", }} />
-                            :
-                            <Icon size={60} name="user" />
-                        }
-                        <IconButton
-                            icon="camera"
-                            size={20}
-                            color={theme.colors.text}
-                            onPress={() => getImage()}
-                            style={{ position: "absolute", bottom: 0, alignSelf: "flex-end" }}
-                        />
+                    <View style={{
+                        width: '100%',
+                        backgroundColor: '#FFFFFFFF',
+                        alignItems: "center", justifyContent: "center"
+                    }}>
+                        <View style={{ display: "flex", alignItems: "center" }}>
+                            {avatarSource ?
+                                <Avatar.Image size={100} source={{ uri: avatarSource.uri }} style={{ alignSelf: "center", }} />
+                                :
+                                <Avatar.Image size={100} source={require('../../../assets/imageperfil/hebert.jpg')} style={{ alignSelf: "center", }} />
+                            }
+                            <IconButton
+                                icon="camera"
+                                size={20}
+                                color={theme.colors.onBackground}
+                                onPress={() => getImage()}
+                                style={{ position: "absolute", bottom: 0, alignSelf: "flex-end" }}
+                            />
+                        </View>
                     </View>
 
                     <View style={{ display: "flex", flexDirection: "column" }}>

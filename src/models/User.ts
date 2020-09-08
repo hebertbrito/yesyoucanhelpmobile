@@ -1,5 +1,4 @@
 export interface User {
-    message?: string,
     firstname?: string,
     lastname?: string,
     datebirth?: string,
@@ -20,5 +19,5 @@ export interface User {
         state?: string,
         country?: string,
     }
-    avatarsource?: {}
+    avatarsource?: any
 }

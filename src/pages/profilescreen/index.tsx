@@ -6,8 +6,11 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import ImagePicker, { ImagePickerResponse } from 'react-native-image-picker';
 import AuthContext from '../../context/auth';
 
+import { AvatarUser as AvatarComponent } from '../../components/avataruser'
+
 import { GetUserProfile } from '../../services/api/GetProfile'
 import { User } from 'src/models/User';
+import { AvatarUser } from '../../models/AvatarUser'
 
 
 import { styles } from './styles'
@@ -33,10 +36,11 @@ function ProfileScreen() {
     const [password, setPassword] = useState('');
     const [State, setState] = useState('');
     const [editableInput, setEditableInput] = useState(false);
-    const [avatarSource, setAvatarSource] = useState<ImagePickerResponse>({} as ImagePickerResponse);
     const [isLoading, setIsloading] = useState(true);
     const [findData, setFindData] = useState(true);
     const [usermodel, setUserModel] = useState<User | undefined>({} as User);
+    const [avatarSource, setAvatarSource] = useState<AvatarUser>({} as AvatarUser);
+
 
 
     const options = {
@@ -61,8 +65,13 @@ function ProfileScreen() {
 
             if (response) {
                 setUserModel(response)
+                if (response.avatarsource) {
+                    console.log('*******avatar sourcer valor')
+                    setAvatarSource(response.avatarsource!)
+                    console.log(avatarSource)
+
+                }
                 setIsloading(false)
-                console.log(response)
             }
         }
         if (findData) {
@@ -95,7 +104,14 @@ function ProfileScreen() {
                 console.log('User tapped custom button: ', response.customButton);
             } else {
                 // const source = { uri: response.uri };
-                setAvatarSource(response);
+                setAvatarSource({
+                    fileSize: response.fileSize,
+                    path: response.path,
+                    type: response.type,
+                    uri: response.uri,
+                    fileName: response.fileName
+
+                });
             }
         });
     }
@@ -120,7 +136,7 @@ function ProfileScreen() {
                     }}>
                         <View style={styles.bodyCard}>
                             {avatarSource ?
-                                <Avatar.Image size={100} source={{ uri: avatarSource.uri }} style={{ alignSelf: "center", }} />
+                                <AvatarComponent avatarSource={avatarSource} size={100} />
                                 :
                                 <Avatar.Image size={100} source={require('../../assets/imageperfil/hebert.jpg')} style={{ alignSelf: "center", }} />
                             }
@@ -197,7 +213,7 @@ function ProfileScreen() {
                             <View style={styles.containerInput}>
                                 <View style={styles.view_1_input}>
                                     <Subheading>Date Birth: </Subheading>
-                                    <Text>18/09/1997</Text>
+                                    <Text>{usermodel?.datebirth!}</Text>
                                 </View>
 
                                 {editableInput &&
@@ -230,7 +246,7 @@ function ProfileScreen() {
                             <View style={styles.containerInput}>
                                 <View style={styles.view_1_input}>
                                     <Subheading>RG: </Subheading>
-                                    <Text>439931408</Text>
+                                    <Text>{usermodel?.RG!}</Text>
                                 </View>
                             </View>
 
@@ -329,6 +345,84 @@ function ProfileScreen() {
                                         focusable={false}
                                         mode="flat"
                                         label="New Number"
+                                        underlineColor={theme.colors.text}
+                                        placeholderTextColor={theme.colors.text}
+                                        selectionColor={theme.colors.text}
+                                        theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
+                                        editable={editableInput}
+                                    />
+                                }
+                            </View>
+
+                            <View style={styles.containerInput}>
+                                <View style={styles.view_1_input}>
+                                    <Subheading>CEP: </Subheading>
+                                    <Text>{usermodel!.address!?.CEP!}</Text>
+                                </View>
+
+                                {editableInput &&
+                                    <TextInput
+                                        value={number}
+                                        onChangeText={text => setNumber(text)}
+                                        placeholder="New CEP"
+                                        keyboardAppearance="light"
+                                        keyboardType="numeric"
+                                        style={{ margin: 10, color: `${theme.colors.text}`, width: '30%' }}
+                                        focusable={false}
+                                        mode="flat"
+                                        label="New CEP"
+                                        underlineColor={theme.colors.text}
+                                        placeholderTextColor={theme.colors.text}
+                                        selectionColor={theme.colors.text}
+                                        theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
+                                        editable={editableInput}
+                                    />
+                                }
+                            </View>
+
+                            <View style={styles.containerInput}>
+                                <View style={styles.view_1_input}>
+                                    <Subheading>Country: </Subheading>
+                                    <Text>{usermodel!.address!?.country!}</Text>
+                                </View>
+
+                                {editableInput &&
+                                    <TextInput
+                                        value={number}
+                                        onChangeText={text => setNumber(text)}
+                                        placeholder="New Country"
+                                        keyboardAppearance="light"
+                                        keyboardType="email-address"
+                                        style={{ margin: 10, color: `${theme.colors.text}`, width: '30%' }}
+                                        focusable={false}
+                                        mode="flat"
+                                        label="New Country"
+                                        underlineColor={theme.colors.text}
+                                        placeholderTextColor={theme.colors.text}
+                                        selectionColor={theme.colors.text}
+                                        theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
+                                        editable={editableInput}
+                                    />
+                                }
+                            </View>
+
+                            <View style={styles.containerInput}>
+                                <View style={styles.view_1_input}>
+                                    <Subheading>Street: </Subheading>
+                                    <Text>{usermodel!.address!?.street!}</Text>
+                                </View>
+
+                                {editableInput &&
+                                    <TextInput
+                                        value={number}
+                                        onChangeText={text => setNumber(text)}
+                                        placeholder="New Street"
+                                        keyboardAppearance="light"
+                                        keyboardType="email-address"
+                                        style={{ margin: 10, color: `${theme.colors.text}`, width: '30%' }}
+                                        focusable={false}
+                                        mode="flat"
+                                        label="New Street"
                                         underlineColor={theme.colors.text}
                                         placeholderTextColor={theme.colors.text}
                                         selectionColor={theme.colors.text}
