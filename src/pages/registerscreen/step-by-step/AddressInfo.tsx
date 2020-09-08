@@ -119,7 +119,7 @@ export function AddressInfo(props: AddressInfo) {
                                 value={country}
                                 onChangeText={text => setCountry(text)}
                                 placeholder="XX"
-                                label="country"
+                                label="Country"
                                 keyboardType="default"
                                 style={{ marginTop: 10, width: '25%' }}
                                 placeholderTextColor={theme.colors.text}

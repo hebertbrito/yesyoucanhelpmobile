@@ -43,7 +43,7 @@ export function CommomData(props: DataCommum) {
                         <View style={styles.itemCheckBox}>
                             <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>Physical person</Text>
                             <RadioButton
-                                value="SendBranch"
+                                value={typeuser}
                                 status={typeuser === '1' ? 'checked' : 'unchecked'}
                                 onPress={() => setTypeUser('1')}
                                 color={'#000000'}
@@ -53,7 +53,7 @@ export function CommomData(props: DataCommum) {
                         <View style={styles.itemCheckBox}>
                             <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>Legal person</Text>
                             <RadioButton
-                                value="ChoseMPlace"
+                                value={typeuser}
                                 status={typeuser === '2' ? 'checked' : 'unchecked'}
                                 onPress={() => setTypeUser('2')}
                                 color={'#000000'}
@@ -77,6 +77,7 @@ export function CommomData(props: DataCommum) {
                             mode="outlined"
                             returnKeyType="next"
                             blurOnSubmit={false}
+
                         />
 
                         <TextInput

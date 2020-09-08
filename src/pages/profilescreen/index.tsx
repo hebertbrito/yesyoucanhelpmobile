@@ -237,7 +237,7 @@ function ProfileScreen() {
                             <View style={styles.containerInput}>
                                 <View style={styles.view_1_input}>
                                     <Subheading>Country: </Subheading>
-                                    <Text>{usermodel!.country!}</Text>
+                                    <Text>{usermodel!.address?.country!}</Text>
                                 </View>
 
                                 {editableInput &&

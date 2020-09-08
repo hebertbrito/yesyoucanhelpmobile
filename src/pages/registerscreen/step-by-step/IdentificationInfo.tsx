@@ -58,13 +58,13 @@ export function IdentificationInfo(props: IdentificationInfo) {
                     <TextInput
                         value={cellphone}
                         onChangeText={text => setCellPhone(text)}
-                        placeholder="exemple: 9999999999"
-                        label="CPF/CNPJ"
+                        placeholder="exemple: DDXXXXXXXXX"
+                        label="Cellphone"
                         keyboardType="numeric"
                         style={{ marginTop: 10, width: '96.5%' }}
                         placeholderTextColor={theme.colors.text}
                         theme={{ colors: { primary: '#ef6c00', placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
-                        maxLength={15}
+                        maxLength={11}
                         mode="outlined"
                     />
                 </Card.Content>
