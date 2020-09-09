@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, ScrollView, TextInput, Keyboard, StyleSheet, Alert } from 'react-native';
-import { useTheme, Text, Title, Subheading, List, Button, IconButton, Paragraph, Divider, RadioButton } from 'react-native-paper';
+import { SafeAreaView, View, ScrollView, Keyboard } from 'react-native';
+import { useTheme, Text, Title, Subheading, List, Button, Divider, RadioButton, Headline, TextInput } from 'react-native-paper';
 import { Picker } from '@react-native-community/picker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 //dataOrderMenu
-import { itemsDropdown, addressesDropdown } from '../../data/dataOrderscreen'
+import { addressesDropdown } from '../../data/dataOrderscreen'
+
+import { FormProduct } from '../../components/formproduct'
 
 //screens
 import { styles } from './styles'
-import { CurrentRenderContext } from '@react-navigation/native';
 
 
 import ListProduct from './listproduct'
@@ -22,14 +23,14 @@ interface ModelList {
 
 const OrderScreen = () => {
     const paperTheme = useTheme();
-    let LSTPRODUCTS: ModelList[] = [];
 
     const [numberInput, setNumberInput] = useState("")
     const [descriptionInput, setDescriptionInput] = useState("")
     const [dropdownvalueproduct, setDropdownValueProduct] = useState("")
     const [dropdownvalueaddress, setDropdownValueAddress] = useState("")
-    const [lstProducts, setLstProducts] = useState<any>([]);
+    const [lstProducts, setLstProducts] = useState<any>([] as any);
     const [checked, setChecked] = useState('ChoseMPlace');
+    const [counterId, setCounterId] = useState<number>(0);
 
     const iconExclude = () => {
         return (
@@ -37,17 +38,20 @@ const OrderScreen = () => {
         )
     }
 
-    const teste = () => {
+    const addProduct = () => {
 
         setLstProducts([...lstProducts,
         {
-            id: Math.floor(Math.random() * 10) + 1,
+            id: counterId,
             product: dropdownvalueproduct,
             description: descriptionInput,
             number: numberInput
         }])
+
+        setCounterId(counterId + 1)
         console.log(lstProducts)
     }
+
 
     return (
         <ScrollView style={styles.containerSafe}
@@ -55,59 +59,22 @@ const OrderScreen = () => {
                 alignContent: "center",
                 alignItems: "center",
             }}
+            pagingEnabled={true}
+            nestedScrollEnabled={true}
         >
-            <Title style={{ color: paperTheme.colors.text, marginTop: 10, marginBottom: 10, fontWeight: "bold", letterSpacing: 1.3 }}>Contributions</Title>
-            <View style={styles.containerCard}>
-                <View style={styles.card}>
-                    <View style={styles.titleCard}>
-                        <Subheading style={styles.titleText}>Item Product</Subheading>
-                    </View>
-                    <View style={styles.bodyCard_1}>
-                        <Picker mode="dropdown" style={{ width: '50%', color: paperTheme.colors.text }}
-                            selectedValue={dropdownvalueproduct}
-                            onValueChange={(itemvalue, itemindex) => setDropdownValueProduct(itemvalue.toString())}
-                        >
-                            {itemsDropdown.length > 0 && (
-                                itemsDropdown.map((item) => {
-                                    return (
-                                        <Picker.Item key={item.id} label={item.name} value={item.name} />
-                                    )
-                                })
-                            )}
-                        </Picker>
-                        <TextInput
+            <Headline style={{
+                color: paperTheme.colors.text, marginTop: 10, marginBottom: 10,
+                fontWeight: "bold"
+            }}
+            >
+                Contribution
+            </Headline>
 
-                            defaultValue=""
-                            value={numberInput}
-                            onChangeText={text => setNumberInput(text)}
-                            placeholder="number"
-                            keyboardType="number-pad"
-                            maxLength={3}
-                            underlineColorAndroid={paperTheme.colors.text}
-                            placeholderTextColor={paperTheme.colors.text}
-                            style={{ width: '50%', color: paperTheme.colors.text }}
-
-                        />
-                    </View>
-                    <View style={{ padding: 5 }}>
-                        <TextInput
-                            value={descriptionInput}
-                            onChangeText={(text) => setDescriptionInput(text.toString())}
-                            multiline={true}
-                            numberOfLines={4}
-                            maxLength={150}
-                            autoCompleteType="off"
-                            placeholder="Description"
-                            underlineColorAndroid={paperTheme.colors.text}
-                            placeholderTextColor={paperTheme.colors.text}
-                            style={{ color: paperTheme.colors.text, width: '99%' }}
-                        />
-                    </View>
-                </View>
-            </View>
-            <Button color={'#fafafa'} style={styles.button_produt_add}
-                onPress={() => teste()}
-            >+ Product</Button>
+            <FormProduct dropdownvalueproduct={dropdownvalueproduct} setDropdownValueProduct={setDropdownValueProduct}
+                numberInput={numberInput} setNumberInput={setNumberInput}
+                descriptionInput={descriptionInput} setDescriptionInput={setDescriptionInput}
+                addProduct={addProduct}
+            />
 
             {<ListProduct lstProducts={lstProducts} />}
 
@@ -149,7 +116,7 @@ const OrderScreen = () => {
                 </View>
                 {checked === "ChoseMPlace" &&
                     <View>
-                        <Picker mode="dropdown" style={{ width: '50%', color: paperTheme.colors.text }}
+                        <Picker mode="dialog" style={{ width: '50%', color: paperTheme.colors.text }}
                             selectedValue={dropdownvalueaddress}
                             onValueChange={(itemvalue, itemindex) => setDropdownValueAddress(itemvalue.toString())}
                         >
@@ -173,7 +140,7 @@ const OrderScreen = () => {
                         </Button>
                 </View>
             </View>
-        </ScrollView>
+        </ScrollView >
     )
 }
 

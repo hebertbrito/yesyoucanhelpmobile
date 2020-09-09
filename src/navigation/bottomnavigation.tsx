@@ -23,7 +23,7 @@ function BottomNavigator({ ...props }) {
 
         <Tab.Navigator
             initialRouteName="HomeScreen"
-            activeColor="#fafafa"
+            activeColor="#ef6c00"
             inactiveColor="#424242"
             labeled={true}
             shifting={true}
@@ -38,9 +38,9 @@ function BottomNavigator({ ...props }) {
 
                 options={{
                     tabBarLabel: `${translate('home_menu')}`,
-                    tabBarColor: '#A85008',
+                    tabBarColor: '#1a237e',
                     tabBarIcon: ({ color }) => (
-                        <Icon name="home" color={paperTheme.colors.text} size={20} />
+                        <Icon name="home" color='#ef6c00' size={20} />
                     ),
                 }}
             />
@@ -50,9 +50,9 @@ function BottomNavigator({ ...props }) {
                 component={AskContributionScreen}
                 options={{
                     tabBarLabel: `${translate('ask_contribution_menu')}`,
-                    tabBarColor: '#ef6c00',
+                    tabBarColor: '#251F3D',
                     tabBarIcon: ({ color }) => (
-                        <Icon name="hand-holding" color={paperTheme.colors.text} size={20} />
+                        <Icon name="hand-holding" color='#ef6c00' size={20} />
                     ),
                 }}
             />
@@ -61,9 +61,9 @@ function BottomNavigator({ ...props }) {
                 component={HouseLessScreen}
                 options={{
                     tabBarLabel: `${translate('inform_houseless')}`,
-                    tabBarColor: '#b53d00',
+                    tabBarColor: '#004d40',
                     tabBarIcon: ({ color }) => (
-                        <Icon name="user-injured" color={paperTheme.colors.text} size={20} />
+                        <Icon name="user-injured" color='#ef6c00' size={20} />
                     ),
                 }}
             />
@@ -72,9 +72,9 @@ function BottomNavigator({ ...props }) {
                 component={OrderScreen}
                 options={{
                     tabBarLabel: `${translate('contribution_menu')}`,
-                    tabBarColor: '#914100',
+                    tabBarColor: '#7D7240',
                     tabBarIcon: ({ color }) => (
-                        <Icon name="hands-helping" color={paperTheme.colors.text} size={20} />
+                        <Icon name="hands-helping" color='#ef6c00' size={20} />
                     ),
                 }}
             />

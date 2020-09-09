@@ -38,31 +38,35 @@ const ListProduct = (props: Props) => {
                     <ScrollView style={styles.scrollViewDisplay}
                         showsVerticalScrollIndicator={true}
                         indicatorStyle="black"
-                        pinchGestureEnabled={true}
+                        pagingEnabled={true}
+                        nestedScrollEnabled={true}
                     >
 
                         {props.lstProducts.map(item => {
                             return (
-                                <View style={styles.scrollViewDisplay} key={item.id}>
-                                    <View style={styles.titleList}>
-                                        <Subheading style={{ margin: 8, color: paperTheme.colors.onBackground }}>{item.product}</Subheading>
-                                        <Text style={{ color: paperTheme.colors.onBackground }}> - </Text>
-                                        <Text style={{ margin: 8, color: paperTheme.colors.onBackground }}>{item.number}</Text>
-                                    </View>
-                                    <View style={styles.info_list}>
-                                        <View style={{ width: '90%' }}>
-                                            <Paragraph style={{ margin: 5, color: paperTheme.colors.onBackground }}>{item.description}</Paragraph>
+                                <View key={item.id} style={{ width: '100%' }}>
+                                    <View style={styles.scrollViewDisplay}>
+                                        <View style={styles.titleList}>
+                                            <Subheading style={{ margin: 8, color: paperTheme.colors.onBackground }}>{item.product}</Subheading>
+                                            <Text style={{ color: paperTheme.colors.onBackground }}> - </Text>
+                                            <Text style={{ margin: 8, color: paperTheme.colors.onBackground }}>{item.number}</Text>
                                         </View>
-                                        <IconButton
-                                            icon={iconExclude}
-                                            onPress={() => console.log('Pressed')}
-                                            animated={true}
-                                        />
+                                        <View style={styles.info_list}>
+                                            <View style={{ width: '90%' }}>
+                                                <Paragraph style={{ margin: 5, color: paperTheme.colors.onBackground }}>{item.description}</Paragraph>
+                                            </View>
+                                            <IconButton
+                                                icon={() => <Icon name="trash-alt" size={20} color="red" />}
+                                                onPress={() => console.log('Pressed')}
+                                                animated={true}
+                                            />
+                                        </View>
                                     </View>
+
+                                    <Divider style={{ backgroundColor: paperTheme.colors.accent, marginTop: 10, marginBottom: 10 }} />
                                 </View>
                             )
                         })}
-                        <Divider style={{ backgroundColor: paperTheme.colors.accent, marginTop: 10, marginBottom: 10 }} />
                     </ScrollView>
                 </Animatable.View>
             </>

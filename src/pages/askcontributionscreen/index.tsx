@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, TextInput } from 'react-native';
-import { Text, useTheme, Title, Subheading, Button, Divider, RadioButton, TextInput as PaperTextInput, Paragraph } from 'react-native-paper';
+import { SafeAreaView, View } from 'react-native';
+import { Text, useTheme, Title, Subheading, Button, Divider, RadioButton, TextInput, Paragraph } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Picker } from '@react-native-community/picker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Geolocation from 'react-native-geolocation-service';
 import * as Animatable from 'react-native-animatable'
 
-//dataOrderMenu
-import { itemsDropdown } from '../../data/dataOrderscreen'
-
 import ListProduct from '../orderscreen/listproduct'
-
+import { FormProduct } from '../../components/formproduct'
+import { FormLocation } from '../../components/formlocation'
 
 import { styles } from './styles'
 import { GeolocationUI } from 'src/models/Geolocation';
@@ -31,16 +28,19 @@ const AskContributionScreen = () => {
     const [street, setStreet] = useState('');
     const [neighborhood, setNeighborhood] = useState('');
     const [geolocalization, setGeolocalization] = useState<GeolocationUI>();
+    const [counterId, setCounterId] = useState<number>(0);
 
-    const AddProductInTheList = () => {
+
+    const addProduct = () => {
 
         setLstProducts([...lstProducts,
         {
-            id: Math.floor(Math.random() * 10) + 1,
+            id: counterId,
             product: dropdownvalueproduct,
             description: descriptionInput,
             number: numberInput
         }])
+        setCounterId(counterId + 1)
         console.log(lstProducts)
     }
 
@@ -70,57 +70,11 @@ const AskContributionScreen = () => {
                     </>
                 }
 
-                <View style={styles.containerCard}>
-                    <View style={styles.card}>
-                        <View style={styles.titleCard}>
-                            <Subheading style={styles.titleText}>Item Product</Subheading>
-                        </View>
-                        <View style={styles.bodyCard_1}>
-                            <Picker mode="dropdown" style={{ width: '50%', color: paperTheme.colors.text }}
-                                selectedValue={dropdownvalueproduct}
-                                onValueChange={(itemvalue, itemindex) => setDropdownValueProduct(itemvalue.toString())}
-                            >
-                                {itemsDropdown.length > 0 && (
-                                    itemsDropdown.map((item) => {
-                                        return (
-                                            <Picker.Item key={item.id} label={item.name} value={item.name} />
-                                        )
-                                    })
-                                )}
-                            </Picker>
-                            <TextInput
-
-                                defaultValue=""
-                                value={numberInput}
-                                onChangeText={text => setNumberInput(text)}
-                                placeholder="number"
-                                keyboardType="number-pad"
-                                maxLength={3}
-                                underlineColorAndroid={paperTheme.colors.text}
-                                placeholderTextColor={paperTheme.colors.text}
-                                style={{ width: '50%', color: paperTheme.colors.text }}
-
-                            />
-                        </View>
-                        <View style={{ padding: 5 }}>
-                            <TextInput
-                                value={descriptionInput}
-                                onChangeText={(text) => setDescriptionInput(text.toString())}
-                                multiline={true}
-                                numberOfLines={4}
-                                maxLength={150}
-                                autoCompleteType="off"
-                                placeholder="Description"
-                                underlineColorAndroid={paperTheme.colors.text}
-                                placeholderTextColor={paperTheme.colors.text}
-                                style={{ color: paperTheme.colors.text, width: '99%' }}
-                            />
-                        </View>
-                    </View>
-                </View>
-                <Button color={'#fafafa'} style={styles.button_produt_add}
-                    onPress={() => AddProductInTheList()}
-                >+ Product</Button>
+                <FormProduct dropdownvalueproduct={dropdownvalueproduct} setDropdownValueProduct={setDropdownValueProduct}
+                    numberInput={numberInput} setNumberInput={setNumberInput}
+                    descriptionInput={descriptionInput} setDescriptionInput={setDescriptionInput}
+                    addProduct={addProduct}
+                />
 
                 {<ListProduct lstProducts={lstProducts} />}
 
@@ -161,69 +115,14 @@ const AskContributionScreen = () => {
                         </View>
                     </View>
 
-                    {checked === "TypeLocation" &&
-                        <View style={{ width: '95%', marginTop: 10 }}>
-                            <PaperTextInput
-                                value={CEP}
-                                onChangeText={text => setCEP(text)}
-                                placeholder="Ex: 00000000"
-                                keyboardAppearance="light"
-                                keyboardType="numeric"
-                                style={{ margin: 10, color: `${paperTheme.colors.text}`, width: '35%' }}
-                                focusable={false}
-                                mode="flat"
-                                label="CEP*"
-                                underlineColor={paperTheme.colors.text}
-                                placeholderTextColor={paperTheme.colors.text}
-                                selectionColor={paperTheme.colors.text}
-                                theme={{ colors: { primary: '#fdd835', placeholder: paperTheme.colors.text } }}
-                            />
-                            <PaperTextInput
-                                value={number}
-                                onChangeText={text => setNumber(text)}
-                                placeholder="Number"
-                                keyboardAppearance="light"
-                                keyboardType="numeric"
-                                style={{ margin: 10, color: `${paperTheme.colors.text}`, width: '30%' }}
-                                focusable={false}
-                                mode="flat"
-                                label="Number *"
-                                underlineColor={paperTheme.colors.text}
-                                placeholderTextColor={paperTheme.colors.text}
-                                selectionColor={paperTheme.colors.text}
-                                theme={{ colors: { primary: '#fdd835', placeholder: paperTheme.colors.text } }}
-                            />
-                            <PaperTextInput
-                                value={street}
-                                onChangeText={text => setStreet(text)}
-                                placeholder="Ex: Rua exemplo dois"
-                                keyboardAppearance="light"
-                                keyboardType="email-address"
-                                style={{ margin: 10, color: `${paperTheme.colors.text}`, width: '60%' }}
-                                focusable={false}
-                                mode="flat"
-                                label="Street *"
-                                underlineColor={paperTheme.colors.text}
-                                placeholderTextColor={paperTheme.colors.text}
-                                selectionColor={paperTheme.colors.text}
-                                theme={{ colors: { primary: '#fdd835', placeholder: paperTheme.colors.text } }}
-                            />
-                            <PaperTextInput
-                                value={neighborhood}
-                                onChangeText={text => setNeighborhood(text)}
-                                placeholder="Neighborhood"
-                                keyboardAppearance="light"
-                                keyboardType="email-address"
-                                style={{ margin: 10, color: `${paperTheme.colors.text}`, width: '50%' }}
-                                focusable={false}
-                                mode="flat"
-                                label="Neighborhood *"
-                                underlineColor={paperTheme.colors.text}
-                                placeholderTextColor={paperTheme.colors.text}
-                                selectionColor={paperTheme.colors.text}
-                                theme={{ colors: { primary: '#fdd835', placeholder: paperTheme.colors.text } }}
-                            />
-                        </View>
+                    {checked === "TypeLocation" ?
+                        <FormLocation CEP={CEP} setCEP={setCEP}
+                            number={number} setNumber={setNumber}
+                            neighborhood={neighborhood} setNeighborhood={setNeighborhood}
+                            street={street} setStreet={setStreet}
+                        />
+                        :
+                        null
                     }
                     {checked === "AskUseGPS" &&
                         <Animatable.View style={styles.informationAnimatable} animation="fadeIn" easing="ease-in-out" delay={200}>

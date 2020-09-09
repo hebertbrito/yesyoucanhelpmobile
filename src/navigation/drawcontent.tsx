@@ -6,6 +6,8 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import translate from '../services/translate/translate';
 import AuthContext from '../context/auth'
+import { itemsDropdown } from 'src/data/dataOrderscreen';
+import { color } from 'react-native-reanimated';
 
 interface Props {
     toggleTheme?: () => void,
@@ -25,37 +27,38 @@ export const DrawContent = (props: Props) => {
 
     const sidebarMenus = [
         {
-            icon: () => <Icon color={paperTheme.colors.text} size={20} name="user-cog" style={styles.styleIcons} />,
+            nameIcon: 'user-cog',
             labelName: 'profile_menu',
             route: 'ProfileScreen',
             navigate: () => navigation.navigate('ProfileScreen')
         },
         {
-            icon: () => <Icon color={paperTheme.colors.text} size={20} name="home" style={styles.styleIcons} />,
+            nameIcon: 'home',
             labelName: 'home_menu',
             route: 'HomeScreen',
             navigate: () => navigation.navigate('BottomNavigator', { screen: 'HomeScreen' })
         },
         {
-            icon: () => <Icon color={paperTheme.colors.text} size={20} name="map-marker-alt" style={styles.styleIcons} />,
+            nameIcon: 'map-marked-alt',
+            icon: () => <Icon color="#ef6c00" size={20} name="map-marker-alt" style={styles.styleIcons} />,
             labelName: 'maps_menu',
             route: 'mapsscreen',
             navigate: () => navigation.navigate('MapsScreen')
         },
         {
-            icon: () => <Icon color={paperTheme.colors.text} size={20} name="hands-helping" style={styles.styleIcons} />,
+            nameIcon: 'hands-helping',
             labelName: 'contribution_menu',
             route: 'ContributionScreen',
             navigate: () => navigation.navigate('BottomNavigator', { screen: 'ContributionScreen' })
         },
         {
-            icon: () => <Icon color={paperTheme.colors.text} size={20} name="user-injured" style={styles.styleIcons} />,
+            nameIcon: 'user-injured',
             labelName: 'inform_houseless',
             route: 'HouseLessScreen',
             navigate: () => navigation.navigate('BottomNavigator', { screen: 'HouseLessScreen' })
         },
         {
-            icon: () => <Icon color={paperTheme.colors.text} size={20} name="hand-holding" style={styles.styleIcons} />,
+            nameIcon: 'hand-holding',
             labelName: 'ask_contribution_menu',
             route: 'AskContributionScreen',
             navigate: () => navigation.navigate('BottomNavigator', { screen: 'AskContributionScreen' })
@@ -69,7 +72,7 @@ export const DrawContent = (props: Props) => {
 
     const singOutIcon = () => {
         return (
-            <Icon color={paperTheme.colors.text} size={20} name="sign-out-alt" />
+            <Icon color={paperTheme.colors.notification} size={20} name="sign-out-alt" />
         )
     }
     return (
@@ -92,11 +95,13 @@ export const DrawContent = (props: Props) => {
                     {sidebarMenus.length > 0 && (
                         sidebarMenus.map(menu => {
                             return (
-                                <DrawerItem key={menu.labelName} label={translate(menu.labelName)} icon={menu.icon}
+                                <DrawerItem key={menu.labelName} label={translate(menu.labelName)}
+                                    icon={({ color, size }) => (
+                                        <Icon name={menu.nameIcon} size={size} color={'#ef6c00'} style={{ alignSelf: "flex-start" }} />
+                                    )}
                                     onPress={() => menu.navigate()}
                                     labelStyle={{ display: "flex", width: 160, textAlign: "left" }}
                                     style={{ display: "flex", alignItems: "flex-end", alignContent: "center" }}
-
                                 />
                             )
                         })
@@ -108,8 +113,8 @@ export const DrawContent = (props: Props) => {
                     <View style={styles.subPreferences}>
                         <Caption children={<Text>{translate('theme_menu')}</Text>} />
                         <Switch value={SwitchDarkTheme} onValueChange={props.toggleTheme}
-                            trackColor={{ true: "#ffa000", false: "#e0e0e0" }}
-                            thumbColor="#ef6c00"
+                            trackColor={{ true: "#12B06E", false: "#e0e0e0" }}
+                            thumbColor="#0CF092"
                         />
                     </View>
                 </View>

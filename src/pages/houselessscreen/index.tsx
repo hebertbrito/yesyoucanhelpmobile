@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, View, ScrollView } from 'react-native';
-import { useTheme, Text, Title, TextInput, RadioButton, Button, Paragraph, Subheading } from 'react-native-paper'
+import { useTheme, Text, Title, TextInput, RadioButton, Button, Paragraph, Subheading, Headline, Divider } from 'react-native-paper'
 import Geolocation from 'react-native-geolocation-service';
 import * as Animatable from 'react-native-animatable'
 import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { GeolocationUI } from '../../models/Geolocation'
+
+import { FormLocation } from '../../components/formlocation'
+
+import { GeolocationUI } from '../../models/Geolocation';
+
 import styles from './styles'
 
 const HouseLessScreen = () => {
@@ -68,7 +72,7 @@ const HouseLessScreen = () => {
         <SafeAreaView style={styles.safeView}>
             <ScrollView style={styles.scrollContainer} contentContainerStyle={styles.contentContainerStyle}>
                 <View style={styles.viewTitle}>
-                    <Title>Inform Houseless</Title>
+                    <Headline>Inform Houseless</Headline>
                 </View>
                 {geolocalization &&
                     <>
@@ -85,12 +89,12 @@ const HouseLessScreen = () => {
                         keyboardType="email-address"
                         style={{ margin: 10, color: `${paperTheme.colors.text}`, width: '60%' }}
                         focusable={false}
-                        mode="flat"
+                        mode="outlined"
                         label="Name"
                         underlineColor={paperTheme.colors.text}
                         placeholderTextColor={paperTheme.colors.text}
                         selectionColor={paperTheme.colors.text}
-                        theme={{ colors: { primary: '#fdd835', placeholder: paperTheme.colors.text } }}
+                        theme={{ colors: { primary: '#ef6c00', placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
                     />
                     <TextInput
                         value={description}
@@ -102,14 +106,17 @@ const HouseLessScreen = () => {
                         focusable={false}
                         multiline={true}
                         numberOfLines={4}
-                        mode="flat"
+                        mode="outlined"
                         label="Description *"
                         underlineColor={paperTheme.colors.text}
                         placeholderTextColor={paperTheme.colors.text}
                         selectionColor={paperTheme.colors.text}
-                        theme={{ colors: { primary: '#fdd835', placeholder: paperTheme.colors.text } }}
+                        theme={{ colors: { primary: '#ef6c00', placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
                     />
                 </View>
+
+                <Divider style={{ backgroundColor: paperTheme.colors.accent, width: '90%', height: 1, marginTop: 15, marginBottom: 8 }} />
+
                 <View style={styles.viewCardCheckBox}>
                     <View style={styles.itemCheckBox}>
                         <Text style={{ color: '#000000' }}>Inform Address</Text>
@@ -133,77 +140,24 @@ const HouseLessScreen = () => {
                     </View>
                 </View>
 
-                {checked === "AddAddress" &&
-                    <View style={{ width: '95%' }}>
-                        <TextInput
-                            value={CEP}
-                            onChangeText={text => setCEP(text)}
-                            placeholder="Ex: 00000000"
-                            keyboardAppearance="light"
-                            keyboardType="numeric"
-                            style={{ margin: 10, color: `${paperTheme.colors.text}`, width: '35%' }}
-                            focusable={false}
-                            mode="flat"
-                            label="CEP*"
-                            underlineColor={paperTheme.colors.text}
-                            placeholderTextColor={paperTheme.colors.text}
-                            selectionColor={paperTheme.colors.text}
-                            theme={{ colors: { primary: '#fdd835', placeholder: paperTheme.colors.text } }}
-                        />
-                        <TextInput
-                            value={number}
-                            onChangeText={text => setNumber(text)}
-                            placeholder="Number"
-                            keyboardAppearance="light"
-                            keyboardType="numeric"
-                            style={{ margin: 10, color: `${paperTheme.colors.text}`, width: '30%' }}
-                            focusable={false}
-                            mode="flat"
-                            label="Number *"
-                            underlineColor={paperTheme.colors.text}
-                            placeholderTextColor={paperTheme.colors.text}
-                            selectionColor={paperTheme.colors.text}
-                            theme={{ colors: { primary: '#fdd835', placeholder: paperTheme.colors.text } }}
-                        />
-                        <TextInput
-                            value={street}
-                            onChangeText={text => setStreet(text)}
-                            placeholder="Ex: Rua exemplo dois"
-                            keyboardAppearance="light"
-                            keyboardType="email-address"
-                            style={{ margin: 10, color: `${paperTheme.colors.text}`, width: '60%' }}
-                            focusable={false}
-                            mode="flat"
-                            label="Street *"
-                            underlineColor={paperTheme.colors.text}
-                            placeholderTextColor={paperTheme.colors.text}
-                            selectionColor={paperTheme.colors.text}
-                            theme={{ colors: { primary: '#fdd835', placeholder: paperTheme.colors.text } }}
-                        />
-                        <TextInput
-                            value={neighborhood}
-                            onChangeText={text => setNeighborhood(text)}
-                            placeholder="Neighborhood"
-                            keyboardAppearance="light"
-                            keyboardType="email-address"
-                            style={{ margin: 10, color: `${paperTheme.colors.text}`, width: '50%' }}
-                            focusable={false}
-                            mode="flat"
-                            label="Neighborhood *"
-                            underlineColor={paperTheme.colors.text}
-                            placeholderTextColor={paperTheme.colors.text}
-                            selectionColor={paperTheme.colors.text}
-                            theme={{ colors: { primary: '#fdd835', placeholder: paperTheme.colors.text } }}
-                        />
-                    </View>
+                {checked === "AddAddress" ?
+                    <FormLocation CEP={CEP} setCEP={setCEP}
+                        neighborhood={neighborhood} setNeighborhood={setNeighborhood}
+                        number={number} setNumber={setNumber}
+                        street={street} setStreet={setStreet}
+                    />
+                    :
+                    null
                 }
-                {checked === "GPS" &&
+                {checked === "GPS" ?
                     <Animatable.View style={styles.informationAnimatable} animation="fadeIn" easing="ease-in-out" delay={200}>
                         <Subheading style={{ color: '#e53935' }}>Warning *</Subheading>
                         <Paragraph style={{ color: '#000000' }}>
                             For the best possible use, check if there is an internet connection and if the GPS is turned on, check the app's permissions in the system tools.
                         </Paragraph>
                     </Animatable.View>
+                    :
+                    null
                 }
                 <View style={{ width: "95%", display: "flex", flexDirection: "column" }}>
                     {photo &&
