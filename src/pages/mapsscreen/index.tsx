@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MapView, { Marker, PROVIDER_GOOGLE, Callout } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE, Callout, Circle } from 'react-native-maps';
 import { Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
@@ -40,7 +40,7 @@ const MapsScreen = () => {
     ]
 
     return (
-        <MapView style={{ flex: 1 }} provider={PROVIDER_GOOGLE} initialRegion={region[0]} mapType="hybrid">
+        <MapView style={{ flex: 1 }} provider={PROVIDER_GOOGLE} initialRegion={region[0]} mapType="standard" showsUserLocation={true}>
             <Marker
                 coordinate={region[1]}
             >
