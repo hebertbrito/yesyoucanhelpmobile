@@ -22,9 +22,9 @@ export async function GetUserProfile(user: UserLogin | undefined) {
 
             return objUser
         } else {
-            objUser.message = response.data.message;
+            const message = response.data.message;
 
-            return objUser
+            return message
         }
 
     } catch (error) {

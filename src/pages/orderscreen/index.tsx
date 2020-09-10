@@ -1,21 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { SafeAreaView, View, ScrollView, Keyboard } from 'react-native';
 import { useTheme, Text, Title, Subheading, List, Button, Divider, RadioButton, Headline, TextInput } from 'react-native-paper';
 import { Picker } from '@react-native-community/picker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import AuthContext from '../../context/auth'
 
 //dataOrderMenu
 import { addressesDropdown } from '../../data/dataOrderscreen'
-
 import { FormProduct } from '../../components/formproduct'
+import ListProduct from './listproduct'
+import { GetLatLongByCheckBox } from '../../mocks/getlatlongbycheckbox'
+
+import { MakeContribution } from '../../services/api/MakeContribution'
+import { MakeContributionModel } from '../../models/MakeContribution'
 
 //screens
 import { styles } from './styles'
 
 
-import ListProduct from './listproduct'
-
+const DEFAULTADDRESS = 'Rua Paulo Mazetto, 344 - Paulinia/SP';
 interface ModelList {
+    id: number,
     product: string,
     number: string,
     description: string
@@ -23,35 +28,80 @@ interface ModelList {
 
 const OrderScreen = () => {
     const paperTheme = useTheme();
+    const { user } = useContext(AuthContext);
 
     const [numberInput, setNumberInput] = useState("")
     const [descriptionInput, setDescriptionInput] = useState("")
-    const [dropdownvalueproduct, setDropdownValueProduct] = useState("")
-    const [dropdownvalueaddress, setDropdownValueAddress] = useState("")
-    const [lstProducts, setLstProducts] = useState<any>([] as any);
+    const [dropdownvalueproduct, setDropdownValueProduct] = useState("Clothes")
+    const [dropdownvalueaddress, setDropdownValueAddress] = useState(DEFAULTADDRESS)
+    const [lstProducts, setLstProducts] = useState<Array<ModelList>>([] as Array<ModelList>);
     const [checked, setChecked] = useState('ChoseMPlace');
     const [counterId, setCounterId] = useState<number>(0);
+    const [showError, setShowError] = useState<boolean>(false);
 
-    const iconExclude = () => {
-        return (
-            <Icon name="trash-alt" size={20} color="red" />
-        )
+    function resetStateCard() {
+        setDescriptionInput('');
+        setDropdownValueProduct('Clothes');
+        setNumberInput('');
     }
 
-    const addProduct = () => {
+    function addProduct() {
 
-        setLstProducts([...lstProducts,
-        {
-            id: counterId,
-            product: dropdownvalueproduct,
-            description: descriptionInput,
-            number: numberInput
-        }])
+        if (dropdownvalueproduct.length != 0 && numberInput.length != 0 && descriptionInput.length > 5) {
+
+            setLstProducts([...lstProducts,
+            {
+                id: counterId,
+                product: dropdownvalueproduct,
+                description: descriptionInput,
+                number: numberInput
+            }
+            ])
+            console.log(lstProducts)
+            resetStateCard();
+            setShowError(false);
+
+        } else {
+            setShowError(true)
+        }
 
         setCounterId(counterId + 1)
+
+    }
+
+    function removeItemList(id: number) {
+        lstProducts.forEach(item => {
+            if (item.id == id) {
+                lstProducts.splice(lstProducts.indexOf(item), 1)
+            }
+        });
+        setLstProducts([...lstProducts])
+
         console.log(lstProducts)
     }
 
+    async function SendProducts() {
+        try {
+
+            if (lstProducts.length != 0) {
+
+                const returnLocation = GetLatLongByCheckBox(checked, dropdownvalueaddress);
+
+                const dataRequest: MakeContributionModel = {
+                    idDocument: user?.idDocument!,
+                    lat: returnLocation.lat,
+                    long: returnLocation.long,
+                    products: lstProducts
+                }
+
+                await MakeContribution(user, dataRequest)
+
+            }
+
+        } catch (error) {
+
+        }
+    }
 
     return (
         <ScrollView style={styles.containerSafe}
@@ -73,10 +123,10 @@ const OrderScreen = () => {
             <FormProduct dropdownvalueproduct={dropdownvalueproduct} setDropdownValueProduct={setDropdownValueProduct}
                 numberInput={numberInput} setNumberInput={setNumberInput}
                 descriptionInput={descriptionInput} setDescriptionInput={setDescriptionInput}
-                addProduct={addProduct}
+                addProduct={addProduct} showError={showError}
             />
 
-            {<ListProduct lstProducts={lstProducts} />}
+            {<ListProduct lstProducts={lstProducts} removeItemList={removeItemList} />}
 
 
             <Divider style={{ backgroundColor: paperTheme.colors.accent, width: '95%', height: 1, marginTop: 15, marginBottom: 8 }} />
@@ -134,7 +184,7 @@ const OrderScreen = () => {
                     <Button icon={() => <Icon name='paper-plane' size={20} />}
                         mode="contained" color="#76ff03"
                         style={{ width: '55%', alignSelf: "center", marginBottom: 10, marginTop: 15 }}
-                        onPress={() => { }}
+                        onPress={() => SendProducts()}
                     >
                         Send
                         </Button>

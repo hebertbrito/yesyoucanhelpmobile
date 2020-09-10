@@ -8,19 +8,22 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { styles } from './styles'
 
 interface ModelList {
-    id: string,
+    id: number,
     number: string,
     description: string,
-    product: string
+    product: string,
 }
 
 interface Props {
-    lstProducts: ModelList[]
+    lstProducts: ModelList[],
+    removeItemList(id: number): any
 }
 
 const ListProduct = (props: Props) => {
 
     const paperTheme = useTheme();
+
+    const { lstProducts, removeItemList } = props;
 
     const iconExclude = () => {
         return (
@@ -28,7 +31,7 @@ const ListProduct = (props: Props) => {
         )
     }
 
-    if (props.lstProducts.length > 0) {
+    if (lstProducts.length > 0) {
         return (
             <>
                 <Divider style={{ backgroundColor: paperTheme.colors.accent, width: '95%', height: 1, marginTop: 15, marginBottom: 8 }} />
@@ -42,7 +45,7 @@ const ListProduct = (props: Props) => {
                         nestedScrollEnabled={true}
                     >
 
-                        {props.lstProducts.map(item => {
+                        {lstProducts.map(item => {
                             return (
                                 <View key={item.id} style={{ width: '100%' }}>
                                     <View style={styles.scrollViewDisplay}>
@@ -57,7 +60,7 @@ const ListProduct = (props: Props) => {
                                             </View>
                                             <IconButton
                                                 icon={() => <Icon name="trash-alt" size={20} color="red" />}
-                                                onPress={() => console.log('Pressed')}
+                                                onPress={() => removeItemList(item.id)}
                                                 animated={true}
                                             />
                                         </View>

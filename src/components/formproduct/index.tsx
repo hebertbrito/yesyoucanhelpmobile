@@ -15,7 +15,8 @@ interface FormProduct {
     setNumberInput: React.Dispatch<React.SetStateAction<string>>,
     descriptionInput: string,
     setDescriptionInput: React.Dispatch<React.SetStateAction<string>>,
-    addProduct(): void
+    addProduct(): void,
+    showError: boolean
 }
 
 export function FormProduct(props: FormProduct) {
@@ -23,7 +24,7 @@ export function FormProduct(props: FormProduct) {
     const paperTheme = useTheme();
 
     const { dropdownvalueproduct, setDropdownValueProduct, numberInput, setNumberInput,
-        descriptionInput, setDescriptionInput, addProduct
+        descriptionInput, setDescriptionInput, addProduct, showError
     } = props;
 
     return (
@@ -60,15 +61,16 @@ export function FormProduct(props: FormProduct) {
                         mode="outlined"
                         value={numberInput}
                         onChangeText={text => setNumberInput(text)}
-                        placeholder="XX,X / X"
+                        placeholder="00,0-0"
                         label="Size/Quantity*"
                         keyboardType="number-pad"
-                        maxLength={3}
+                        maxLength={6}
                         underlineColorAndroid={paperTheme.colors.text}
                         placeholderTextColor={paperTheme.colors.text}
                         style={{ width: '48%', color: paperTheme.colors.text, height: 50 }}
                         theme={{ colors: { placeholder: paperTheme.colors.text } }}
                         returnKeyType="next"
+                        error={numberInput.length == 0 && showError ? true : false}
                     />
                 </View>
 
@@ -87,6 +89,8 @@ export function FormProduct(props: FormProduct) {
                         style={{ color: paperTheme.colors.text, width: '96%' }}
                         theme={{ colors: { placeholder: paperTheme.colors.text } }}
                         returnKeyType="next"
+                        error={numberInput.length < 5 && showError ? true : false}
+
                     />
                 </View>
 
