@@ -103,7 +103,7 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         alignContent: "center",
-        backgroundColor: '#ef6c00',
+        backgroundColor: '#12B36B',
         justifyContent: "center",
         borderRadius: 10,
         width: '45%'

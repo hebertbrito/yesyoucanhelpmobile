@@ -25,7 +25,8 @@ const styles = StyleSheet.create({
         paddingLeft: '2%',
         marginTop: 20,
         marginBottom: 10,
-        backgroundColor: "#e0e0e0"
+        backgroundColor: "#e0e0e0",
+        elevation: 2
     },
     containerButton: {
         width: '100%',

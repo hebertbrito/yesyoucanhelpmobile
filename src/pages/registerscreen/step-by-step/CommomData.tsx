@@ -37,11 +37,23 @@ export function CommomData(props: DataCommum) {
     return (
         <Animatable.View style={{ justifyContent: "center", margin: 5, width: '90%' }} easing={"ease-in-out"} animation="fadeInLeft" useNativeDriver={true}>
 
-            <Card style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-evenly", flexDirection: "column" }}>
-                <Card.Content >
+            <Card style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-evenly", flexDirection: "column", elevation: 4, backgroundColor: '#eeeeee' }}
+            >
+                <Card.Content style={{ backgroundColor: '#eeeeee' }}>
                     <Title style={{ color: '#000000' }}>Commom data</Title>
                     <View style={styles.viewCardCheckBox}>
-                        <View style={styles.itemCheckBox}>
+                        <View style={{
+                            paddingLeft: "2.5%",
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            alignContent: "center",
+                            backgroundColor: theme.colors.onSurface,
+                            justifyContent: "center",
+                            borderRadius: 10,
+                            width: '45%',
+                            elevation: 2
+                        }}>
                             <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>Physical person</Text>
                             <RadioButton
                                 value={typeuser}
@@ -51,7 +63,18 @@ export function CommomData(props: DataCommum) {
                                 uncheckedColor={'#000000'}
                             />
                         </View>
-                        <View style={styles.itemCheckBox}>
+                        <View style={{
+                            paddingLeft: "2.5%",
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            alignContent: "center",
+                            backgroundColor: theme.colors.onSurface,
+                            justifyContent: "center",
+                            borderRadius: 10,
+                            width: '45%',
+                            elevation: 2
+                        }}>
                             <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>Legal person</Text>
                             <RadioButton
                                 value={typeuser}
@@ -73,7 +96,7 @@ export function CommomData(props: DataCommum) {
                             style={{ marginTop: 10, width: '96.5%' }}
                             selectionColor={theme.colors.text}
                             placeholderTextColor={theme.colors.text}
-                            theme={{ colors: { primary: '#ef6c00', placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
+                            theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
                             maxLength={20}
                             mode="outlined"
                             returnKeyType="next"
@@ -89,7 +112,7 @@ export function CommomData(props: DataCommum) {
                             keyboardType="email-address"
                             style={{ marginTop: 10, width: '96.5%' }}
                             placeholderTextColor={theme.colors.text}
-                            theme={{ colors: { primary: '#ef6c00', placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
+                            theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
                             maxLength={20}
                             mode="outlined"
                             returnKeyType="next"
@@ -108,7 +131,7 @@ export function CommomData(props: DataCommum) {
                                 keyboardType="numeric"
                                 style={{ marginTop: 10, width: '50%' }}
                                 placeholderTextColor={theme.colors.text}
-                                theme={{ colors: { primary: '#ef6c00', placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
+                                theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
                                 maxLength={20}
                                 mode="outlined"
                             />

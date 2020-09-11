@@ -97,7 +97,7 @@ export const DrawContent = (props: Props) => {
                             return (
                                 <DrawerItem key={menu.labelName} label={translate(menu.labelName)}
                                     icon={({ color, size }) => (
-                                        <Icon name={menu.nameIcon} size={size} color={'#ef6c00'} style={{ alignSelf: "flex-start" }} />
+                                        <Icon name={menu.nameIcon} size={size} color={paperTheme.colors.primary} style={{ alignSelf: "flex-start" }} />
                                     )}
                                     onPress={() => menu.navigate()}
                                     labelStyle={{ display: "flex", width: 160, textAlign: "left" }}

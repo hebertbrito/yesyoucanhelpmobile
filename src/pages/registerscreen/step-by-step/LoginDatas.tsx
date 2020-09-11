@@ -22,13 +22,13 @@ export function LoginDatas(props: LoginDatas) {
 
     return (
         <Animatable.View style={{ justifyContent: "center", marginTop: 5, width: '90%' }} easing="ease-in-out" animation="fadeInRight" useNativeDriver={true}>
-            <Card>
-                <Card.Content>
+            <Card style={{ backgroundColor: '#eeeeee', elevation: 4 }}>
+                <Card.Content style={{ backgroundColor: '#eeeeee' }}>
                     <Title style={{ color: '#000000' }}> Login Datas</Title>
 
                     <View style={{
                         width: '100%',
-                        backgroundColor: '#FFFFFFFF',
+                        backgroundColor: '#eeeeee',
                         alignItems: "center", justifyContent: "center"
                     }}>
                         <View style={{ display: "flex", alignItems: "center" }}>
@@ -58,7 +58,7 @@ export function LoginDatas(props: LoginDatas) {
                             placeholderTextColor={theme.colors.text}
                             maxLength={50}
                             mode="outlined"
-                            theme={{ colors: { primary: '#ef6c00', placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
+                            theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
                         />
 
                         <TextInput
@@ -71,7 +71,7 @@ export function LoginDatas(props: LoginDatas) {
                             placeholderTextColor={theme.colors.text}
                             selectionColor={theme.colors.text}
                             mode="outlined"
-                            theme={{ colors: { primary: '#ef6c00', placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
+                            theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
                         />
                     </View>
                 </Card.Content>

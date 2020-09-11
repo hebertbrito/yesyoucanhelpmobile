@@ -16,7 +16,7 @@ interface FormProduct {
     descriptionInput: string,
     setDescriptionInput: React.Dispatch<React.SetStateAction<string>>,
     addProduct(): void,
-    showError: boolean
+    showError: boolean,
 }
 
 export function FormProduct(props: FormProduct) {
@@ -31,12 +31,12 @@ export function FormProduct(props: FormProduct) {
         <>
             <View style={{
                 width: '85%', height: 210, marginTop: '3%', marginBottom: '4%',
-                borderRadius: 20, backgroundColor: paperTheme.colors.background, shadowColor: paperTheme.colors.background,
-                shadowOffset: { width: 0, height: 12 }, shadowOpacity: 0.58, shadowRadius: 16.00, elevation: 24, display: "flex",
-                flexDirection: "column"
+                borderRadius: 20, backgroundColor: paperTheme.colors.background, shadowColor: '#FAFAFA',
+                shadowOffset: { width: 0, height: 12 }, shadowOpacity: 1, shadowRadius: 16.00, elevation: 20, display: "flex",
+                flexDirection: "column",
             }}>
                 <View style={{
-                    width: '100%', alignItems: "center", backgroundColor: paperTheme.colors.primary,
+                    width: '100%', alignItems: "center", backgroundColor: paperTheme.colors.surface,
                     borderTopLeftRadius: 20, borderTopRightRadius: 20, height: '20%', justifyContent: "center"
                 }}>
                     <Title style={{ color: '#fafafa' }}>
@@ -68,7 +68,7 @@ export function FormProduct(props: FormProduct) {
                         underlineColorAndroid={paperTheme.colors.text}
                         placeholderTextColor={paperTheme.colors.text}
                         style={{ width: '48%', color: paperTheme.colors.text, height: 50 }}
-                        theme={{ colors: { placeholder: paperTheme.colors.text } }}
+                        theme={{ colors: { placeholder: paperTheme.colors.text, primary: paperTheme.colors.surface } }}
                         returnKeyType="next"
                         error={numberInput.length == 0 && showError ? true : false}
                     />
@@ -87,11 +87,11 @@ export function FormProduct(props: FormProduct) {
                         underlineColorAndroid={paperTheme.colors.text}
                         placeholderTextColor={paperTheme.colors.text}
                         style={{ color: paperTheme.colors.text, width: '96%' }}
-                        theme={{ colors: { placeholder: paperTheme.colors.text } }}
+                        theme={{ colors: { placeholder: paperTheme.colors.text, primary: paperTheme.colors.surface } }}
                         returnKeyType="next"
                         error={numberInput.length < 5 && showError ? true : false}
-
                     />
+
                 </View>
 
             </View>
@@ -99,7 +99,10 @@ export function FormProduct(props: FormProduct) {
             <Button mode="outlined"
                 onPress={() => { addProduct() }}
                 icon={() => <Icon size={13} name="plus" color={paperTheme.colors.text} />}
-                style={{ width: '40%', padding: 2, alignSelf: "center", justifyContent: "space-evenly", borderWidth: 1, borderColor: paperTheme.colors.text }}
+                style={{
+                    width: '40%', padding: 2, alignSelf: "center", justifyContent: "space-evenly",
+                    borderWidth: 1, borderColor: paperTheme.colors.text
+                }}
                 color={paperTheme.colors.text}
             >
                 Product

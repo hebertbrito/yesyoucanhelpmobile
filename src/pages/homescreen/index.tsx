@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 
 //componentes
 import { ProgressBarComponent } from '../../components/progressbar'
-import { ButtonCommum } from '../../components/buttonCommum'
+import { } from '../../components/buttons'
 import { ButtonDrawer } from '../../components/buttonDrawer'
 
 const HomeScreen = ({ ...props }) => {
@@ -26,7 +26,6 @@ const HomeScreen = ({ ...props }) => {
                     <ProgressBarComponent title="Contributions" value={4} />
                     <ProgressBarComponent title="Requests" value={6} />
                 </View>
-                <ButtonCommum {...props} nameButton="Contribuition" width="50%" height={40} iconName="hands-helping" navigate={navigate} screenNameNavigate="ContributionScreen" colorHexa="#ef6c00" />
 
             </Animatable.View>
 

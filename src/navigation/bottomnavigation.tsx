@@ -30,7 +30,8 @@ function BottomNavigator({ ...props }) {
             backBehavior="history"
             keyboardHidesNavigationBar={true}
             sceneAnimationEnabled={true}
-
+            style={{ elevation: 8 }}
+            barStyle={{ elevation: 8 }}
         >
             <Tab.Screen
                 name="HomeScreen"
@@ -40,7 +41,7 @@ function BottomNavigator({ ...props }) {
                     tabBarLabel: `${translate('home_menu')}`,
                     tabBarColor: '#1a237e',
                     tabBarIcon: ({ color }) => (
-                        <Icon name="home" color='#ef6c00' size={20} />
+                        <Icon name="home" color={paperTheme.colors.primary} size={20} />
                     ),
                 }}
             />
@@ -52,7 +53,7 @@ function BottomNavigator({ ...props }) {
                     tabBarLabel: `${translate('ask_contribution_menu')}`,
                     tabBarColor: '#251F3D',
                     tabBarIcon: ({ color }) => (
-                        <Icon name="hand-holding" color='#ef6c00' size={20} />
+                        <Icon name="hand-holding" color={paperTheme.colors.primary} size={20} />
                     ),
                 }}
             />
@@ -63,7 +64,7 @@ function BottomNavigator({ ...props }) {
                     tabBarLabel: `${translate('inform_houseless')}`,
                     tabBarColor: '#004d40',
                     tabBarIcon: ({ color }) => (
-                        <Icon name="user-injured" color='#ef6c00' size={20} />
+                        <Icon name="user-injured" color={paperTheme.colors.primary} size={20} />
                     ),
                 }}
             />
@@ -74,7 +75,7 @@ function BottomNavigator({ ...props }) {
                     tabBarLabel: `${translate('contribution_menu')}`,
                     tabBarColor: '#7D7240',
                     tabBarIcon: ({ color }) => (
-                        <Icon name="hands-helping" color='#ef6c00' size={20} />
+                        <Icon name="hands-helping" color={paperTheme.colors.primary} size={20} />
                     ),
                 }}
             />

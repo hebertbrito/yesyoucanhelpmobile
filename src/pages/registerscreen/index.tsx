@@ -6,6 +6,8 @@ import ImagePicker, { ImagePickerResponse } from 'react-native-image-picker';
 
 import { styles } from './styles';
 
+import { MainButton } from '../../components/buttons'
+
 import { CommomData, IdentificationInfo, AddressInfo, LoginDatas } from './step-by-step';
 import { SearchCEP } from '../../services/SearchCEP';
 import { CEPjson } from 'src/models/CEPjson';
@@ -167,7 +169,7 @@ function RegisterScreen({ ...props }) {
 
     }
 
-    async function testeInsertUser() {
+    async function InsertUser() {
         try {
 
             setObjUser({
@@ -196,7 +198,7 @@ function RegisterScreen({ ...props }) {
 
 
         } catch (error) {
-
+            console.log(error)
         }
     }
 
@@ -292,14 +294,7 @@ function RegisterScreen({ ...props }) {
 
                 <View style={{ display: "flex", flexDirection: "column", width: '90%', justifyContent: "center", padding: 10, marginTop: 5 }}>
                     {step === 4 ?
-                        <Button mode="contained"
-                            onPress={() => testeInsertUser()}
-                            icon={() => <Icon size={15} name='paper-plane' color='#000000' />}
-                            style={{ width: '50%', padding: 2, alignSelf: "center", justifyContent: "space-evenly" }}
-                            color="#76ff03"
-                        >
-                            Send
-                        </Button>
+                        <MainButton MainActionScreen={InsertUser} />
                         :
                         null
                     }
@@ -308,7 +303,7 @@ function RegisterScreen({ ...props }) {
                     <Button mode="text"
                         onPress={() => { }}
                         style={{ width: '50%', padding: 2, alignSelf: "center", justifyContent: "space-evenly" }}
-                        color="#ff3d00"
+                        color={theme.colors.notification}
                     >
                         Cancel
                     </Button>

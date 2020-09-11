@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View } from 'react-native';
+import { SafeAreaView, View, Keyboard } from 'react-native';
 import { Text, useTheme, Title, Subheading, Button, Divider, RadioButton, TextInput, Paragraph } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Geolocation from 'react-native-geolocation-service';
 import * as Animatable from 'react-native-animatable'
 
-import ListProduct from '../orderscreen/listproduct'
-import { FormProduct } from '../../components/formproduct'
-import { FormLocation } from '../../components/formlocation'
-
 import { styles } from './styles'
+
+import { SearchCEP } from '../../services/SearchCEP';
+import { SearchGeocoding } from '../../services/SearchGeocoding'
+
+import ListProduct from '../orderscreen/listproduct';
+import { FormProduct } from '../../components/formproduct';
+import { FormLocation } from '../../components/formlocation';
+import { MainButton } from '../../components/buttons'
+
 import { GeolocationUI } from 'src/models/Geolocation';
+import { ModelList } from '../../models/ModelList';
+import { CEPjson } from '../../models/CEPjson';
 
 const AskContributionScreen = () => {
 
@@ -20,16 +27,17 @@ const AskContributionScreen = () => {
     const [numberInput, setNumberInput] = useState("")
     const [descriptionInput, setDescriptionInput] = useState("")
     const [dropdownvalueproduct, setDropdownValueProduct] = useState("")
-    const [lstProducts, setLstProducts] = useState<any>([]);
+    const [lstProducts, setLstProducts] = useState<Array<ModelList>>([] as Array<ModelList>);
     const [checked, setChecked] = useState('TypeLocation');
-
     const [CEP, setCEP] = useState('');
     const [number, setNumber] = useState('');
     const [street, setStreet] = useState('');
     const [neighborhood, setNeighborhood] = useState('');
     const [geolocalization, setGeolocalization] = useState<GeolocationUI>();
     const [counterId, setCounterId] = useState<number>(0);
-
+    const [showError, setShowError] = useState<boolean>(false);
+    const [cepJSON, setCEPJSON] = useState<CEPjson | undefined>({} as CEPjson);
+    const [city, setCity] = useState("");
 
     const addProduct = () => {
 
@@ -58,6 +66,59 @@ const AskContributionScreen = () => {
         GetLocation()
     }, [])
 
+    function removeItemList(id: number) {
+        lstProducts.forEach(item => {
+            if (item.id == id) {
+                lstProducts.splice(lstProducts.indexOf(item), 1)
+            }
+        });
+        setLstProducts([...lstProducts])
+
+        console.log(lstProducts)
+    }
+
+    useEffect(() => {
+
+        async function executeSearchCEP() {
+            try {
+                if (CEP.length == 8) {
+                    const response = await SearchCEP(CEP);
+                    if (response) {
+                        setCEPJSON(response);
+                    }
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        executeSearchCEP();
+
+    }, [CEP])
+
+    useEffect(() => {
+
+        if (cepJSON) {
+            Keyboard.dismiss()
+            setStreet(cepJSON.logradouro!)
+            setCity(cepJSON.localidade!);
+            setNeighborhood(cepJSON.bairro!);
+
+        }
+
+    }, [cepJSON])
+
+    async function searchLatLongByAddress() {
+        try {
+
+            const pathAddress = `${street},${number}`
+            await SearchGeocoding(pathAddress);
+
+        } catch (error) {
+
+        }
+    }
+
     return (
         <SafeAreaView style={styles.safeView}>
             <ScrollView style={{ width: '100%' }} contentContainerStyle={{ display: "flex", flexGrow: 1, alignContent: "center", alignItems: "center" }}>
@@ -73,10 +134,10 @@ const AskContributionScreen = () => {
                 <FormProduct dropdownvalueproduct={dropdownvalueproduct} setDropdownValueProduct={setDropdownValueProduct}
                     numberInput={numberInput} setNumberInput={setNumberInput}
                     descriptionInput={descriptionInput} setDescriptionInput={setDescriptionInput}
-                    addProduct={addProduct}
+                    addProduct={addProduct} showError={showError}
                 />
 
-                {<ListProduct lstProducts={lstProducts} />}
+                {<ListProduct lstProducts={lstProducts} removeItemList={removeItemList} />}
 
 
                 <Divider style={{ backgroundColor: paperTheme.colors.accent, width: '95%', height: 1, marginTop: 15, marginBottom: 8 }} />
@@ -93,7 +154,18 @@ const AskContributionScreen = () => {
                     >
                         Inform Location</Subheading>
                     <View style={styles.viewCardCheckBox}>
-                        <View style={styles.itemCheckBox}>
+                        <View style={{
+                            paddingLeft: "2.5%",
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            alignContent: "center",
+                            backgroundColor: paperTheme.colors.onSurface,
+                            justifyContent: "center",
+                            borderRadius: 10,
+                            width: '45%',
+                            elevation: 2
+                        }}>
                             <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>Type the location</Text>
                             <RadioButton
                                 value="TypeLocation"
@@ -103,7 +175,18 @@ const AskContributionScreen = () => {
                                 uncheckedColor={'#000000'}
                             />
                         </View>
-                        <View style={styles.itemCheckBox}>
+                        <View style={{
+                            paddingLeft: "2.5%",
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            alignContent: "center",
+                            backgroundColor: paperTheme.colors.onSurface,
+                            justifyContent: "center",
+                            borderRadius: 10,
+                            width: '45%',
+                            elevation: 2
+                        }}>
                             <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>Use GPS</Text>
                             <RadioButton
                                 value="AskUseGPS"
@@ -119,7 +202,7 @@ const AskContributionScreen = () => {
                         <FormLocation CEP={CEP} setCEP={setCEP}
                             number={number} setNumber={setNumber}
                             neighborhood={neighborhood} setNeighborhood={setNeighborhood}
-                            street={street} setStreet={setStreet}
+                            street={street} setStreet={setStreet} city={city} setCity={setCity}
                         />
                         :
                         null
@@ -134,13 +217,7 @@ const AskContributionScreen = () => {
                     }
 
                     <View style={{ width: '95%' }}>
-                        <Button icon={() => <Icon name='paper-plane' size={20} />}
-                            mode="contained" color="#76ff03"
-                            style={{ width: '55%', alignSelf: "center", marginBottom: 10, marginTop: 15 }}
-                            onPress={() => { }}
-                        >
-                            Send
-                        </Button>
+                        <MainButton MainActionScreen={searchLatLongByAddress} />
                     </View>
                 </View>
 

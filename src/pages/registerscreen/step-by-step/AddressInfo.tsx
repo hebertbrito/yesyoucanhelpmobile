@@ -30,8 +30,8 @@ export function AddressInfo(props: AddressInfo) {
 
     return (
         <Animatable.View style={{ justifyContent: "center", margin: 5, width: '90%' }} easing={"ease-in-out"} animation="fadeInLeft" useNativeDriver={true}>
-            <Card>
-                <Card.Content>
+            <Card style={{ backgroundColor: '#eeeeee', elevation: 4 }}>
+                <Card.Content style={{ backgroundColor: '#eeeeee' }}>
                     <Title style={{ color: '#000000' }}>Address Info</Title>
                     <View style={{ display: "flex", flexDirection: "column" }}>
                         <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
@@ -43,7 +43,7 @@ export function AddressInfo(props: AddressInfo) {
                                 keyboardType="default"
                                 style={{ marginTop: 10, width: '50%' }}
                                 placeholderTextColor={theme.colors.text}
-                                theme={{ colors: { primary: '#ef6c00', placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
+                                theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
                                 maxLength={8}
                                 mode="outlined"
                             />
@@ -55,7 +55,7 @@ export function AddressInfo(props: AddressInfo) {
                                 keyboardType="numeric"
                                 style={{ marginTop: 10, width: '45%' }}
                                 placeholderTextColor={theme.colors.text}
-                                theme={{ colors: { primary: '#ef6c00', placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
+                                theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
                                 maxLength={10}
                                 mode="outlined"
                             />
@@ -70,7 +70,7 @@ export function AddressInfo(props: AddressInfo) {
                                 keyboardType="email-address"
                                 style={{ marginTop: 10, width: '100%' }}
                                 placeholderTextColor={theme.colors.text}
-                                theme={{ colors: { primary: '#ef6c00', placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
+                                theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
                                 maxLength={50}
                                 mode="outlined"
                             />
@@ -82,7 +82,7 @@ export function AddressInfo(props: AddressInfo) {
                                 keyboardType="default"
                                 style={{ marginTop: 10, width: '100%' }}
                                 placeholderTextColor={theme.colors.text}
-                                theme={{ colors: { primary: '#ef6c00', placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
+                                theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
                                 maxLength={50}
                                 mode="outlined"
                             />
@@ -97,7 +97,7 @@ export function AddressInfo(props: AddressInfo) {
                                 keyboardType="email-address"
                                 style={{ marginTop: 10, width: '45%' }}
                                 placeholderTextColor={theme.colors.text}
-                                theme={{ colors: { primary: '#ef6c00', placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
+                                theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
                                 maxLength={30}
                                 mode="outlined"
                             />
@@ -110,7 +110,7 @@ export function AddressInfo(props: AddressInfo) {
                                 keyboardType="default"
                                 style={{ marginTop: 10, width: '25%' }}
                                 placeholderTextColor={theme.colors.text}
-                                theme={{ colors: { primary: '#ef6c00', placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
+                                theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
                                 maxLength={2}
                                 mode="outlined"
                             />
@@ -123,7 +123,7 @@ export function AddressInfo(props: AddressInfo) {
                                 keyboardType="default"
                                 style={{ marginTop: 10, width: '25%' }}
                                 placeholderTextColor={theme.colors.text}
-                                theme={{ colors: { primary: '#ef6c00', placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
+                                theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
                                 maxLength={2}
                                 mode="outlined"
                             />

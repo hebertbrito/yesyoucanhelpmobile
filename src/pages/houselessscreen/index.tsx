@@ -7,6 +7,7 @@ import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { FormLocation } from '../../components/formlocation'
+import { MainButton } from '../../components/buttons'
 
 import { GeolocationUI } from '../../models/Geolocation';
 
@@ -31,6 +32,7 @@ const HouseLessScreen = () => {
     const [street, setStreet] = useState('');
     const [neighborhood, setNeighborhood] = useState('');
     const [checked, setChecked] = useState('GPS');
+    const [city, setCity] = useState("");
     const [geolocalization, setGeolocalization] = useState<GeolocationUI>();
 
     async function GetLocation() {
@@ -68,6 +70,14 @@ const HouseLessScreen = () => {
     }
 
 
+    async function Send() {
+        try {
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <SafeAreaView style={styles.safeView}>
             <ScrollView style={styles.scrollContainer} contentContainerStyle={styles.contentContainerStyle}>
@@ -94,7 +104,7 @@ const HouseLessScreen = () => {
                         underlineColor={paperTheme.colors.text}
                         placeholderTextColor={paperTheme.colors.text}
                         selectionColor={paperTheme.colors.text}
-                        theme={{ colors: { primary: '#ef6c00', placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
+                        theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
                     />
                     <TextInput
                         value={description}
@@ -111,14 +121,25 @@ const HouseLessScreen = () => {
                         underlineColor={paperTheme.colors.text}
                         placeholderTextColor={paperTheme.colors.text}
                         selectionColor={paperTheme.colors.text}
-                        theme={{ colors: { primary: '#ef6c00', placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
+                        theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
                     />
                 </View>
 
                 <Divider style={{ backgroundColor: paperTheme.colors.accent, width: '90%', height: 1, marginTop: 15, marginBottom: 8 }} />
 
                 <View style={styles.viewCardCheckBox}>
-                    <View style={styles.itemCheckBox}>
+                    <View style={{
+                        paddingLeft: "2.5%",
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        alignContent: "center",
+                        backgroundColor: paperTheme.colors.onSurface,
+                        justifyContent: "center",
+                        borderRadius: 10,
+                        width: '45%',
+                        elevation: 2
+                    }}>
                         <Text style={{ color: '#000000' }}>Inform Address</Text>
                         <RadioButton
                             value="AddAddress"
@@ -128,7 +149,18 @@ const HouseLessScreen = () => {
                             uncheckedColor={'#000000'}
                         />
                     </View>
-                    <View style={styles.itemCheckBox}>
+                    <View style={{
+                        paddingLeft: "2.5%",
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        alignContent: "center",
+                        backgroundColor: paperTheme.colors.onSurface,
+                        justifyContent: "center",
+                        borderRadius: 10,
+                        width: '45%',
+                        elevation: 2
+                    }}>
                         <Text style={{ color: '#000000' }}>To Use GPS</Text>
                         <RadioButton
                             value="GPS"
@@ -145,6 +177,7 @@ const HouseLessScreen = () => {
                         neighborhood={neighborhood} setNeighborhood={setNeighborhood}
                         number={number} setNumber={setNumber}
                         street={street} setStreet={setStreet}
+                        city={city} setCity={setCity}
                     />
                     :
                     null
@@ -166,30 +199,25 @@ const HouseLessScreen = () => {
                         />
                     }
                     <View style={styles.containerButton}>
-                        <Button icon={() => <Icon name="camera-retro" size={20} />}
-                            mode="contained" style={{ width: '40%' }}
-                            theme={{ colors: { primary: paperTheme.colors.primary } }}
+                        <Button icon={() => <Icon name="camera-retro" size={20} color={paperTheme.colors.surface} />}
+                            mode="outlined" style={{ width: '40%', borderWidth: 1, borderColor: paperTheme.colors.surface }}
+                            theme={{ colors: { primary: paperTheme.colors.surface } }}
                             onPress={() => getImage()}
                         >
                             Chose Image
                         </Button>
                         {photo &&
-                            <Button icon={() => <Icon name="trash-alt" size={20} />}
-                                mode="contained"
-                                color="#e53935" style={{ width: '40%' }}
+                            <Button icon={() => <Icon name="trash-alt" size={20} color={paperTheme.colors.notification} />}
+                                mode="outlined"
+                                style={{ width: '40%', borderWidth: 1, borderColor: paperTheme.colors.notification }}
                                 onPress={() => setPhoto(undefined)}
+                                color={paperTheme.colors.notification}
                             >
                                 Delete Image
-                        </Button>
+                            </Button>
                         }
                     </View>
-                    <Button icon={() => <Icon name='paper-plane' size={20} />}
-                        mode="contained" color="#76ff03"
-                        style={{ width: '55%', alignSelf: "center", marginBottom: 10, marginTop: 15 }}
-                        onPress={() => { }}
-                    >
-                        Send
-                        </Button>
+                    <MainButton MainActionScreen={Send} />
                 </View>
             </ScrollView>
         </SafeAreaView>

@@ -55,7 +55,10 @@ class DrawNavigation extends React.Component {
       ...PaperDefaultTheme.colors,
       background: '#fafafa',
       text: '#000000',
-      accent: '#D2D2D2'
+      accent: '#D2D2D2',
+      primary: '#ff6f00',
+      surface: '#0D64FF',
+      onSurface: '#0DFF94'
     }
   }
 
@@ -67,7 +70,10 @@ class DrawNavigation extends React.Component {
       ...NavigationDefaultTheme.colors,
       background: '#212121',
       text: '#fafafa',
-      accent: '#757575'
+      accent: '#757575',
+      primary: '#c43e00',
+      surface: '#124BB3',
+      onSurface: '#12B36B'
     }
   }
 
@@ -145,7 +151,7 @@ class DrawNavigation extends React.Component {
     return (
       <PaperProvider theme={isDarkTheme} {...this.props}>
         <NavigationContainer theme={isDarkTheme} {...this.props}>
-          <StatusBar animated={true} backgroundColor={'#ef6c00'} />
+          <StatusBar animated={true} backgroundColor={isDarkTheme.colors.primary} />
           <AuthProvider>
             {/* <Drawer.Navigator initialRouteName="Login"
               backBehavior="none"

@@ -22,8 +22,8 @@ export function IdentificationInfo(props: IdentificationInfo) {
     return (
         < Animatable.View style={{ justifyContent: "center", margin: 5, width: '90%' }}
             animation="fadeInRight" useNativeDriver={true} easing={"ease-in-out"}>
-            <Card style={{ display: "flex", flexDirection: "column", width: '100%', justifyContent: "center", paddingLeft: '3%' }}>
-                <Card.Content>
+            <Card style={{ display: "flex", flexDirection: "column", width: '100%', backgroundColor: '#eeeeee', elevation: 4 }}>
+                <Card.Content style={{ backgroundColor: '#eeeeee' }}>
                     <Title style={{ color: '#000000' }}>Identification Info</Title>
                     <TextInput
                         value={cpf_cnpj}
@@ -33,7 +33,7 @@ export function IdentificationInfo(props: IdentificationInfo) {
                         keyboardType="numeric"
                         style={{ marginTop: 10, width: '96.5%' }}
                         placeholderTextColor={theme.colors.text}
-                        theme={{ colors: { primary: '#ef6c00', placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
+                        theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
                         maxLength={15}
                         mode="outlined"
                     />
@@ -47,7 +47,7 @@ export function IdentificationInfo(props: IdentificationInfo) {
                             keyboardType="numeric"
                             style={{ marginTop: 10, width: '96.5%' }}
                             placeholderTextColor={theme.colors.text}
-                            theme={{ colors: { primary: '#ef6c00', placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
+                            theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
                             maxLength={10}
                             mode="outlined"
                         />
@@ -63,7 +63,7 @@ export function IdentificationInfo(props: IdentificationInfo) {
                         keyboardType="numeric"
                         style={{ marginTop: 10, width: '96.5%' }}
                         placeholderTextColor={theme.colors.text}
-                        theme={{ colors: { primary: '#ef6c00', placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
+                        theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
                         maxLength={11}
                         mode="outlined"
                     />

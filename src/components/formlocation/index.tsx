@@ -11,7 +11,9 @@ interface FormLocation {
     street: string,
     setStreet: React.Dispatch<React.SetStateAction<string>>,
     neighborhood: string,
-    setNeighborhood: React.Dispatch<React.SetStateAction<string>>
+    setNeighborhood: React.Dispatch<React.SetStateAction<string>>,
+    city: string,
+    setCity: React.Dispatch<React.SetStateAction<string>>
 }
 
 export function FormLocation(props: FormLocation) {
@@ -19,7 +21,8 @@ export function FormLocation(props: FormLocation) {
     const paperTheme = useTheme();
 
     const { CEP, setCEP, number, setNumber,
-        neighborhood, setNeighborhood, street, setStreet
+        neighborhood, setNeighborhood, street, setStreet,
+        city, setCity
     } = props;
 
     return (
@@ -34,7 +37,7 @@ export function FormLocation(props: FormLocation) {
                         keyboardType="default"
                         style={{ marginTop: 10, width: '50%' }}
                         placeholderTextColor={paperTheme.colors.text}
-                        theme={{ colors: { primary: '#ef6c00', placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
+                        theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
                         maxLength={8}
                         mode="outlined"
                     />
@@ -46,7 +49,7 @@ export function FormLocation(props: FormLocation) {
                         keyboardType="numeric"
                         style={{ marginTop: 10, width: '45%' }}
                         placeholderTextColor={paperTheme.colors.text}
-                        theme={{ colors: { primary: '#ef6c00', placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
+                        theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
                         maxLength={10}
                         mode="outlined"
                     />
@@ -61,7 +64,7 @@ export function FormLocation(props: FormLocation) {
                         keyboardType="email-address"
                         style={{ marginTop: 10, width: '100%' }}
                         placeholderTextColor={paperTheme.colors.text}
-                        theme={{ colors: { primary: '#ef6c00', placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
+                        theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
                         maxLength={50}
                         mode="outlined"
                     />
@@ -73,7 +76,19 @@ export function FormLocation(props: FormLocation) {
                         keyboardType="default"
                         style={{ marginTop: 10, width: '100%' }}
                         placeholderTextColor={paperTheme.colors.text}
-                        theme={{ colors: { primary: '#ef6c00', placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
+                        theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
+                        maxLength={50}
+                        mode="outlined"
+                    />
+                    <TextInput
+                        value={city}
+                        onChangeText={text => setCity(text)}
+                        placeholder="Exemple: Sao Paulo"
+                        label="City*"
+                        keyboardType="default"
+                        style={{ marginTop: 10, width: '100%' }}
+                        placeholderTextColor={paperTheme.colors.text}
+                        theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
                         maxLength={50}
                         mode="outlined"
                     />

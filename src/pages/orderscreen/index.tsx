@@ -7,7 +7,8 @@ import AuthContext from '../../context/auth'
 
 //dataOrderMenu
 import { addressesDropdown } from '../../data/dataOrderscreen'
-import { FormProduct } from '../../components/formproduct'
+import { FormProduct } from '../../components/formproduct';
+import { MainButton } from '../../components/buttons'
 import ListProduct from './listproduct'
 import { GetLatLongByCheckBox } from '../../mocks/getlatlongbycheckbox'
 
@@ -143,7 +144,18 @@ const OrderScreen = () => {
                 >
                     Checkpoint</Subheading>
                 <View style={styles.viewCardCheckBox}>
-                    <View style={styles.itemCheckBox}>
+                    <View style={{
+                        paddingLeft: "2.5%",
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        alignContent: "center",
+                        backgroundColor: paperTheme.colors.onSurface,
+                        justifyContent: "center",
+                        borderRadius: 10,
+                        width: '45%',
+                        elevation: 2
+                    }}>
                         <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>Send Product to branch</Text>
                         <RadioButton
                             value="SendBranch"
@@ -153,7 +165,19 @@ const OrderScreen = () => {
                             uncheckedColor={'#000000'}
                         />
                     </View>
-                    <View style={styles.itemCheckBox}>
+                    <View style={{
+                        paddingLeft: "2.5%",
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        alignContent: "center",
+                        backgroundColor: paperTheme.colors.onSurface,
+                        justifyContent: "center",
+                        borderRadius: 10,
+                        width: '45%',
+                        elevation: 2
+
+                    }}>
                         <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>Choose a meeting place</Text>
                         <RadioButton
                             value="ChoseMPlace"
@@ -181,13 +205,7 @@ const OrderScreen = () => {
                     </View>
                 }
                 <View style={{ width: '95%' }}>
-                    <Button icon={() => <Icon name='paper-plane' size={20} />}
-                        mode="contained" color="#76ff03"
-                        style={{ width: '55%', alignSelf: "center", marginBottom: 10, marginTop: 15 }}
-                        onPress={() => SendProducts()}
-                    >
-                        Send
-                        </Button>
+                    <MainButton MainActionScreen={SendProducts} />
                 </View>
             </View>
         </ScrollView >
