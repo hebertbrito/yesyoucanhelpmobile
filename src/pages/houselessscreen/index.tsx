@@ -178,6 +178,7 @@ const HouseLessScreen = () => {
                         number={number} setNumber={setNumber}
                         street={street} setStreet={setStreet}
                         city={city} setCity={setCity}
+                        errorFormLocation={false}
                     />
                     :
                     null

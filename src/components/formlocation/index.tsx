@@ -14,6 +14,7 @@ interface FormLocation {
     setNeighborhood: React.Dispatch<React.SetStateAction<string>>,
     city: string,
     setCity: React.Dispatch<React.SetStateAction<string>>
+    errorFormLocation: boolean
 }
 
 export function FormLocation(props: FormLocation) {
@@ -22,7 +23,7 @@ export function FormLocation(props: FormLocation) {
 
     const { CEP, setCEP, number, setNumber,
         neighborhood, setNeighborhood, street, setStreet,
-        city, setCity
+        city, setCity, errorFormLocation
     } = props;
 
     return (
@@ -34,12 +35,13 @@ export function FormLocation(props: FormLocation) {
                         onChangeText={text => setCEP(text)}
                         placeholder="exemple: 00000111"
                         label="CEP*"
-                        keyboardType="default"
+                        keyboardType="numeric"
                         style={{ marginTop: 10, width: '50%' }}
                         placeholderTextColor={paperTheme.colors.text}
                         theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
                         maxLength={8}
                         mode="outlined"
+                        error={CEP.length != 8 && errorFormLocation ? true : false}
                     />
                     <TextInput
                         value={number}
@@ -52,6 +54,7 @@ export function FormLocation(props: FormLocation) {
                         theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
                         maxLength={10}
                         mode="outlined"
+                        error={number.length == 0 && errorFormLocation ? true : false}
                     />
                 </View>
 
@@ -67,6 +70,7 @@ export function FormLocation(props: FormLocation) {
                         theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
                         maxLength={50}
                         mode="outlined"
+                        error={!neighborhood && errorFormLocation ? true : false}
                     />
                     <TextInput
                         value={street}
@@ -79,6 +83,7 @@ export function FormLocation(props: FormLocation) {
                         theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
                         maxLength={50}
                         mode="outlined"
+                        error={!street && errorFormLocation ? true : false}
                     />
                     <TextInput
                         value={city}
@@ -91,6 +96,7 @@ export function FormLocation(props: FormLocation) {
                         theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
                         maxLength={50}
                         mode="outlined"
+                        error={!city && errorFormLocation ? true : false}
                     />
                 </View>
             </View>

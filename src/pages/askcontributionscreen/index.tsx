@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, Keyboard } from 'react-native';
-import { Text, useTheme, Title, Subheading, Button, Divider, RadioButton, TextInput, Paragraph } from 'react-native-paper';
+import React, { useState, useEffect, useContext } from 'react';
+import { SafeAreaView, View, Keyboard, Alert } from 'react-native';
+import { Text, useTheme, Title, Subheading, Button, Divider, RadioButton, TextInput, Paragraph, Headline } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Geolocation from 'react-native-geolocation-service';
 import * as Animatable from 'react-native-animatable'
+import AuthContext from '../../context/auth'
+import { AskContribution } from '../../services/api/AskContribution'
 
 import { styles } from './styles'
 
 import { SearchCEP } from '../../services/SearchCEP';
 import { SearchGeocoding } from '../../services/SearchGeocoding'
+import { SearchCEPByLatLong } from '../../services/SearchCEPByLatLong'
 
 import ListProduct from '../orderscreen/listproduct';
 import { FormProduct } from '../../components/formproduct';
@@ -19,25 +22,32 @@ import { MainButton } from '../../components/buttons'
 import { GeolocationUI } from 'src/models/Geolocation';
 import { ModelList } from '../../models/ModelList';
 import { CEPjson } from '../../models/CEPjson';
+import { LocationModel } from '../../models/Location';
+import { AskContributionModel } from '../../models/AskContributionModel'
+
+import { validateFormLocation } from '../../mocks/validateFormLocation'
 
 const AskContributionScreen = () => {
 
     const paperTheme = useTheme();
+    const { user } = useContext(AuthContext);
 
     const [numberInput, setNumberInput] = useState("")
     const [descriptionInput, setDescriptionInput] = useState("")
     const [dropdownvalueproduct, setDropdownValueProduct] = useState("")
     const [lstProducts, setLstProducts] = useState<Array<ModelList>>([] as Array<ModelList>);
     const [checked, setChecked] = useState('TypeLocation');
-    const [CEP, setCEP] = useState('');
-    const [number, setNumber] = useState('');
-    const [street, setStreet] = useState('');
-    const [neighborhood, setNeighborhood] = useState('');
-    const [geolocalization, setGeolocalization] = useState<GeolocationUI>();
+    const [CEP, setCEP] = useState("");
+    const [number, setNumber] = useState("");
+    const [street, setStreet] = useState("");
+    const [neighborhood, setNeighborhood] = useState<string>('');
     const [counterId, setCounterId] = useState<number>(0);
     const [showError, setShowError] = useState<boolean>(false);
     const [cepJSON, setCEPJSON] = useState<CEPjson | undefined>({} as CEPjson);
     const [city, setCity] = useState("");
+    const [messageError, setMessageError] = useState("");
+    const [location, setLocation] = useState<LocationModel | undefined>({} as LocationModel)
+    const [errorFormLocation, setErrorFormLocation] = useState<boolean>(false)
 
     const addProduct = () => {
 
@@ -49,22 +59,37 @@ const AskContributionScreen = () => {
             number: numberInput
         }])
         setCounterId(counterId + 1)
-        console.log(lstProducts)
     }
 
-    async function GetLocation() {
-        await Geolocation.getCurrentPosition(sucess => {
+    function GetLocation() {
+        Geolocation.getCurrentPosition(sucess => {
             console.log(JSON.stringify(sucess.timestamp))
-            setGeolocalization(sucess)
+            setLocation({ lat: sucess.coords.latitude, long: sucess.coords.longitude, message: 'complete' });
         }, erro => {
             console.log(JSON.stringify(erro))
+            setMessageError(erro.message)
         }, { enableHighAccuracy: true, timeout: 2000 });
 
     }
 
     useEffect(() => {
-        GetLocation()
-    }, [])
+        if (checked == 'AskUseGPS') {
+            GetLocation()
+
+            if (errorFormLocation)
+                setErrorFormLocation(false)
+
+        } else {
+            setMessageError("");
+        }
+
+    }, [checked])
+
+    useEffect(() => {
+        if (messageError != "")
+            Alert.alert(messageError)
+
+    }, [messageError])
 
     function removeItemList(id: number) {
         lstProducts.forEach(item => {
@@ -76,6 +101,8 @@ const AskContributionScreen = () => {
 
         console.log(lstProducts)
     }
+
+    //#region find lat and long by CEP
 
     useEffect(() => {
 
@@ -96,6 +123,10 @@ const AskContributionScreen = () => {
 
     }, [CEP])
 
+    //#endregion
+
+    //#region set address finded by cep
+
     useEffect(() => {
 
         if (cepJSON) {
@@ -108,26 +139,98 @@ const AskContributionScreen = () => {
 
     }, [cepJSON])
 
-    async function searchLatLongByAddress() {
+    //#endregion
+
+    async function searchLatLongByAddress(pathAddress: string) {
         try {
 
-            const pathAddress = `${street},${number}`
-            await SearchGeocoding(pathAddress);
+            // const pathAddress = `${street}, ${number}, ${city}`
+            const response = await SearchGeocoding(pathAddress);
+            console.log('**** apos buscar a location com o endereço')
+            console.log(response)
+            if (response) {
+                if (response.message == 'Complete') {
+
+
+                    setLocation({ lat: response.lat, long: response.long, message: 'sucesso' })
+                    console.log(location)
+                } else {
+                    setMessageError(response.message)
+                }
+            }
 
         } catch (error) {
+            setMessageError(error.message)
+        }
+    }
+
+
+
+    function validationData() {
+
+        switch (checked) {
+            case 'TypeLocation':
+                ;
+                // console.log(!errorFormLocation)
+                if (validateFormLocation(CEP, number, neighborhood, street, setErrorFormLocation)) {
+
+                    const pathAddress = `${street}, ${number}, ${city}`
+
+                    searchLatLongByAddress(pathAddress);
+
+                    const response = SearchCEPByLatLong(`${location!.lat!}, ${location!.long!}`)
+
+                    setLocation({ lat: location?.lat!, long: location?.long!, message: location?.message!, cep: response })
+                }
+
+                break;
+            case 'AskUseGPS':
+                if (location) {
+                    const response = SearchCEPByLatLong(`${location?.lat!}, ${location?.long!}`)
+
+                    setLocation({ lat: location?.lat!, long: location?.long!, message: location?.message!, cep: response })
+                }
+            default:
+                break;
+        }
+
+    }
+
+    async function askcontribution() {
+        try {
+            validationData();
+
+            if (lstProducts.length != 0 && location != null && location != undefined && errorFormLocation) {
+
+                const dataRequest: AskContributionModel = {
+                    idDocument: user?.idDocument!,
+                    lat: location.lat,
+                    long: location.long,
+                    products: lstProducts
+                }
+
+                const response = await AskContribution(user, dataRequest)
+                console.log(response)
+            }
+
+
+        } catch (error) {
+            console.log(error)
+            setMessageError(error.message)
 
         }
     }
 
+
     return (
         <SafeAreaView style={styles.safeView}>
             <ScrollView style={{ width: '100%' }} contentContainerStyle={{ display: "flex", flexGrow: 1, alignContent: "center", alignItems: "center" }}>
-                <Title style={{ color: paperTheme.colors.text, marginTop: 10, marginBottom: 10, fontWeight: "bold", letterSpacing: 1.3 }}>Ask for Contribution</Title>
+                <Headline style={{ color: paperTheme.colors.text, marginTop: 10, marginBottom: 10, fontWeight: "bold" }}>Ask for Contribution</Headline>
 
-                {geolocalization &&
+                {location &&
                     <>
-                        <Text>latitude: {geolocalization.coords.latitude}</Text>
-                        <Text>latitude: {geolocalization.coords.longitude}</Text>
+                        <Text>latitude: {location.lat}</Text>
+                        <Text>latitude: {location.long}</Text>
                     </>
                 }
 
@@ -203,6 +306,7 @@ const AskContributionScreen = () => {
                             number={number} setNumber={setNumber}
                             neighborhood={neighborhood} setNeighborhood={setNeighborhood}
                             street={street} setStreet={setStreet} city={city} setCity={setCity}
+                            errorFormLocation={errorFormLocation}
                         />
                         :
                         null
@@ -217,7 +321,7 @@ const AskContributionScreen = () => {
                     }
 
                     <View style={{ width: '95%' }}>
-                        <MainButton MainActionScreen={searchLatLongByAddress} />
+                        <MainButton MainActionScreen={askcontribution} />
                     </View>
                 </View>
 
