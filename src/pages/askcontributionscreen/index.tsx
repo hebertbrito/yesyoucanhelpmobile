@@ -12,11 +12,10 @@ import { styles } from './styles'
 
 import { SearchCEP } from '../../services/SearchCEP';
 import { SearchGeocoding } from '../../services/SearchGeocoding'
-import { SearchCEPByLatLong } from '../../services/SearchCEPByLatLong'
 
 import ListProduct from '../orderscreen/listproduct';
 import { FormProduct } from '../../components/formproduct';
-import { FormLocation } from '../../components/formlocation';
+import FormLocation from '../../components/formlocation';
 import { MainButton } from '../../components/buttons'
 
 import { GeolocationUI } from 'src/models/Geolocation';
@@ -26,6 +25,7 @@ import { LocationModel } from '../../models/Location';
 import { AskContributionModel } from '../../models/AskContributionModel'
 
 import { validateFormLocation } from '../../mocks/validateFormLocation'
+
 
 const AskContributionScreen = () => {
 
@@ -46,8 +46,9 @@ const AskContributionScreen = () => {
     const [cepJSON, setCEPJSON] = useState<CEPjson | undefined>({} as CEPjson);
     const [city, setCity] = useState("");
     const [messageError, setMessageError] = useState("");
-    const [location, setLocation] = useState<LocationModel | undefined>({} as LocationModel)
+    const [location, setLocation] = useState({} as LocationModel)
     const [errorFormLocation, setErrorFormLocation] = useState<boolean>(false)
+    const [IdWatch, setIdWatch] = useState<number>()
 
     const addProduct = () => {
 
@@ -62,19 +63,30 @@ const AskContributionScreen = () => {
     }
 
     function GetLocation() {
-        Geolocation.getCurrentPosition(sucess => {
-            console.log(JSON.stringify(sucess.timestamp))
-            setLocation({ lat: sucess.coords.latitude, long: sucess.coords.longitude, message: 'complete' });
-        }, erro => {
-            console.log(JSON.stringify(erro))
-            setMessageError(erro.message)
-        }, { enableHighAccuracy: true, timeout: 2000 });
+        // Geolocation.getCurrentPosition(sucess => {
+        //     console.log(JSON.stringify(sucess.timestamp))
+        //     setLocation({ lat: sucess.coords.latitude, long: sucess.coords.longitude, message: 'complete' });
+        // }, erro => {
+        //     console.log(JSON.stringify(erro))
+        //     setMessageError(erro.message)
+        // }, { enableHighAccuracy: true, timeout: 2000 });
 
+
+        const idWatch = Geolocation.watchPosition((sucess) => {
+            if (sucess) {
+                setLocation({ lat: sucess.coords.latitude, long: sucess.coords.longitude, message: 'complete' });
+            }
+        }, (error) => {
+            setMessageError(error.message)
+        }, { enableHighAccuracy: true, distanceFilter: 1, interval: 2000 });
+
+        setIdWatch(idWatch)
+        console.log(IdWatch)
     }
 
     useEffect(() => {
         if (checked == 'AskUseGPS') {
-            GetLocation()
+            GetLocation();
 
             if (errorFormLocation)
                 setErrorFormLocation(false)
@@ -144,75 +156,69 @@ const AskContributionScreen = () => {
     async function searchLatLongByAddress(pathAddress: string) {
         try {
 
-            // const pathAddress = `${street}, ${number}, ${city}`
-            const response = await SearchGeocoding(pathAddress);
-            console.log('**** apos buscar a location com o endereço')
-            console.log(response)
-            if (response) {
-                if (response.message == 'Complete') {
-
-
-                    setLocation({ lat: response.lat, long: response.long, message: 'sucesso' })
-                    console.log(location)
-                } else {
-                    setMessageError(response.message)
-                }
-            }
+            await SearchGeocoding(pathAddress, setMessageError, CEP);
 
         } catch (error) {
-            setMessageError(error.message)
+            setMessageError(error.message);
         }
     }
 
+    async function SendAksContribution() {
+
+        try {
+            switch (checked) {
+                case 'TypeLocation':
+
+                    if (validateFormLocation(number, neighborhood, street, setErrorFormLocation)) {
+
+                        const pathAddress = `${street}, ${number}, ${city}`
+
+                        const response = await SearchGeocoding(pathAddress, setMessageError, CEP);
+
+                        if (response != undefined && response != null && lstProducts.length > 0) {
+                            const objdata: AskContributionModel = {
+                                idDocument: user?.idDocument!,
+                                CEP: response.cep,
+                                lat: response.lat,
+                                long: response.long,
+                                products: lstProducts
+                            }
+
+                            await AskContribution(user, objdata)
+                        } else {
+                            setMessageError('Dados Insuficientes para pedir contribuição')
+
+                        }
 
 
-    function validationData() {
 
-        switch (checked) {
-            case 'TypeLocation':
-                ;
-                // console.log(!errorFormLocation)
-                if (validateFormLocation(CEP, number, neighborhood, street, setErrorFormLocation)) {
+                    } else {
+                        setMessageError('Dados Insuficientes para pedir contribuição')
+                    }
 
-                    const pathAddress = `${street}, ${number}, ${city}`
+                    break;
+                case 'AskUseGPS':
+                    if (location) {
 
-                    searchLatLongByAddress(pathAddress);
+                        const pathAddress = `${location.lat}, ${location.long}`
+                        await searchLatLongByAddress(pathAddress);
 
-                    const response = SearchCEPByLatLong(`${location!.lat!}, ${location!.long!}`)
-
-                    setLocation({ lat: location?.lat!, long: location?.long!, message: location?.message!, cep: response })
-                }
-
-                break;
-            case 'AskUseGPS':
-                if (location) {
-                    const response = SearchCEPByLatLong(`${location?.lat!}, ${location?.long!}`)
-
-                    setLocation({ lat: location?.lat!, long: location?.long!, message: location?.message!, cep: response })
-                }
-            default:
-                break;
+                    } else {
+                        setLocation({} as LocationModel)
+                    }
+                default:
+                    break;
+            }
+        } catch (error) {
+            setMessageError(error.message)
         }
 
     }
 
     async function askcontribution() {
         try {
-            validationData();
 
-            if (lstProducts.length != 0 && location != null && location != undefined && errorFormLocation) {
-
-                const dataRequest: AskContributionModel = {
-                    idDocument: user?.idDocument!,
-                    lat: location.lat,
-                    long: location.long,
-                    products: lstProducts
-                }
-
-                const response = await AskContribution(user, dataRequest)
-                console.log(response)
-            }
-
+            await SendAksContribution();
 
         } catch (error) {
             console.log(error)

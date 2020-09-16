@@ -3,32 +3,33 @@ import axios from 'axios'
 import { LocationModel } from '../../models/Location'
 import { return_URL_GEOCODING } from '../keys'
 
-export async function SearchGeocoding(pathAddress: string) {
+export async function SearchGeocoding(pathAddress: string, setMessageError: React.Dispatch<React.SetStateAction<string>>, CEP: string) {
     try {
 
         const urlResponse = return_URL_GEOCODING(pathAddress);
-        // console.log(urlResponse);
+
         const response = await axios.get(urlResponse);
-        // console.log(response.data.results[0].geometry.location)
 
         if (response) {
             if (response.data.status != 'OK') {
-                const objLocation: LocationModel = { lat: 0, long: 0, message: 'Not find or Denied request' }
-                return objLocation
+                setMessageError('Not find or Denied request')
+            } else {
+
+                const { address_components, geometry: { location } } = response.data.results[0]
+
+                // const { lat, lng } = response.data.results[0].geometry.location;
+                console.log(`lat: ${location.lat} long: ${location.lng}`)
+
+                const retorno = address_components.find((item: { types: string[]; }) => item.types[0] == 'postal_code');
+
+                const cep = retorno.long_name;
+
+                const objRetorno = { lat: location.lat, long: location.lng, message: 'Complete', cep: CEP != undefined && CEP != '' ? CEP : cep };
+
+                return objRetorno;
             }
-
-
-            const { lat, lng } = response.data.results[0].geometry.location;
-            const objLocation: LocationModel = {
-                lat: lat,
-                long: lng,
-                message: 'Complete'
-            }
-
-            return objLocation;
         }
     } catch (error) {
-        const objLocation: LocationModel = { lat: 0, long: 0, message: error.message }
-        return objLocation;
+        setMessageError(error.message)
     }
 }

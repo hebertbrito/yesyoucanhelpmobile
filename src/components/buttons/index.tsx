@@ -6,10 +6,11 @@ import { useNavigation } from '@react-navigation/native';
 
 
 interface Props {
-    MainActionScreen(): Promise<void>
+    MainActionScreen(): Promise<any>
 }
 
 export const MainButton = (props: Props) => {
+
 
     const paperTheme = useTheme();
     const { MainActionScreen } = props;

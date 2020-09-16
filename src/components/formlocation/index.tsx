@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { View } from 'react-native';
 import { TextInput, useTheme } from 'react-native-paper';
 import * as Animatable from 'react-native-animatable';
@@ -17,7 +17,7 @@ interface FormLocation {
     errorFormLocation: boolean
 }
 
-export function FormLocation(props: FormLocation) {
+function FormLocation(props: FormLocation) {
 
     const paperTheme = useTheme();
 
@@ -41,7 +41,6 @@ export function FormLocation(props: FormLocation) {
                         theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
                         maxLength={8}
                         mode="outlined"
-                        error={CEP.length != 8 && errorFormLocation ? true : false}
                     />
                     <TextInput
                         value={number}
@@ -96,10 +95,11 @@ export function FormLocation(props: FormLocation) {
                         theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
                         maxLength={50}
                         mode="outlined"
-                        error={!city && errorFormLocation ? true : false}
                     />
                 </View>
             </View>
         </Animatable.View>
     )
 }
+
+export default memo(FormLocation)

@@ -6,7 +6,7 @@ import * as Animatable from 'react-native-animatable'
 import ImagePicker from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import { FormLocation } from '../../components/formlocation'
+import FormLocation from '../../components/formlocation'
 import { MainButton } from '../../components/buttons'
 
 import { GeolocationUI } from '../../models/Geolocation';
