@@ -123,7 +123,7 @@ function ProfileScreen() {
             :
             <SafeAreaView style={styles.safeView}>
                 <View style={styles.viewContainer} >
-                    <LinearGradient colors={['#F06C00', '#F8B00C', '#fdd835']} style={styles.LinearGradient}>
+                    <LinearGradient colors={[theme.colors.primary, '#F8B00C', '#fdd835']} style={styles.LinearGradient}>
                         <Title style={{ marginTop: '5%' }}>
                             Profile
                                 </Title>

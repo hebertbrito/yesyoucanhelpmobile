@@ -13,7 +13,7 @@ import { SearchCEP } from '../../services/SearchCEP';
 import { CEPjson } from 'src/models/CEPjson';
 import { User } from '../../models/User';
 
-import { CreateUser } from '../../services/api/CreateUser'
+import { CreateUser, SetAvatarUser } from '../../services/api/CreateUser'
 
 function RegisterScreen({ ...props }) {
 
@@ -62,7 +62,7 @@ function RegisterScreen({ ...props }) {
                 console.log('User tapped custom button: ', response.customButton);
             } else {
                 // const source = { uri: response.uri };
-                console.log(response.data)
+                console.log(response.fileName)
                 setAvatarSource(response);
             }
         });
@@ -99,6 +99,18 @@ function RegisterScreen({ ...props }) {
         }
 
     }, [cepJSON])
+
+    async function setavatar() {
+        try {
+
+            if (avatarsource) {
+                await SetAvatarUser(avatarsource)
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     function ValidateDATA() {
         // const objUser: User = {
@@ -202,7 +214,7 @@ function RegisterScreen({ ...props }) {
         }
     }
 
-    function renderSwitch(step: number) {
+    function renderStep(step: number) {
         switch (step) {
             case 1:
                 return (
@@ -266,7 +278,7 @@ function RegisterScreen({ ...props }) {
         <SafeAreaView style={styles.safeView}>
             <ScrollView style={{ width: "100%" }} contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: "center" }}>
 
-                {renderSwitch(step)}
+                {renderStep(step)}
 
                 <View style={{ display: "flex", flexDirection: "row", width: '90%', justifyContent: "space-evenly", marginTop: '3%' }}>
                     {step > 1 ?
@@ -282,14 +294,19 @@ function RegisterScreen({ ...props }) {
                         null
                     }
 
-                    <Button mode="outlined"
-                        onPress={() => FowardStep()}
-                        icon={() => <Icon size={13} name="step-forward" color={theme.colors.text} />}
-                        style={{ width: '30%', padding: 2, alignSelf: "center", justifyContent: "space-evenly", borderWidth: 1, borderColor: theme.colors.text }}
-                        color={theme.colors.text}
-                    >
-                        Next
-                    </Button>
+                    {step === 4 ?
+                        null
+                        :
+                        <Button mode="outlined"
+                            onPress={() => FowardStep()}
+                            icon={() => <Icon size={13} name="step-forward" color={theme.colors.text} />}
+                            style={{ width: '30%', padding: 2, alignSelf: "center", justifyContent: "space-evenly", borderWidth: 1, borderColor: theme.colors.text }}
+                            color={theme.colors.text}
+                        >
+                            Next
+                        </Button>
+                    }
+
                 </View>
 
                 <View style={{ display: "flex", flexDirection: "column", width: '90%', justifyContent: "center", padding: 10, marginTop: 5 }}>
@@ -299,9 +316,8 @@ function RegisterScreen({ ...props }) {
                         null
                     }
 
-
                     <Button mode="text"
-                        onPress={() => { }}
+                        onPress={() => setavatar()}
                         style={{ width: '50%', padding: 2, alignSelf: "center", justifyContent: "space-evenly" }}
                         color={theme.colors.notification}
                     >

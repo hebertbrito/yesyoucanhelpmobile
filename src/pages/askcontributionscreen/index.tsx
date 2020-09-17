@@ -34,7 +34,7 @@ const AskContributionScreen = () => {
 
     const [numberInput, setNumberInput] = useState("")
     const [descriptionInput, setDescriptionInput] = useState("")
-    const [dropdownvalueproduct, setDropdownValueProduct] = useState("")
+    const [dropdownvalueproduct, setDropdownValueProduct] = useState("Clothes")
     const [lstProducts, setLstProducts] = useState<Array<ModelList>>([] as Array<ModelList>);
     const [checked, setChecked] = useState('TypeLocation');
     const [CEP, setCEP] = useState("");
@@ -48,30 +48,35 @@ const AskContributionScreen = () => {
     const [messageError, setMessageError] = useState("");
     const [location, setLocation] = useState({} as LocationModel)
     const [errorFormLocation, setErrorFormLocation] = useState<boolean>(false)
-    const [IdWatch, setIdWatch] = useState<number>()
+    const [IdWatch, setIdWatch] = useState<number>(0)
+
+    function resetStateCard() {
+        setDescriptionInput('');
+        setDropdownValueProduct('Clothes');
+        setNumberInput('');
+    }
 
     const addProduct = () => {
 
-        setLstProducts([...lstProducts,
-        {
-            id: counterId,
-            product: dropdownvalueproduct,
-            description: descriptionInput,
-            number: numberInput
-        }])
-        setCounterId(counterId + 1)
+        if (dropdownvalueproduct.length != 0 && numberInput.length != 0 && descriptionInput.length > 5) {
+
+            setLstProducts([...lstProducts,
+            {
+                id: counterId,
+                product: dropdownvalueproduct,
+                description: descriptionInput,
+                number: numberInput
+            }])
+            setCounterId(counterId + 1)
+
+            resetStateCard();
+            setShowError(false);
+        } else {
+            setShowError(true)
+        }
     }
 
     function GetLocation() {
-        // Geolocation.getCurrentPosition(sucess => {
-        //     console.log(JSON.stringify(sucess.timestamp))
-        //     setLocation({ lat: sucess.coords.latitude, long: sucess.coords.longitude, message: 'complete' });
-        // }, erro => {
-        //     console.log(JSON.stringify(erro))
-        //     setMessageError(erro.message)
-        // }, { enableHighAccuracy: true, timeout: 2000 });
-
-
         const idWatch = Geolocation.watchPosition((sucess) => {
             if (sucess) {
                 setLocation({ lat: sucess.coords.latitude, long: sucess.coords.longitude, message: 'complete' });
@@ -81,7 +86,6 @@ const AskContributionScreen = () => {
         }, { enableHighAccuracy: true, distanceFilter: 1, interval: 2000 });
 
         setIdWatch(idWatch)
-        console.log(IdWatch)
     }
 
     useEffect(() => {
@@ -153,16 +157,6 @@ const AskContributionScreen = () => {
 
     //#endregion
 
-    async function searchLatLongByAddress(pathAddress: string) {
-        try {
-
-            await SearchGeocoding(pathAddress, setMessageError, CEP);
-
-        } catch (error) {
-            setMessageError(error.message);
-        }
-    }
-
     async function SendAksContribution() {
 
         try {
@@ -190,8 +184,6 @@ const AskContributionScreen = () => {
 
                         }
 
-
-
                     } else {
                         setMessageError('Dados Insuficientes para pedir contribuição')
                     }
@@ -201,10 +193,24 @@ const AskContributionScreen = () => {
                     if (location) {
 
                         const pathAddress = `${location.lat}, ${location.long}`
-                        await searchLatLongByAddress(pathAddress);
+                        const response = await SearchGeocoding(pathAddress, setMessageError, CEP);
+
+                        if (response != undefined && response != null && lstProducts.length > 0) {
+                            const objdata: AskContributionModel = {
+                                idDocument: user?.idDocument!,
+                                CEP: response.cep,
+                                lat: response.lat,
+                                long: response.long,
+                                products: lstProducts
+                            }
+
+                            await AskContribution(user, objdata)
+                        } else {
+                            setMessageError('Dados Insuficientes para pedir contribuição')
+                        }
 
                     } else {
-                        setLocation({} as LocationModel)
+                        setMessageError('Dados Insuficientes para pedir contribuição')
                     }
                 default:
                     break;
@@ -232,13 +238,6 @@ const AskContributionScreen = () => {
         <SafeAreaView style={styles.safeView}>
             <ScrollView style={{ width: '100%' }} contentContainerStyle={{ display: "flex", flexGrow: 1, alignContent: "center", alignItems: "center" }}>
                 <Headline style={{ color: paperTheme.colors.text, marginTop: 10, marginBottom: 10, fontWeight: "bold" }}>Ask for Contribution</Headline>
-
-                {location &&
-                    <>
-                        <Text>latitude: {location.lat}</Text>
-                        <Text>latitude: {location.long}</Text>
-                    </>
-                }
 
                 <FormProduct dropdownvalueproduct={dropdownvalueproduct} setDropdownValueProduct={setDropdownValueProduct}
                     numberInput={numberInput} setNumberInput={setNumberInput}

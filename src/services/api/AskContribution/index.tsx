@@ -9,6 +9,7 @@ export async function AskContribution(user: User | undefined, dataRequest: AskCo
         const response = await axios.post(`${BASE_URL}orderstype/askcontribution`,
             {
                 idDocument: dataRequest.idDocument,
+                cep: dataRequest.CEP,
                 lat: dataRequest.lat,
                 long: dataRequest.long,
                 products: dataRequest.products

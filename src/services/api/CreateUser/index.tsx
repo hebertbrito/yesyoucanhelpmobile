@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import { BASE_URL } from '../index';
-import { User } from '../../../models/User'
+import { User } from '../../../models/User';
+import ImagePicker, { ImagePickerResponse } from 'react-native-image-picker';
 
 export async function CreateUser(user: User | null | undefined) {
     try {
@@ -39,6 +40,26 @@ export async function CreateUser(user: User | null | undefined) {
             console.log(response.data)
         }
 
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function SetAvatarUser(avatarsource: ImagePickerResponse) {
+    try {
+
+        const avatar = new FormData();
+
+        avatar.append('avatar', {
+            uri: avatarsource.uri,
+            oriUri: avatarsource.customButton,
+            type: avatarsource.type,
+            name: `${avatarsource.fileName}`
+        })
+
+        const response = await axios.post(`${BASE_URL}orderstype/testeavatar`);
+        console.log(response)
 
     } catch (error) {
         console.log(error)
