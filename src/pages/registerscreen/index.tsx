@@ -62,7 +62,7 @@ function RegisterScreen({ ...props }) {
                 console.log('User tapped custom button: ', response.customButton);
             } else {
                 // const source = { uri: response.uri };
-                console.log(response.fileName)
+                console.log(response.origURL)
                 setAvatarSource(response);
             }
         });

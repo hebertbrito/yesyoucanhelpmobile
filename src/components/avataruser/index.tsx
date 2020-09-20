@@ -11,7 +11,10 @@ export function AvatarUser(props: AvatarUser) {
 
     const { size, avatarSource } = props
 
+    console.log('***dentro do componente avatar user')
+    console.log(avatarSource)
+
     return (
-        <Avatar.Image style={{ alignSelf: "center", }} size={size} source={{ uri: avatarSource.uri }} />
+        <Avatar.Image style={{ alignSelf: "center", }} size={size} source={{ uri:  avatarSource.uri!}} />
     )
 }

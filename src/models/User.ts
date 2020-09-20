@@ -1,3 +1,4 @@
+import { AvatarUser } from './AvatarUser'
 export interface User {
     firstname?: string,
     lastname?: string,
@@ -19,5 +20,5 @@ export interface User {
         state?: string,
         country?: string,
     }
-    avatarsource?: any
+    avatarsource?: AvatarUser
 }

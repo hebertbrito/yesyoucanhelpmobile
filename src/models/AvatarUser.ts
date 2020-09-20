@@ -1,6 +1,6 @@
 export interface AvatarUser {
     uri?: string,
-    fileSize: number,
+    fileSize?: number,
     fileName?: string,
     type?: string,
     path?: string,

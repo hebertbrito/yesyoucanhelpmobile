@@ -4,11 +4,11 @@ import { BASE_URL } from '../index';
 import { UserLogin } from 'src/models/UserLogin';
 import { User } from 'src/models/User';
 
-export async function GetUserProfile(user: UserLogin | undefined) {
+export async function GetUserProfile(user: UserLogin | undefined, setUserModel: React.Dispatch<React.SetStateAction<User | undefined>>) {
     try {
 
         // console.log(user);
-        let objUser: User = {};
+
 
         const response = await axios.get(`${BASE_URL}user/getuser/${user!.idDocument!}`,
             {
@@ -18,13 +18,46 @@ export async function GetUserProfile(user: UserLogin | undefined) {
             });
 
         if (response.status === 200 && response.data.data != null) {
-            objUser = response.data.data;
 
-            return objUser
+            const {
+
+                RG,
+                address,
+                avatarsource,
+                cellphone,
+                cpf_cnpj,
+                datebirth,
+                email,
+                firstname,
+                gender,
+                lastname,
+                password,
+                typeuser
+
+            } = response.data.data;
+
+            const objUser: User = {
+
+                RG,
+                address,
+                avatarsource,
+                cellphone,
+                cpf_cnpj,
+                datebirth,
+                email,
+                firstname,
+                gender,
+                lastname,
+                password,
+                typeuser
+            }
+
+            setUserModel(objUser);
+
+            return objUser;
         } else {
-            const message = response.data.message;
-
-            return message
+            const objUser: User = {}
+            return objUser;
         }
 
     } catch (error) {

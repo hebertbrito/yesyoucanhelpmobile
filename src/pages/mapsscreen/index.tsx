@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
+import { Platform, SafeAreaView, View } from 'react-native'
 import MapView, { Marker, PROVIDER_GOOGLE, Callout, Circle } from 'react-native-maps';
 import { Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
+//components
+import { FabButton } from '../../components/fabbutton'
 
 const MapsScreen = () => {
-
-    const icone = () => {
-
-        <Icon size={20} name="home" />
-
-    }
 
     const region = [
         {
@@ -40,16 +37,24 @@ const MapsScreen = () => {
     ]
 
     return (
-        <MapView style={{ flex: 1 }} provider={PROVIDER_GOOGLE} initialRegion={region[0]} mapType="standard" showsUserLocation={true}>
-            <Marker
-                coordinate={region[1]}
+        <SafeAreaView style={{ flex: 1, width: '100%' }}>
+            <MapView style={{ flex: 1, zIndex: -1, width: '100%' }} provider={PROVIDER_GOOGLE}
+                initialRegion={region[0]} showsUserLocation={true}
+                mapType={"standard"}
             >
-                <Callout tooltip={false}>
-                    <Text>Houseless</Text>
-                </Callout>
-            </Marker>
-        </MapView>
-    )
+                <Marker
+                    coordinate={region[1]}
+                >
+                    <Callout tooltip={false}>
+                        <Text>Houseless</Text>
+                    </Callout>
+                </Marker>
+
+
+            </MapView>
+
+            <FabButton />
+        </SafeAreaView>)
 }
 
 export default MapsScreen;

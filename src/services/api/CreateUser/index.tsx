@@ -53,15 +53,26 @@ export async function SetAvatarUser(avatarsource: ImagePickerResponse) {
 
         avatar.append('avatar', {
             uri: avatarsource.uri,
-            oriUri: avatarsource.customButton,
+            oriUri: avatarsource.origURL,
             type: avatarsource.type,
-            name: `${avatarsource.fileName}`
+            name: avatarsource.fileName,
+            timestamp: avatarsource.timestamp
         })
 
-        const response = await axios.post(`${BASE_URL}orderstype/testeavatar`);
-        console.log(response)
+        const response = await axios.post(`${BASE_URL}user/setAvatarUser`, avatar);
+        console.log(response.data)
 
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
 }
+
+
+
+// const avatar = {
+        //     uri: avatarsource.uri,
+        //     oriUri: avatarsource.origURL,
+        //     type: avatarsource.type,
+        //     name: avatarsource.fileName,
+        //     timestamp: avatarsource.timestamp
+        // }

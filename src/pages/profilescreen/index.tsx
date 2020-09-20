@@ -10,8 +10,7 @@ import { AvatarUser as AvatarComponent } from '../../components/avataruser'
 
 import { GetUserProfile } from '../../services/api/GetProfile'
 import { User } from 'src/models/User';
-import { AvatarUser } from '../../models/AvatarUser'
-
+import { AvatarUser } from '../../models/AvatarUser';
 
 import { styles } from './styles'
 
@@ -42,6 +41,8 @@ function ProfileScreen() {
     const [avatarSource, setAvatarSource] = useState<AvatarUser>({} as AvatarUser);
 
 
+    let objUser: AvatarUser = {}
+
 
     const options = {
         title: 'Select Avatar',
@@ -61,15 +62,12 @@ function ProfileScreen() {
     useEffect(() => {
 
         async function any() {
-            const response = await GetUserProfile(user);
+            const response = await GetUserProfile(user, setUserModel);
 
             if (response) {
                 setUserModel(response)
                 if (response.avatarsource) {
-                    console.log('*******avatar sourcer valor')
                     setAvatarSource(response.avatarsource!)
-                    console.log(avatarSource)
-
                 }
                 setIsloading(false)
             }
@@ -135,10 +133,10 @@ function ProfileScreen() {
                         alignItems: "center", justifyContent: "center"
                     }}>
                         <View style={styles.bodyCard}>
-                            {avatarSource ?
-                                <AvatarComponent avatarSource={avatarSource} size={100} />
+                            {usermodel! ?
+                                <Avatar.Image size={100} source={require('../../assets/fotospublic/logoApp2.png')} style={{ alignSelf: "center", }} />
                                 :
-                                <Avatar.Image size={100} source={require('../../assets/imageperfil/hebert.jpg')} style={{ alignSelf: "center", }} />
+                                <Avatar.Image size={100} source={require('../../assets/fotospublic/logoApp2.png')} style={{ alignSelf: "center", }} />
                             }
                             <IconButton
                                 icon="camera"
