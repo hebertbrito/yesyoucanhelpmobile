@@ -6,20 +6,22 @@ import { useNavigation } from '@react-navigation/native';
 
 
 interface Props {
-    MainActionScreen(): Promise<any>
+    MainActionScreen(): Promise<any>,
+    isSend?: boolean
 }
 
 export const MainButton = (props: Props) => {
 
 
     const paperTheme = useTheme();
-    const { MainActionScreen } = props;
+    const { MainActionScreen, isSend } = props;
 
     return (
         <Button icon={() => <Icon name='paper-plane' size={20} />}
             mode="contained" color={paperTheme.colors.primary}
             style={{ width: '55%', alignSelf: "center", marginBottom: 10, marginTop: 15, elevation: 5 }}
             onPress={() => MainActionScreen()}
+            loading={isSend}
         >
             Send
         </Button>

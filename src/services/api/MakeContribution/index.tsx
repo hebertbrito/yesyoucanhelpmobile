@@ -1,26 +1,33 @@
 import axios from 'axios';
-import { BASE_URL } from '../'
-import { User } from '../../../models/User'
-import { MakeContributionModel } from '../../../models/MakeContribution'
+import { BASE_URL } from '../';
+import { User } from '../../../models/User';
+import { MakeContributionModel } from '../../../models/MakeContribution';
+import { GetDate } from '../../../mocks/getdate';
 
 export async function MakeContribution(user: User | undefined, dataRequest: MakeContributionModel) {
     try {
-        console.log('****dentro da função para api');
-        console.log(dataRequest.products);
-        const response = await axios.post(`${BASE_URL}orderstype/makecontribution`,
-            {
-                idDocument: dataRequest.idDocument,
-                lat: dataRequest.lat,
-                long: dataRequest.long,
-                products: dataRequest.products
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${user!.token!}`
-                }
-            })
+        console.log(dataRequest)
+        if (dataRequest) {
 
-        console.log(response)
+            const date = GetDate();
+            const response = await axios.post(`${BASE_URL}orderstype/makecontribution`,
+                {
+                    idDocumentUser: dataRequest.idDocument,
+                    cep: dataRequest.cep!,
+                    createdAt: date,
+                    lat: dataRequest!.lat,
+                    long: dataRequest!.long,
+                    products: dataRequest!.products
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${user!.token!}`
+                    }
+                })
+
+            console.log(response.data)
+
+        }
 
     } catch (error) {
         console.log(error)

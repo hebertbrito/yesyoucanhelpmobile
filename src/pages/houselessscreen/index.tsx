@@ -1,19 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View, ScrollView } from 'react-native';
+import React, { useEffect, useState, useContext } from 'react';
+import { SafeAreaView, View, ScrollView, Alert, Keyboard } from 'react-native';
 import { useTheme, Text, Title, TextInput, RadioButton, Button, Paragraph, Subheading, Headline, Divider } from 'react-native-paper'
 import Geolocation from 'react-native-geolocation-service';
 import * as Animatable from 'react-native-animatable'
-import ImagePicker from 'react-native-image-picker';
+import ImagePicker, { ImagePickerResponse } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
+//ContextApplication
+import AuthContext from '../../context/auth'
+
+//compoenents
 import FormLocation from '../../components/formlocation'
-import { MainButton } from '../../components/buttons'
+import { MainButton } from '../../components'
 
-import { GeolocationUI } from '../../models/Geolocation';
+//Models
+import { LocationModel, CEPjson, HouseLessModel } from '../../models';
 
+//Mocks
+import { validateFormLocation } from '../../mocks/validateFormLocation'
+
+//Services
+import { SearchCEP } from '../../services/SearchCEP';
+import { SearchGeocoding } from '../../services/SearchGeocoding'
+import { SendInformHouseless } from '../../services/api/InformHouseless'
+
+//CSS
 import styles from './styles'
 
 const HouseLessScreen = () => {
+    const { user } = useContext(AuthContext);
     const paperTheme = useTheme()
 
     const options = {
@@ -24,7 +39,7 @@ const HouseLessScreen = () => {
         },
     };
 
-    const [photo, setPhoto] = useState<any>();
+    const [photo, setPhoto] = useState<ImagePickerResponse>();
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [CEP, setCEP] = useState('');
@@ -33,25 +48,45 @@ const HouseLessScreen = () => {
     const [neighborhood, setNeighborhood] = useState('');
     const [checked, setChecked] = useState('GPS');
     const [city, setCity] = useState("");
-    const [geolocalization, setGeolocalization] = useState<GeolocationUI>();
+    const [cepJSON, setCEPJSON] = useState<CEPjson | undefined>({} as CEPjson);
+    const [location, setLocation] = useState({} as LocationModel);
+    const [messageError, setMessageError] = useState("");
+    const [IdWatch, setIdWatch] = useState<number>(0);
+    const [errorFormLocation, setErrorFormLocation] = useState<boolean>(false);
+    const [isSend, setIsSend] = useState<boolean>(false);
 
-    async function GetLocation() {
-        await Geolocation.getCurrentPosition(sucess => {
-            console.log(JSON.stringify(sucess.timestamp))
-            setGeolocalization(sucess)
-        }, erro => {
-            console.log(JSON.stringify(erro))
-        }, { enableHighAccuracy: true, timeout: 2000 });
 
+
+    //#region Get and Clear GEOLOCATION
+
+    function GetLocation() {
+        const idWatch = Geolocation.watchPosition((sucess) => {
+            if (sucess) {
+                setLocation({ lat: sucess.coords.latitude, long: sucess.coords.longitude, message: 'complete' });
+            }
+        }, (error) => {
+            setMessageError(error.message)
+        }, { enableHighAccuracy: true, distanceFilter: 1, interval: 2000 });
+
+        setIdWatch(idWatch)
     }
+
+    function StopSearchGeolocation() {
+        Geolocation.clearWatch(IdWatch)
+    }
+
+    //#endregion
+
+    //#region GetLocation
 
     useEffect(() => {
         GetLocation()
     }, [])
 
+    //#endregion
+
     const getImage = () => {
         ImagePicker.launchImageLibrary(options, (response) => {
-            console.log('Response = ', response);
 
             if (response.didCancel) {
                 console.log('User cancelled image picker');
@@ -62,19 +97,170 @@ const HouseLessScreen = () => {
             } else {
                 // const source = { uri: response.uri };
 
-                setPhoto(
-                    response
-                );
+                setPhoto(response);
             }
         });
     }
 
+    //#region Watch MessageError
 
-    async function Send() {
+    useEffect(() => {
+        if (messageError != "")
+            Alert.alert(messageError)
+
+    }, [messageError])
+
+    //#endregion
+
+    //#region Verify type send data
+
+    useEffect(() => {
+
+        if (checked == 'GPS') {
+            GetLocation();
+
+            if (errorFormLocation)
+                setErrorFormLocation(false)
+
+        } else {
+            setMessageError("");
+            StopSearchGeolocation()
+        }
+
+    }, [checked])
+
+    //#endregion
+
+    //#region find lat and long by CEP
+
+    useEffect(() => {
+
+        async function executeSearchCEP() {
+            try {
+                if (CEP.length == 8) {
+                    const response = await SearchCEP(CEP);
+                    if (response) {
+                        setCEPJSON(response);
+                    }
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        executeSearchCEP();
+
+    }, [CEP])
+
+    //#endregion
+
+    //#region set address finded by cep
+
+    useEffect(() => {
+
+        if (cepJSON) {
+            Keyboard.dismiss()
+            setStreet(cepJSON.logradouro!)
+            setCity(cepJSON.localidade!);
+            setNeighborhood(cepJSON.bairro!);
+
+        }
+
+    }, [cepJSON])
+
+    //#endregion
+
+    //#region VERIFY TYPE SEND MAIN ACTION
+
+    async function SendAksContribution() {
+
         try {
+            switch (checked) {
+                case 'AddAddress':
+
+                    if (validateFormLocation(number, neighborhood, street, setErrorFormLocation)) {
+
+                        const pathAddress = `${street}, ${number}, ${city}`
+
+                        const response = await SearchGeocoding(pathAddress, setMessageError, CEP);
+
+                        if (response != undefined && response != null
+                            && photo != null && photo != undefined
+                            && name && description
+                        ) {
+                            const objdata: HouseLessModel = {
+                                idDocument: user?.idDocument!,
+                                CEP: response.cep,
+                                lat: response.lat,
+                                long: response.long,
+                                name: name,
+                                description: description
+                            }
+
+                            // await AskContribution(user, objdata)
+                            await SendInformHouseless(objdata, user);
+
+                        } else {
+                            setMessageError('Dados Insuficientes para pedir contribuição')
+
+                        }
+
+                    } else {
+                        setMessageError('Dados Insuficientes para pedir contribuição')
+                    }
+
+                    break;
+                case 'GPS':
+                    if (location) {
+
+                        const pathAddress = `${location.lat}, ${location.long}`
+                        const response = await SearchGeocoding(pathAddress, setMessageError, CEP);
+
+                        if (response != undefined && response != null && photo != null && photo != undefined
+                            && name && description
+                        ) {
+
+                            console.log('dentro do if para construir o objeto')
+
+                            const objdata: HouseLessModel = {
+                                idDocument: user?.idDocument!,
+                                CEP: response.cep,
+                                lat: response.lat,
+                                long: response.long,
+                                name,
+                                description
+                            }
+
+                            // await AskContribution(user, objdata)
+                            await SendInformHouseless(objdata, user);
+
+                        } else {
+                            setMessageError('Dados Insuficientes para pedir contribuição')
+                        }
+
+                    } else {
+                        setMessageError('Dados Insuficientes para pedir contribuição')
+                    }
+                default:
+                    break;
+            }
+        } catch (error) {
+            setMessageError(error.message)
+        }
+
+    }
+
+    //#endregion
+
+    async function teste() {
+        try {
+            setIsSend(true);
+            await SendAksContribution();
+            setIsSend(false);
 
         } catch (error) {
             console.log(error)
+            setIsSend(false);
         }
     }
 
@@ -84,12 +270,6 @@ const HouseLessScreen = () => {
                 <View style={styles.viewTitle}>
                     <Headline>Inform Houseless</Headline>
                 </View>
-                {geolocalization &&
-                    <>
-                        <Text>latitude: {geolocalization.coords.latitude}</Text>
-                        <Text>latitude: {geolocalization.coords.longitude}</Text>
-                    </>
-                }
                 <View style={{ width: '95%' }}>
                     <TextInput
                         value={name}
@@ -178,7 +358,7 @@ const HouseLessScreen = () => {
                         number={number} setNumber={setNumber}
                         street={street} setStreet={setStreet}
                         city={city} setCity={setCity}
-                        errorFormLocation={false}
+                        errorFormLocation={errorFormLocation}
                     />
                     :
                     null
@@ -218,7 +398,7 @@ const HouseLessScreen = () => {
                             </Button>
                         }
                     </View>
-                    <MainButton MainActionScreen={Send} />
+                    <MainButton MainActionScreen={teste} isSend={isSend} />
                 </View>
             </ScrollView>
         </SafeAreaView>

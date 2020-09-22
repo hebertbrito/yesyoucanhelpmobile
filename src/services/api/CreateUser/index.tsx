@@ -49,18 +49,43 @@ export async function CreateUser(user: User | null | undefined) {
 export async function SetAvatarUser(avatarsource: ImagePickerResponse) {
     try {
 
-        const avatar = new FormData();
+        const bodyFormData = new FormData();
+        bodyFormData.append('username', 'fred');
 
-        avatar.append('avatar', {
-            uri: avatarsource.uri,
-            oriUri: avatarsource.origURL,
-            type: avatarsource.type,
-            name: avatarsource.fileName,
-            timestamp: avatarsource.timestamp
-        })
+        // JSON.stringify({
+        //     uri: avatarsource.uri,
+        //     oriUri: avatarsource.origURL,
+        //     type: avatarsource.type,
+        //     name: avatarsource.fileName,
+        //     originalname: avatarsource.fileName,
+        //     timestamp: avatarsource.timestamp
+        // })
 
-        const response = await axios.post(`${BASE_URL}user/setAvatarUser`, avatar);
-        console.log(response.data)
+        // bodyFormData.append('fileData', JSON.stringify({
+        //     uri: avatarsource.uri,
+        //     oriUri: avatarsource.origURL,
+        //     type: avatarsource.type,
+        //     name: avatarsource.fileName,
+        //     originalname: avatarsource.fileName,
+        //     timestamp: avatarsource.timestamp
+        // }))
+
+        bodyFormData.append('fileData', JSON.stringify({
+            filename: avatarsource.fileName,
+            size: avatarsource.fileSize,
+            originalname: avatarsource.fileName,
+            mimetype: avatarsource.type,
+            path: 'teste'
+        }))
+
+        const response = await axios.post(`${BASE_URL}user/setAvatarUser`, bodyFormData, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'multipart/form-data',
+            }
+        });
+
+        console.log(response.data);
 
     } catch (error) {
         console.log(error);

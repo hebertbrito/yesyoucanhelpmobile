@@ -317,7 +317,7 @@ function RegisterScreen({ ...props }) {
                     }
 
                     <Button mode="text"
-                        onPress={() => setavatar()}
+                        onPress={() => { }}
                         style={{ width: '50%', padding: 2, alignSelf: "center", justifyContent: "space-evenly" }}
                         color={theme.colors.notification}
                     >

@@ -4,6 +4,7 @@ export function GetLatLongByCheckBox(checked: string, dropdownvalueaddress: stri
 
     let _lat = 0;
     let _long = 0;
+    let _cep = 0;
 
     if (checked == 'ChoseMPlace') {
 
@@ -13,17 +14,19 @@ export function GetLatLongByCheckBox(checked: string, dropdownvalueaddress: stri
 
         _lat = SearchPrevistLocation?.lat!;
         _long = SearchPrevistLocation?.long!;
+        _cep = SearchPrevistLocation?.cep!
 
     } else {
 
         _lat = addressSendBranch.lat;
         _long = addressSendBranch.long;
-
+        _cep = addressSendBranch?.cep!;
     }
 
     const response = {
         lat: _lat,
-        long: _long
+        long: _long,
+        cep: _cep
     }
 
     return response;

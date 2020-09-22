@@ -49,6 +49,7 @@ const AskContributionScreen = () => {
     const [location, setLocation] = useState({} as LocationModel)
     const [errorFormLocation, setErrorFormLocation] = useState<boolean>(false)
     const [IdWatch, setIdWatch] = useState<number>(0)
+    const [isSend, setIsSend] = useState<boolean>(false);
 
     function resetStateCard() {
         setDescriptionInput('');
@@ -223,13 +224,14 @@ const AskContributionScreen = () => {
 
     async function askcontribution() {
         try {
-
+            setIsSend(true);
             await SendAksContribution();
+            setIsSend(false);
 
         } catch (error) {
             console.log(error)
             setMessageError(error.message)
-
+            setIsSend(false);
         }
     }
 
@@ -326,7 +328,7 @@ const AskContributionScreen = () => {
                     }
 
                     <View style={{ width: '95%' }}>
-                        <MainButton MainActionScreen={askcontribution} />
+                        <MainButton MainActionScreen={askcontribution} isSend={isSend} />
                     </View>
                 </View>
 

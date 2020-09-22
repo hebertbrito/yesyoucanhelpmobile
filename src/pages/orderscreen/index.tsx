@@ -39,6 +39,8 @@ const OrderScreen = () => {
     const [checked, setChecked] = useState('ChoseMPlace');
     const [counterId, setCounterId] = useState<number>(0);
     const [showError, setShowError] = useState<boolean>(false);
+    const [isSend, setIsSend] = useState<boolean>(false);
+
 
     function resetStateCard() {
         setDescriptionInput('');
@@ -92,14 +94,17 @@ const OrderScreen = () => {
                     idDocument: user?.idDocument!,
                     lat: returnLocation.lat,
                     long: returnLocation.long,
+                    cep: returnLocation.cep,
                     products: lstProducts
                 }
-
+                setIsSend(true);
                 await MakeContribution(user, dataRequest)
-
+                setIsSend(false);
             }
 
         } catch (error) {
+            console.log(error)
+            setIsSend(false);
 
         }
     }
