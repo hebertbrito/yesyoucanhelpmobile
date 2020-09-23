@@ -77,7 +77,7 @@ const HouseLessScreen = () => {
 
     //#endregion
 
-    //#region GetLocation
+    //#region Image
 
     useEffect(() => {
         GetLocation()

@@ -39,7 +39,7 @@ export const Routes = (props: Props) => {
                 <>
                     <Drawer.Screen name="BottomNavigator" component={BottomNavigator} />
                     <Drawer.Screen name="ProfileScreen" component={ProfileScreen} />
-                    <Drawer.Screen name="MapsScreen" component={MapsScreen} />
+                    <Drawer.Screen name="MapsScreen" component={MapsScreen} {...props} />
 
                 </>
 

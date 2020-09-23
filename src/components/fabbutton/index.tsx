@@ -1,8 +1,20 @@
-import React from 'react';
-import { FAB, Portal, Provider, Text } from 'react-native-paper';
+import React, { } from 'react';
+import { FAB, Portal, Provider, Text, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import { DrawerContentComponentProps, DrawerContentOptions } from '@react-navigation/drawer'
+import { useNavigation } from '@react-navigation/native';
 
-export function FabButton({ ...props }) {
+interface FabButton {
+    switchtheme(): any,
+    drawernavigator: DrawerContentComponentProps<DrawerContentOptions>
+}
+
+export function FabButton(props: FabButton) {
+    const theme = useTheme();
+
+    const { switchtheme } = props;
+
+    const { navigate } = useNavigation()
 
     const [state, setState] = React.useState({ open: false });
 
@@ -19,24 +31,37 @@ export function FabButton({ ...props }) {
 
         <FAB.Group visible={true}
             open={open}
-            icon={open ? 'calendar-today' : 'plus'}
-
+            icon={open ? 'undo' : 'plus'}
+            color={theme.colors.primary}
+            fabStyle={{ backgroundColor: theme.colors.background }}
+            style={{ elevation: 5 }}
             actions={[
-                { icon: 'plus', onPress: () => console.log('Pressed add') },
                 {
-                    icon: 'star',
-                    label: 'Star',
-                    onPress: () => console.log('Pressed star'),
-                },
-                {
-                    icon: 'email',
-                    label: 'Email',
-                    onPress: () => console.log('Pressed email'),
-                },
-                {
-                    icon: 'bell',
-                    label: 'Remind',
+                    icon: 'plus',
                     onPress: () => console.log(props),
+                    color: theme.colors.primary,
+                    style: { backgroundColor: theme.colors.background }
+                },
+                {
+                    icon: 'palette',
+                    label: 'Theme Maps',
+                    color: theme.colors.primary,
+                    onPress: () => switchtheme(),
+                    style: { backgroundColor: theme.colors.background }
+                },
+                {
+                    icon: 'home',
+                    label: 'Inicial Page',
+                    color: theme.colors.primary,
+                    onPress: () => navigate('BottomNavigator', { screen: 'HomeScreen' }),
+                    style: { backgroundColor: theme.colors.background }
+                },
+                {
+                    icon: 'sync',
+                    label: 'Refresh Data',
+                    color: theme.colors.primary,
+                    onPress: () => { },
+                    style: { backgroundColor: theme.colors.background }
                 },
             ]}
             onStateChange={onStateChange}

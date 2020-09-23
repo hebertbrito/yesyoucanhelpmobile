@@ -153,21 +153,7 @@ class DrawNavigation extends React.Component {
         <NavigationContainer theme={isDarkTheme} {...this.props}>
           <StatusBar animated={true} backgroundColor={isDarkTheme.colors.primary} />
           <AuthProvider>
-            {/* <Drawer.Navigator initialRouteName="Login"
-              backBehavior="none"
-              drawerContent={props => <DrawContent props={props} SwitchDarkTheme={this.state.darkTheme} toggleTheme={toggleTheme} />}
-              drawerType="slide"
-              drawerStyle={{ backgroundColor: isDarkTheme.colors.background }}
-              {...this.props}
-              edgeWidth={65}
-            >
 
-              <Drawer.Screen name="Login" component={LoginScreen} />
-              <Drawer.Screen name="RegisterUserScreen" children={() => { return (<RegisterUserScreen theme={isDarkTheme} {...this.props} />) }} />
-              <Drawer.Screen name="ProfileScreen" children={() => { return (<ProfileScreen theme={isDarkTheme} {...this.props} />) }} />
-              <Drawer.Screen name="MapsScreen" component={MapsScreen} />
-              <Drawer.Screen name="BottomNavigator" component={BottomNavigator} />
-            </Drawer.Navigator> */}
             <Routes toggleTheme={toggleTheme} SwitchDarkTheme={this.state.darkTheme} {...this.props} />
 
           </AuthProvider>
