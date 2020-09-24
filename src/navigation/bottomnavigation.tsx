@@ -39,7 +39,7 @@ function BottomNavigator({ ...props }) {
 
                 options={{
                     tabBarLabel: `${translate('home_menu')}`,
-                    tabBarColor: '#1a237e',
+                    tabBarColor: paperTheme.bottomcolors.primary,
                     tabBarIcon: ({ color }) => (
                         <Icon name="home" color={paperTheme.colors.primary} size={20} />
                     ),
@@ -51,7 +51,7 @@ function BottomNavigator({ ...props }) {
                 component={AskContributionScreen}
                 options={{
                     tabBarLabel: `${translate('ask_contribution_menu')}`,
-                    tabBarColor: '#251F3D',
+                    tabBarColor: paperTheme.bottomcolors.secondary,
                     tabBarIcon: ({ color }) => (
                         <Icon name="hand-holding" color={paperTheme.colors.primary} size={20} />
                     ),
@@ -62,7 +62,7 @@ function BottomNavigator({ ...props }) {
                 component={HouseLessScreen}
                 options={{
                     tabBarLabel: `${translate('inform_houseless')}`,
-                    tabBarColor: '#004d40',
+                    tabBarColor: paperTheme.bottomcolors.third,
                     tabBarIcon: ({ color }) => (
                         <Icon name="user-injured" color={paperTheme.colors.primary} size={20} />
                     ),
@@ -73,7 +73,7 @@ function BottomNavigator({ ...props }) {
                 component={OrderScreen}
                 options={{
                     tabBarLabel: `${translate('contribution_menu')}`,
-                    tabBarColor: '#7D7240',
+                    tabBarColor: paperTheme.bottomcolors.fourth,
                     tabBarIcon: ({ color }) => (
                         <Icon name="hands-helping" color={paperTheme.colors.primary} size={20} />
                     ),

@@ -8,22 +8,24 @@ import * as Animatable from 'react-native-animatable'
 import AuthContext from '../../context/auth'
 import { AskContribution } from '../../services/api/AskContribution'
 
+//CSS
 import { styles } from './styles'
 
+//Serivices/API
 import { SearchCEP } from '../../services/SearchCEP';
 import { SearchGeocoding } from '../../services/SearchGeocoding'
 
-import ListProduct from '../orderscreen/listproduct';
-import { FormProduct } from '../../components/formproduct';
+//Components
+import { ButtonDrawer, MainButton, FormProduct } from '../../components'
 import FormLocation from '../../components/formlocation';
-import { MainButton } from '../../components/buttons'
 
-import { GeolocationUI } from 'src/models/Geolocation';
-import { ModelList } from '../../models/ModelList';
-import { CEPjson } from '../../models/CEPjson';
-import { LocationModel } from '../../models/Location';
-import { AskContributionModel } from '../../models/AskContributionModel'
+//SubComponent
+import ListProduct from '../orderscreen/listproduct';
 
+//Models
+import { ModelList, CEPjson, LocationModel, AskContributionModel } from '../../models';
+
+//Mocks
 import { validateFormLocation } from '../../mocks/validateFormLocation'
 
 
@@ -253,16 +255,7 @@ const AskContributionScreen = () => {
                 <Divider style={{ backgroundColor: paperTheme.colors.accent, width: '95%', height: 1, marginTop: 15, marginBottom: 8 }} />
 
                 <View style={styles.containerCheckpoint}>
-                    <Subheading style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        color: paperTheme.colors.text,
-                        padding: 5
-                    }}
-                    >
-                        Inform Location</Subheading>
+
                     <View style={styles.viewCardCheckBox}>
                         <View style={{
                             paddingLeft: "2.5%",

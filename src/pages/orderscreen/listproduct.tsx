@@ -50,9 +50,9 @@ const ListProduct = (props: Props) => {
                                 <View key={item.id} style={{ width: '100%' }}>
                                     <View style={styles.scrollViewDisplay}>
                                         <View style={styles.titleList}>
-                                            <Subheading style={{ margin: 8, color: paperTheme.colors.onBackground }}>{item.product}</Subheading>
+                                            <Subheading style={{ margin: 8, color: paperTheme.colors.onBackground }}>Product: {item.product}</Subheading>
                                             <Text style={{ color: paperTheme.colors.onBackground }}> - </Text>
-                                            <Text style={{ margin: 8, color: paperTheme.colors.onBackground }}>{item.number}</Text>
+                                            <Text style={{ margin: 8, color: paperTheme.colors.onBackground }}>Quantity/Number: {item.number}</Text>
                                         </View>
                                         <View style={styles.info_list}>
                                             <View style={{ width: '90%' }}>

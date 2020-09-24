@@ -85,7 +85,7 @@ export const styles = StyleSheet.create({
 
     //checkpoint
     containerCheckpoint: {
-        width: '95%',
+        width: '100%',
         display: "flex",
         flexDirection: "column",
         marginTop: 15
@@ -99,9 +99,11 @@ export const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        alignContent: "center",
         justifyContent: "space-evenly",
         width: '95%',
+        marginTop: '3%',
+        alignContent: "center",
+        paddingLeft: "3%"
     },
     itemCheckBox: {
         paddingLeft: "2.5%",

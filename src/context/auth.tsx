@@ -6,14 +6,17 @@ interface AutheContextData {
     signed: boolean,
     user: UserLogin | undefined;
     SignIn(email: string, password: string): any,
-    SingOut(): void
+    SingOut(): void,
+    isLoadingLogin: boolean
 }
 
 const AuthContext = createContext<AutheContextData>({} as AutheContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
 
-    const [user, setUser] = useState<UserLogin | undefined>(undefined)
+    const [user, setUser] = useState<UserLogin | undefined>(undefined);
+    const [isLoadingLogin, setIsLoadingLogin] = useState<boolean>(false);
+
 
     useEffect(() => {
         async function loadStorageData() {
@@ -28,6 +31,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     }, [])
 
     async function SignIn(email: string, password: string) {
+        setIsLoadingLogin(true);
         const response = await GetLoginUser(email, password);
 
         if (response.message != undefined && response.message === 'login_sucessfull') {
@@ -35,8 +39,9 @@ export const AuthProvider: React.FC = ({ children }) => {
             setUser(response)
 
             await AsyncStorage.setItem('@yycanhelp:user', JSON.stringify(response))
-
+            setIsLoadingLogin(false);
         }
+        setIsLoadingLogin(false);
 
         return response;
     }
@@ -47,7 +52,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ signed: !!user, user, SignIn, SingOut }}>
+        <AuthContext.Provider value={{ signed: !!user, user, SignIn, SingOut, isLoadingLogin }}>
             {children}
         </AuthContext.Provider>
     )

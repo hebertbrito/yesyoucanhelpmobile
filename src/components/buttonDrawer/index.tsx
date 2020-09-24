@@ -31,8 +31,8 @@ export const ButtonDrawer = (props: Props) => {
     return (
         <IconButton
             icon={iconButton}
-            onPress={() => navigation.openDrawer()}
-            style={{position: "absolute", margin: 5, zIndex: +1}}
+            onPress={() => navigation.toggleDrawer()}
+            style={{ position: "absolute", margin: 5, zIndex: +1 }}
         />
     )
 }

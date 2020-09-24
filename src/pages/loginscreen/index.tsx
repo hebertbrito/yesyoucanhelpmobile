@@ -9,16 +9,18 @@ import AuthContext from '../../context/auth';
 //styles
 import styles from './styles'
 import { pad } from 'lodash';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
 
     const paperTheme = useTheme();
-    const { SignIn, signed } = useContext(AuthContext)
+    const { SignIn, signed, isLoadingLogin } = useContext(AuthContext)
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [errorEmail, setErrorEmail] = useState(false as boolean);
     const [errorPassword, setErrorPassword] = useState(false as boolean);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const { navigation } = props;
 
 
@@ -42,69 +44,69 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
 
     async function Login(email: string, password: any) {
         try {
-
+            setIsLoading(true);
             if (ValidateInputs(email, password)) {
+
                 const response = await SignIn(email, password);
                 // console.log(response);
                 // console.log(signed)
             }
-
+            setIsLoading(false);
         } catch (error) {
-
+            setIsLoading(false);
         }
     }
     // console.log(signed);
     return (
 
         <SafeAreaView style={styles.safeareContainer}>
+            <ScrollView style={{ width: '100%' }} contentContainerStyle={{ flexGrow: 1, alignItems: "center", justifyContent: "center" }}>
+                <Animatable.Image animation="bounceInDown" delay={1100} useNativeDriver={true} source={require('../../assets/fotospublic/logoLetra.png')} style={{ height: '40%', width: '50%' }} />
 
-            <View ></View>
+                <Animatable.View style={styles.formView} animation="fadeInLeft" delay={1200} useNativeDriver={true}>
+                    <PaperTextInput
+                        value={email}
+                        onChangeText={text => setEmail(text)}
+                        placeholder="Email"
+                        label="Email"
+                        keyboardType="email-address"
+                        style={{ margin: 10, color: paperTheme.colors.text }}
+                        placeholderTextColor={paperTheme.colors.text}
+                        selectionColor={paperTheme.colors.text}
+                        mode="outlined"
+                        theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
+                        maxLength={50}
+                    />
 
-            <Animatable.Image animation="bounceInDown" delay={1100} useNativeDriver={true} source={require('../../assets/fotospublic/logoLetra.png')} style={{ height: '40%', width: '50%' }} />
+                    <PaperTextInput
+                        secureTextEntry={true}
+                        value={password}
+                        onChangeText={(text) => setPassword(text)}
+                        placeholder="Password"
+                        label="Password"
+                        style={{ margin: 10 }}
+                        placeholderTextColor={paperTheme.colors.text}
+                        selectionColor={paperTheme.colors.text}
+                        mode="outlined"
+                        theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
+                        maxLength={30}
+                    />
 
-            <Animatable.View style={styles.formView} animation="fadeInLeft" delay={1200} useNativeDriver={true}>
-                <PaperTextInput
-                    value={email}
-                    onChangeText={text => setEmail(text)}
-                    placeholder="Email"
-                    label="Email"
-                    keyboardType="email-address"
-                    style={{ margin: 10, color: paperTheme.colors.text }}
-                    placeholderTextColor={paperTheme.colors.text}
-                    selectionColor={paperTheme.colors.text}
-                    mode="outlined"
-                    theme={{ colors: { primary: '#ef6c00' } }}
-                    maxLength={50}
-                />
-
-                <PaperTextInput
-                    secureTextEntry={true}
-                    value={password}
-                    onChangeText={(text) => setPassword(text)}
-                    placeholder="Password"
-                    label="Password"
-                    style={{ margin: 10 }}
-                    placeholderTextColor={paperTheme.colors.text}
-                    selectionColor={paperTheme.colors.text}
-                    mode="outlined"
-                    theme={{ colors: { primary: '#ef6c00' } }}
-                    maxLength={30}
-                />
-
-                <Button icon={iconbutton} mode="contained" onPress={() => Login(email, password)}
-                    style={{ width: '45%', padding: 2, alignSelf: "center" }}
-                    color="#fdd835"
-                >
-                    Login
-                </Button>
-                <TouchableOpacity style={{ width: 120, height: 50, alignSelf: "center" }}
-                    onPress={() => navigation.navigate('RegisterUserScreen')}
-                >
-                    <Text style={{ alignSelf: "center", margin: 3, color: 'red' }}>
-                        Register
+                    <Button icon={iconbutton} mode="contained" onPress={() => Login(email, password)}
+                        style={{ width: '45%', padding: 2, alignSelf: "center" }}
+                        color="#fdd835" loading={isLoadingLogin}
+                    >
+                        Login
+                    </Button>
+                    <TouchableOpacity style={{ width: 120, height: 50, alignSelf: "center" }}
+                        onPress={() => navigation.navigate('RegisterUserScreen')}
+                    >
+                        <Text style={{ alignSelf: "center", margin: 3, color: 'red' }}>
+                            Register
                     </Text>
-                </TouchableOpacity>
-            </Animatable.View>
+                    </TouchableOpacity>
+                </Animatable.View>
+            </ScrollView>
         </SafeAreaView>
     )
 }

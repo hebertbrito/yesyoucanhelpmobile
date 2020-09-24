@@ -29,7 +29,7 @@ export const Routes = (props: Props) => {
             backBehavior="none"
             drawerContent={props => <DrawContent props={props} SwitchDarkTheme={SwitchDarkTheme} toggleTheme={toggleTheme} />}
             drawerType="slide"
-            drawerStyle={{ backgroundColor: papertheme.colors.background, elevation: 16 }}
+            drawerStyle={{ backgroundColor: papertheme.colors.background, elevation: 16, }}
             {...props}
             edgeWidth={65}
         >

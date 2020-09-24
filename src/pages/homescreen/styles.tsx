@@ -1,14 +1,14 @@
 import { StyleSheet, PermissionsAndroid } from 'react-native';
 
 export const styles = StyleSheet.create({
-    safeView:{
+    safeView: {
         flex: 1,
         margin: 0,
         padding: 0,
         display: "flex",
         flexDirection: "column"
     },
-    viewInfo:{
+    viewInfo: {
         position: "absolute",
         bottom: 0,
         width: '100%',
@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
         padding: 20
     },
 
-    styleProgressView:{
+    styleProgressView: {
         display: "flex"
     }
 })

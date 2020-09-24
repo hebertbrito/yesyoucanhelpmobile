@@ -58,7 +58,14 @@ class DrawNavigation extends React.Component {
       accent: '#D2D2D2',
       primary: '#ff6f00',
       surface: '#0D64FF',
-      onSurface: '#0DFF94'
+      onSurface: '#0DFF94',
+      third: '#fdd835'
+    },
+    bottomcolors: {
+      primary: '#1a237e',
+      secondary: '#455a64',
+      third: '#004d40',
+      fourth: '#5d4037'
     }
   }
 
@@ -73,7 +80,14 @@ class DrawNavigation extends React.Component {
       accent: '#757575',
       primary: '#c43e00',
       surface: '#124BB3',
-      onSurface: '#12B36B'
+      onSurface: '#12B36B',
+      third: '#c6a700'
+    },
+    bottomcolors: {
+      primary: '#151B63',
+      secondary: '#1c313a',
+      third: '#00332A',
+      fourth: '#321911'
     }
   }
 

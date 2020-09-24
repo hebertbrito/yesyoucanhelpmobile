@@ -77,7 +77,7 @@ export const DrawContent = (props: Props) => {
     }
     return (
         <>
-            <DrawerContentScrollView {...props} >
+            <DrawerContentScrollView {...props}>
                 <View style={styles.conteinerDraw}>
                     <View style={styles.viewPerfil}>
                         <Avatar.Image size={80} source={require('../assets/imageperfil/hebert.jpg')} />
@@ -113,8 +113,9 @@ export const DrawContent = (props: Props) => {
                     <View style={styles.subPreferences}>
                         <Caption children={<Text>{translate('theme_menu')}</Text>} />
                         <Switch value={SwitchDarkTheme} onValueChange={props.toggleTheme}
-                            trackColor={{ true: "#12B06E", false: "#e0e0e0" }}
-                            thumbColor="#0CF092"
+                            trackColor={{ true: '#877300', false: "#e0e0e0" }}
+                            thumbColor={paperTheme.colors.third}
+                            color={paperTheme.colors.third}
                         />
                     </View>
                 </View>

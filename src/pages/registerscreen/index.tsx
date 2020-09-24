@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, Keyboard, View } from 'react-native';
-import { Button, useTheme } from 'react-native-paper';
+import { Button, useTheme, ProgressBar, Subheading } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import ImagePicker, { ImagePickerResponse } from 'react-native-image-picker';
 
@@ -14,10 +14,12 @@ import { CEPjson } from 'src/models/CEPjson';
 import { User } from '../../models/User';
 
 import { CreateUser, SetAvatarUser } from '../../services/api/CreateUser'
+import { useNavigation } from '@react-navigation/native';
 
 function RegisterScreen({ ...props }) {
 
     const theme = useTheme();
+    const { navigate } = useNavigation();
 
     const [firstname, setFirstName] = useState('');
     const [lastname, setLastName] = useState('');
@@ -274,10 +276,19 @@ function RegisterScreen({ ...props }) {
 
     }
 
+    function StateProgressBar(value: number) {
+        return (
+            <View style={{ width: '50%', paddingBottom: '5%', display: 'flex', flexDirection: 'column', justifyContent: "center", alignContent: "center" }}>
+                <Subheading style={{ alignSelf: "center", marginBottom: '3%' }}>Registration Progress</Subheading>
+                <ProgressBar progress={value * 0.25} color='#fdd835' style={{ width: '100%', height: 10, alignSelf: "center", borderRadius: 50, elevation: 3 }} />
+            </View>
+        )
+    }
+
     return (
         <SafeAreaView style={styles.safeView}>
             <ScrollView style={{ width: "100%" }} contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: "center" }}>
-
+                {StateProgressBar(step)}
                 {renderStep(step)}
 
                 <View style={{ display: "flex", flexDirection: "row", width: '90%', justifyContent: "space-evenly", marginTop: '3%' }}>
@@ -317,7 +328,7 @@ function RegisterScreen({ ...props }) {
                     }
 
                     <Button mode="text"
-                        onPress={() => { }}
+                        onPress={() => { setStep(1), navigate('Login') }}
                         style={{ width: '50%', padding: 2, alignSelf: "center", justifyContent: "space-evenly" }}
                         color={theme.colors.notification}
                     >
