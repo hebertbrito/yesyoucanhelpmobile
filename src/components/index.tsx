@@ -6,3 +6,5 @@ export * from './formlocation';
 export * from './formproduct';
 export * from './progressbar';
 export * from './MarkerMaps';
+export * from './cardDetailsInformation';
+export * from './thumbs';

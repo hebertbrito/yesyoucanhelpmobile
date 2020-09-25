@@ -10,6 +10,8 @@ import ProfileScreen from '../pages/profilescreen'
 import BottomNavigator from '../navigation/bottomnavigation'
 import { DrawContent } from '../navigation/drawcontent'
 
+import { CardDetailsInfo } from '../components'
+
 const Drawer = createDrawerNavigator();
 
 interface Props {
@@ -40,6 +42,7 @@ export const Routes = (props: Props) => {
                     <Drawer.Screen name="BottomNavigator" component={BottomNavigator} />
                     <Drawer.Screen name="ProfileScreen" component={ProfileScreen} />
                     <Drawer.Screen name="MapsScreen" component={MapsScreen} {...props} />
+                    <Drawer.Screen name="DetailsInfo" component={CardDetailsInfo} {...props} />
 
                 </>
 

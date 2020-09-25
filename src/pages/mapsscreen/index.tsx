@@ -5,6 +5,8 @@ import { Button, Text, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 const thememaps = require('../../assets/theme/darkmaptheme.json');
 import Geolocation from 'react-native-geolocation-service';
+import * as Animatable from 'react-native-animatable';
+
 
 //Services
 import { GetDataMaps } from '../../services/api/GetDataMaps'
@@ -13,17 +15,12 @@ import { GetDataMaps } from '../../services/api/GetDataMaps'
 import AuthContext from '../../context/auth'
 
 //components
-import { FabButton, MarkerContribution } from '../../components';
+import { FabButton, MarkerContribution, CardDetailsInfo } from '../../components';
+import { Maps } from './maps'
 
 //models
-import { LocationModel, MapsLocationModels, ItemMapsLocationModels } from '../../models'
-import { size } from 'lodash';
-
-interface MapItems {
-    lstContribution: Array<ItemMapsLocationModels>,
-    lstAskContribution: Array<ItemMapsLocationModels>,
-    lstInfoHouseless: Array<ItemMapsLocationModels>;
-}
+import { LocationModel, MapsLocationModels, ItemMapsLocationModels } from '../../models';
+import { useFocusEffect } from '@react-navigation/native';
 
 const MapsScreen = ({ ...props }) => {
 
@@ -35,10 +32,12 @@ const MapsScreen = ({ ...props }) => {
     const [messageError, setMessageError] = useState("");
     const [IdWatch, setIdWatch] = useState<number>(0);
     const [isLoadingPosition, setIsLoadingPosition] = useState<boolean>(true);
-    const [lstContribution, setlstContribution] = useState<Array<ItemMapsLocationModels>>()
+    const [lstContribution, setlstContribution] = useState<Array<ItemMapsLocationModels>>([] as Array<ItemMapsLocationModels>)
     const [lstAskContribution, setlstAskContribution] = useState<Array<ItemMapsLocationModels>>([] as Array<ItemMapsLocationModels>)
-    const [lstInfoHouseless, setlstInfoHouseless] = useState<Array<ItemMapsLocationModels>>();
+    const [lstInfoHouseless, setlstInfoHouseless] = useState<Array<ItemMapsLocationModels>>([] as Array<ItemMapsLocationModels>);
     const [isLoading, setIsLoading] = useState(true);
+    const [visible, setvisible] = useState(false);
+
 
     function WatchGeolocation() {
         const idWatch = Geolocation.watchPosition((sucess) => {
@@ -53,45 +52,37 @@ const MapsScreen = ({ ...props }) => {
         setIdWatch(idWatch)
     }
 
-    function GetGeolocation() {
-        Geolocation.getCurrentPosition((sucess) => {
-            console.log(sucess.coords)
-            if (sucess.coords) {
-                setLocation({ latitude: sucess.coords!.latitude!, longitude: sucess.coords!.longitude!, latitudeDelta: 1.0, longitudeDelta: 1.5 })
-            }
-        })
-    }
+    useFocusEffect(
+        React.useCallback(() => {
 
+            async function teste() {
+                const response = await GetDataMaps(user!)
 
-    useEffect(() => {
+                if (response != undefined) {
 
-        async function teste() {
-            const response = await GetDataMaps(user!)
+                    setlstAskContribution(response.lstAskContribution);
+                    setlstContribution(response.lstContribution);
+                    setlstInfoHouseless(response.lstInfoHouseless);
 
-            if (response != undefined) {
-
-                setlstAskContribution(response.lstAskContribution);
-                setlstContribution(response.lstContribution);
-                setlstInfoHouseless(response.lstInfoHouseless);
+                }
 
             }
-
-        }
-
-
-        teste();
-        GetGeolocation()
-
-        setIsLoading(false)
-
-    }, [setIsLoading])
-
-    useEffect(() => {
-        WatchGeolocation();
-    }, [])
+            WatchGeolocation();
+            teste();
+            setIsLoading(false)
+            return () => {
+                //do something when screen are unfocused
+                setIsLoading(true)
+            }
+        }, [])
+    );
 
     function switchtheme() {
         setChoiceTheme(choicetheme ? false : true);
+    }
+
+    function visibileAnimatable() {
+        setvisible(visible ? false : true)
     }
 
     if (isLoading) {
@@ -105,43 +96,23 @@ const MapsScreen = ({ ...props }) => {
     } else {
         return (
             <SafeAreaView style={{ flex: 1, width: '100%' }}>
-                <MapView style={{ flex: 1, zIndex: -1, width: '100%' }} provider={PROVIDER_GOOGLE}
-                    showsUserLocation={true} customMapStyle={choicetheme ? thememaps : []}
-                    // initialRegion={region[0]}
-                    region={{ latitude: location.latitude, longitude: location.longitude, latitudeDelta: 0.4, longitudeDelta: 0.4 }}
-                    mapType={"standard"}
-                >
-
-                    {lstAskContribution?.map(marker => (
-                        <MarkerAnimated key={marker.idDocument}
-                            coordinate={{ latitude: marker.latitude!, longitude: marker.longitude! }}
-                            rotation={5} pinColor={paperTheme.colors.primary}
-                            icon={require('../../assets/fotospublic/hand-holding2.png')}
-                        >
-                            <Callout tooltip={false} style={{ width: 120, height: 50, borderRadius: 20, alignItems: "center" }}>
-                                <Text style={{ width: '100%', alignSelf: "center", color: '#000000' }}>
-                                    {marker.description?.substring(0, 45) + '...'}
-                                </Text>
-                            </Callout>
-                        </MarkerAnimated>
-                    ))}
-
-                    {lstInfoHouseless?.map(marker => (
-                        <MarkerAnimated key={marker.idDocument}
-                            coordinate={{ latitude: marker.latitude!, longitude: marker.longitude! }}
-                            rotation={10} pinColor={paperTheme.colors.primary}
-                            icon={require('../../assets/fotospublic/user-injured2.png')}
-                        >
-                            <Callout tooltip={false} style={{ width: 120, height: 50, borderRadius: 20, alignItems: "center" }}>
-                                <Text style={{ width: '100%', alignSelf: "center", color: '#000000' }}>
-                                    {marker.description?.substring(0, 45) + '...'}
-                                </Text>
-                            </Callout>
-                        </MarkerAnimated>
-                    ))}
-
-                </MapView>
+                <Maps
+                    choicetheme={choicetheme}
+                    lstAskContribution={lstAskContribution}
+                    lstContribution={lstContribution}
+                    lstInfoHouseless={lstInfoHouseless}
+                    userlocation={location}
+                    visibileAnimatable={visibileAnimatable}
+                />
                 <FabButton switchtheme={switchtheme} drawernavigator={props.navigate} />
+
+                {visible ?
+                    <CardDetailsInfo visibileAnimatable={visibileAnimatable} />
+                    :
+                    null
+                }
+
+
             </SafeAreaView>
         )
     }
