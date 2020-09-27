@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Image, SafeAreaView, View } from 'react-native';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import { Image, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import * as Animatable from 'react-native-animatable';
-import LinearGradient from 'react-native-linear-gradient';
-import { Text, Button, useTheme, Headline, Avatar, Portal, Dialog, Subheading, Caption, IconButton, Paragraph, Divider, Title } from 'react-native-paper';
+import { Text, useTheme, Avatar, Subheading, Caption, Paragraph, Divider, Title } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 //styles
@@ -47,6 +46,7 @@ export function CardDetailsInfo(props: CardDetailsInfo) {
                 </View>
                 <View style={{ width: '100%' }}>
                     <ScrollView style={{ width: '100%' }} contentContainerStyle={{ flexGrow: 1, alignContent: "center", alignItems: "center" }}>
+
                         <Thumbs />
 
                         <Divider style={{ backgroundColor: theme.colors.accent, width: '95%', height: 1, marginTop: 15, marginBottom: 8 }} />
@@ -95,6 +95,14 @@ export function CardDetailsInfo(props: CardDetailsInfo) {
                                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto nostrum consectetur eligendi sint aliquam amet aut animi praesentium. Sed pariatur porro atque omnis. Eum quis assumenda debitis amet! Iusto, natus!
                                 </Paragraph>
                             </View>
+
+                            {typeOrder == '2' ?
+                                <View style={{ width: '95%', height: 500, borderColor: 'red', borderWidth: 2 }}>
+                                    <Image source={require('../../assets/fotospublic/logoApp2.png')} style={{ width: '100%', height: '100%', resizeMode: "cover", alignSelf: "center" }} />
+                                </View>
+                                :
+                                null
+                            }
 
                         </View>
 

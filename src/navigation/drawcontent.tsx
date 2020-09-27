@@ -6,8 +6,6 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import translate from '../services/translate/translate';
 import AuthContext from '../context/auth'
-import { itemsDropdown } from 'src/data/dataOrderscreen';
-import { color } from 'react-native-reanimated';
 
 interface Props {
     toggleTheme?: () => void,
@@ -40,7 +38,7 @@ export const DrawContent = (props: Props) => {
         },
         {
             nameIcon: 'map-marked-alt',
-            icon: () => <Icon color="#ef6c00" size={20} name="map-marker-alt" style={styles.styleIcons} />,
+            icon: () => <Icon color="#ef6c00" size={20} name="map-marker-alt" style={styles.IconStylesDraw} />,
             labelName: 'maps_menu',
             route: 'mapsscreen',
             navigate: () => navigation.navigate('MapsScreen')
@@ -78,8 +76,8 @@ export const DrawContent = (props: Props) => {
     return (
         <>
             <DrawerContentScrollView {...props}>
-                <View style={styles.conteinerDraw}>
-                    <View style={styles.viewPerfil}>
+                <View style={styles.DrawContainer}>
+                    <View style={styles.PerfilViews}>
                         <Avatar.Image size={80} source={require('../assets/imageperfil/hebert.jpg')} />
                         <Subheading>Hebert Felipe</Subheading>
                     </View>
@@ -97,20 +95,22 @@ export const DrawContent = (props: Props) => {
                             return (
                                 <DrawerItem key={menu.labelName} label={translate(menu.labelName)}
                                     icon={({ color, size }) => (
-                                        <Icon name={menu.nameIcon} size={size} color={paperTheme.colors.primary} style={{ alignSelf: "flex-start" }} />
+                                        <Icon name={menu.nameIcon} size={size} color={paperTheme.colors.primary}
+                                            style={{ alignSelf: "flex-start", width: 35, height: 35, textAlign: "center" }} />
                                     )}
                                     onPress={() => menu.navigate()}
-                                    labelStyle={{ display: "flex", width: 160, textAlign: "left" }}
-                                    style={{ display: "flex", alignItems: "flex-end", alignContent: "center" }}
+                                    //the error is here
+                                    labelStyle={{ alignSelf: "stretch", fontWeight: "bold" }}
+                                    style={{ justifyContent: 'center', alignContent: "center" }}
                                 />
                             )
                         })
                     )}
                 </Drawer.Section>
 
-                <View style={styles.viewCommum}>
+                <View style={styles.CommumViews}>
                     <Text style={{ alignSelf: 'center', fontSize: 15 }}>{translate('preferences_menu')}</Text>
-                    <View style={styles.subPreferences}>
+                    <View style={styles.PreferencesSub}>
                         <Caption children={<Text>{translate('theme_menu')}</Text>} />
                         <Switch value={SwitchDarkTheme} onValueChange={props.toggleTheme}
                             trackColor={{ true: '#877300', false: "#e0e0e0" }}
@@ -135,25 +135,25 @@ export const DrawContent = (props: Props) => {
 }
 
 const styles = StyleSheet.create({
-    conteinerDraw: {
+    DrawContainer: {
         alignItems: 'center',
         justifyContent: "center",
         padding: 5
     },
-    viewMenus: {
+    MenusViews: {
         display: "flex",
         textAlign: "center"
     },
-    viewPerfil: {
+    PerfilViews: {
         alignItems: 'center',
         textAlign: "center",
         marginBottom: 5
     },
-    viewCommum: {
+    CommumViews: {
         padding: 5,
         marginBottom: 5
     },
-    subPreferences: {
+    PreferencesSub: {
         display: 'flex',
         flexDirection: "row",
         justifyContent: "space-between",
@@ -162,13 +162,13 @@ const styles = StyleSheet.create({
     signOut: {
         marginBottom: 15,
     },
-    drawSection: {
+    SectionDraw: {
         marginTop: 15,
         borderColor: 'red',
         borderBottomColor: 'red',
         borderBottomWidth: 2
     },
-    styleIcons: {
+    IconStylesDraw: {
         display: "flex",
         alignSelf: "flex-start",
     }

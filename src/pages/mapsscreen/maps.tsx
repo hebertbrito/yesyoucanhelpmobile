@@ -6,7 +6,6 @@ import { Text, useTheme } from 'react-native-paper';
 const thememaps = require('../../assets/theme/darkmaptheme.json')
 
 //Components
-import { FabButton } from '../../components';
 
 //Models
 import { ItemMapsLocationModels, MapsLocationModels } from '../../models';
@@ -14,8 +13,8 @@ import { ItemMapsLocationModels, MapsLocationModels } from '../../models';
 interface Maps {
     lstContribution: Array<ItemMapsLocationModels>,
     lstAskContribution: Array<ItemMapsLocationModels>,
-    lstInfoHouseless: Array<ItemMapsLocationModels>;
-    choicetheme: boolean;
+    lstInfoHouseless: Array<ItemMapsLocationModels>,
+    choicetheme: boolean,
     userlocation: MapsLocationModels,
     visibileAnimatable(): void
 }

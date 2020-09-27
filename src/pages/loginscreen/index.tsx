@@ -76,6 +76,7 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
                         mode="outlined"
                         theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
                         maxLength={50}
+                        returnKeyType="next"
                     />
 
                     <PaperTextInput

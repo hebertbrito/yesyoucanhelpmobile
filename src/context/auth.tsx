@@ -17,7 +17,6 @@ export const AuthProvider: React.FC = ({ children }) => {
     const [user, setUser] = useState<UserLogin | undefined>(undefined);
     const [isLoadingLogin, setIsLoadingLogin] = useState<boolean>(false);
 
-
     useEffect(() => {
         async function loadStorageData() {
             const storagedataUser = await AsyncStorage.getItem('@yycanhelp:user')
