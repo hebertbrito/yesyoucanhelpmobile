@@ -6,7 +6,7 @@ export const listMenuItems = [
         id: 1,
         title: 'User Edit',
         description: 'make changes to your user',
-        screenNavigation: 'AdvancedSerach',
+        screenNavigation: 'ProfileScreen',
         nameIcon: 'user-cog'
     },
     {

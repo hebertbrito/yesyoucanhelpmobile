@@ -5,7 +5,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 
-import { DatePicker, CheckBoxComponent, RadioGroupComponent } from '../../components'
+import { DatePicker, CheckBoxComponent, RadioGroupComponent, NavigationButon } from '../../components'
 
 const AdvancedSerach = () => {
 
@@ -117,6 +117,12 @@ const AdvancedSerach = () => {
                     right={props => <List.Icon {...props} icon={() => <Icon name="hands-helping"
                         size={20} color={paperTheme.colors.text}
                     />} />}
+                />
+
+                <NavigationButon
+                    iconName="cogs"
+                    nameButton="Back to Settings"
+                    routeNavigation="OptionsScreens"
                 />
             </ScrollView>
 
