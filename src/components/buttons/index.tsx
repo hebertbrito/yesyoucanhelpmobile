@@ -28,6 +28,35 @@ export const MainButton = (props: Props) => {
     )
 }
 
+interface NavigationButon {
+    routeNavigation: string,
+    subNavigation?: string,
+    nameButton: string,
+    iconName: string
+}
+
+export const NavigationButon = (props: NavigationButon) => {
+
+    const paperTheme = useTheme();
+    const { navigate } = useNavigation();
+    const { routeNavigation, subNavigation, nameButton, iconName } = props;
+
+    return (
+        <Button
+            mode="contained" color={paperTheme.colors.primary}
+            style={{ width: '55%', alignSelf: "center", marginBottom: 10, marginTop: 15, elevation: 5 }}
+            {...subNavigation ?
+                { onPress: (() => navigate(`${routeNavigation}`, { screen: `${subNavigation}` })) }
+                :
+                { onPress: (() => navigate(`${routeNavigation}`)) }
+            }
+            icon={() => <Icon name={iconName} size={20} color={paperTheme.colors.text} />}
+        >
+            {nameButton}
+        </Button>
+    )
+}
+
 const styles = StyleSheet.create({
 
 })

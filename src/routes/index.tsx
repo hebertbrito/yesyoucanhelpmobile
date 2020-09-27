@@ -4,11 +4,12 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import AuthContext from '../context/auth'
 
 import LoginScreen from '../pages/loginscreen';
-import RegisterUserScreen from '../pages/registerscreen'
-import MapsScreen from '../pages/mapsscreen'
-import ProfileScreen from '../pages/profilescreen'
-import BottomNavigator from '../navigation/bottomnavigation'
-import { DrawContent } from '../navigation/drawcontent'
+import RegisterUserScreen from '../pages/registerscreen';
+import MapsScreen from '../pages/mapsscreen';
+import ProfileScreen from '../pages/profilescreen';
+import BottomNavigator from '../navigation/bottomnavigation';
+import SettingsScreen from '../pages/settingsscreen'
+import { DrawContent } from '../navigation/drawcontent';
 
 import { CardDetailsInfo } from '../components'
 
@@ -40,7 +41,7 @@ export const Routes = (props: Props) => {
 
                 <>
                     <Drawer.Screen name="BottomNavigator" component={BottomNavigator} />
-                    <Drawer.Screen name="ProfileScreen" component={ProfileScreen} />
+                    <Drawer.Screen name="SettingsScreen" component={SettingsScreen} />
                     <Drawer.Screen name="MapsScreen" component={MapsScreen} {...props} options={{ gestureEnabled: false, swipeEnabled: false }} />
                 </>
 

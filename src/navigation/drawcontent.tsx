@@ -25,10 +25,10 @@ export const DrawContent = (props: Props) => {
 
     const sidebarMenus = [
         {
-            nameIcon: 'user-cog',
+            nameIcon: 'cogs',
             labelName: 'profile_menu',
-            route: 'ProfileScreen',
-            navigate: () => navigation.navigate('ProfileScreen')
+            route: 'SettingsScreen',
+            navigate: () => navigation.navigate('SettingsScreen')
         },
         {
             nameIcon: 'home',
