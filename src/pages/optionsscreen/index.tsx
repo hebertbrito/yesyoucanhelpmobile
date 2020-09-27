@@ -16,15 +16,17 @@ import { listMenuItems } from '../../data/dataSettingsScreen'
 
 //CSS
 import { styles } from './styles'
+import { useNavigation } from '@react-navigation/native';
 
 interface Props {
     theme: any,
 }
 
-function SettingsScreen() {
+function OptionsScreens() {
 
     const theme = useTheme();
     const { user } = useContext(AuthContext);
+    const { navigate } = useNavigation();
 
     const [usermodel, setUserModel] = useState<User | undefined>({} as User);
 
@@ -62,7 +64,7 @@ function SettingsScreen() {
                                         size={25} color={theme.colors.text}
                                     />}
                                 />}
-                                onPress={() => { }}
+                                onPress={() => navigate(`${itemMenu.screenNavigation}`)}
                                 style={{ width: '90%', elevation: 5 }}
                             />
 
@@ -84,4 +86,4 @@ function SettingsScreen() {
 
 
 
-export default SettingsScreen;
+export default OptionsScreens;

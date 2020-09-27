@@ -8,7 +8,8 @@ import RegisterUserScreen from '../pages/registerscreen';
 import MapsScreen from '../pages/mapsscreen';
 import ProfileScreen from '../pages/profilescreen';
 import BottomNavigator from '../navigation/bottomnavigation';
-import SettingsScreen from '../pages/settingsscreen'
+import OptionsScreens from '../pages/optionsscreen';
+import AdvancedSerach from '../pages/advancedsearchscreen'
 import { DrawContent } from '../navigation/drawcontent';
 
 import { CardDetailsInfo } from '../components'
@@ -41,8 +42,9 @@ export const Routes = (props: Props) => {
 
                 <>
                     <Drawer.Screen name="BottomNavigator" component={BottomNavigator} />
-                    <Drawer.Screen name="SettingsScreen" component={SettingsScreen} />
                     <Drawer.Screen name="MapsScreen" component={MapsScreen} {...props} options={{ gestureEnabled: false, swipeEnabled: false }} />
+                    <Drawer.Screen name="OptionsScreens" component={OptionsScreens} />
+                    <Drawer.Screen name="AdvancedSerach" component={AdvancedSerach} />
                 </>
 
             ) : (

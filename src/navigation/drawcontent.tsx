@@ -27,8 +27,8 @@ export const DrawContent = (props: Props) => {
         {
             nameIcon: 'cogs',
             labelName: 'profile_menu',
-            route: 'SettingsScreen',
-            navigate: () => navigation.navigate('SettingsScreen')
+            route: 'OptionsScreens',
+            navigate: () => navigation.navigate('OptionsScreens')
         },
         {
             nameIcon: 'home',
