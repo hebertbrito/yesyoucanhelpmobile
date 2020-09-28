@@ -10,6 +10,7 @@ import ProfileScreen from '../pages/profilescreen';
 import BottomNavigator from '../navigation/bottomnavigation';
 import OptionsScreens from '../pages/optionsscreen';
 import AdvancedSerach from '../pages/advancedsearchscreen';
+import ChartScreen from '../pages/chartscreen';
 import { DrawContent } from '../navigation/drawcontent';
 
 import { CardDetailsInfo } from '../components'
@@ -46,6 +47,7 @@ export const Routes = (props: Props) => {
                     <Drawer.Screen name="OptionsScreens" component={OptionsScreens} />
                     <Drawer.Screen name="ProfileScreen" component={ProfileScreen} />
                     <Drawer.Screen name="AdvancedSerach" component={AdvancedSerach} />
+                    <Drawer.Screen name="ChartScreen" component={ChartScreen} />
                 </>
 
             ) : (

@@ -11,3 +11,4 @@ export * from './thumbs';
 export * from './datepicker';
 export * from './checkbox';
 export * from './radiobutton';
+export * from './lotties';

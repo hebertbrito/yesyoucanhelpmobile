@@ -20,7 +20,7 @@ export const listMenuItems = [
         id: 3,
         title: 'Chart of Data',
         description: 'See the data with charts',
-        screenNavigation: 'AdvancedSerach',
+        screenNavigation: 'ChartScreen',
         nameIcon: 'chart-line'
     },
 ]
