@@ -15,7 +15,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
 
     const paperTheme = useTheme();
-    const { SignIn, signed, isLoadingLogin } = useContext(AuthContext)
+    const { SignIn, signed } = useContext(AuthContext)
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [errorEmail, setErrorEmail] = useState(false as boolean);
@@ -95,7 +95,7 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
 
                     <Button icon={iconbutton} mode="contained" onPress={() => Login(email, password)}
                         style={{ width: '45%', padding: 2, alignSelf: "center" }}
-                        color="#fdd835" loading={isLoadingLogin}
+                        color="#fdd835"
                     >
                         Login
                     </Button>

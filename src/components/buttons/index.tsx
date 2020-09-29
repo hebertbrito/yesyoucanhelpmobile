@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, StyleProp, ViewStyle } from 'react-native';
 import { Button, Text, useTheme, ProgressBar } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native';
@@ -51,6 +51,33 @@ export const NavigationButon = (props: NavigationButon) => {
                 { onPress: (() => navigate(`${routeNavigation}`)) }
             }
             icon={() => <Icon name={iconName} size={20} color={paperTheme.colors.text} />}
+        >
+            {nameButton}
+        </Button>
+    )
+}
+
+
+interface ButtonComponent {
+    nameButton: string,
+    iconName: string,
+    size: number,
+    isSend: boolean,
+    MainActionScreen(): void,
+    styles: StyleProp<ViewStyle>
+}
+
+export const ButtonComponent = (props: ButtonComponent) => {
+
+    const paperTheme = useTheme();
+    const { MainActionScreen, iconName, isSend, nameButton, size, styles } = props;
+
+    return (
+        <Button icon={() => <Icon name={iconName} size={size} />}
+            mode="contained" color={paperTheme.colors.primary}
+            style={styles}
+            onPress={() => MainActionScreen()}
+            loading={isSend}
         >
             {nameButton}
         </Button>

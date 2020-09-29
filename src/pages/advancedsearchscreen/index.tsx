@@ -1,11 +1,19 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { SafeAreaView, View, ScrollView, StatusBar, Platform, Button } from 'react-native';
-import { useTheme, Text, Avatar, Headline, List, Title, IconButton, Checkbox, Subheading, Divider } from 'react-native-paper';
+import { SafeAreaView, View, ScrollView, StatusBar, Platform, StyleSheet } from 'react-native';
+import { useTheme, Text, Avatar, Headline, List, Title, IconButton, Checkbox, Subheading, Divider, Button } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 
-import { DatePicker, CheckBoxComponent, RadioGroupComponent, NavigationButon } from '../../components'
+import {
+    DatePicker,
+    CheckBoxComponent,
+    RadioGroupComponent,
+    NavigationButon,
+    MainButton,
+    ButtonComponent,
+    ButtonDrawer
+} from '../../components'
 
 const AdvancedSerach = () => {
 
@@ -28,8 +36,13 @@ const AdvancedSerach = () => {
         setShow(show ? false : true);
     }
 
+    async function any() {
+
+    }
+
     return (
         <SafeAreaView style={{ width: "100%", flex: 1, alignContent: "center", alignItems: "center" }}>
+
             <View style={{ width: "100%", display: "flex", justifyContent: "center", marginBottom: '3%', marginTop: '5%' }}>
                 <Headline style={{ alignSelf: "center" }}>
                     Advanced Search
@@ -119,15 +132,47 @@ const AdvancedSerach = () => {
                     />} />}
                 />
 
-                <NavigationButon
-                    iconName="cogs"
-                    nameButton="Back to Settings"
-                    routeNavigation="OptionsScreens"
-                />
+
             </ScrollView>
 
+            <View style={styles.bottomButonsView}>
+                <Button mode="text"
+                    onPress={() => { }}
+                    style={{ width: '25%', padding: 2, alignSelf: "center", justifyContent: "space-evenly", borderWidth: 1, borderColor: paperTheme.colors.text }}
+                    color={paperTheme.colors.text}
+                >
+                    Back
+                </Button>
+                <ButtonComponent iconName="search" isSend={false} nameButton="Search" size={20} styles={styles.buttoncomponente} MainActionScreen={() => { }} />
+                <Button mode="outlined"
+                    onPress={() => { }}
+                    style={{ width: '25%', padding: 2, alignSelf: "center", justifyContent: "space-evenly", borderWidth: 1, borderColor: paperTheme.colors.surface }}
+                    color={paperTheme.colors.surface}
+                >
+                    Clear
+                </Button>
+            </View>
         </SafeAreaView>
     )
 }
+
+const styles = StyleSheet.create({
+    bottomButonsView: {
+        width: '100%',
+        bottom: 0,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        padding: '3%',
+        alignContent: "center", alignItems: "center"
+    },
+    buttoncomponente: {
+        width: '30%',
+        height: 41,
+        display: "flex",
+        justifyContent: "center",
+        color: "#000000"
+    }
+})
 
 export default AdvancedSerach;
