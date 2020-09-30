@@ -30,6 +30,7 @@ const AdvancedSerach = () => {
         const currentDate = selectedDate || date;
         setShow(show ? false : true);
         setDate(currentDate);
+        console.log(currentDate)
     };
 
     function ShowDataTime() {

@@ -35,16 +35,17 @@ export const styles = StyleSheet.create({
 
     containerInput: {
         display: "flex",
-        width: '100%',
+        width: '90%',
         flexDirection: "column",
         alignItems: "flex-start",
-        marginBottom: '2%'
+        marginBottom: '2%',
+        alignSelf: "center"
     },
 
     view_1_input: {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        marginLeft: '2.5%'
+
     }
 })

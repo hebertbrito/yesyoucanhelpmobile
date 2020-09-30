@@ -1,18 +1,27 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { SafeAreaView, View, ScrollView, StatusBar } from 'react-native';
+import { SafeAreaView, View, ScrollView, StatusBar, Keyboard } from 'react-native';
 import { useTheme, TextInput, Text, Title, Avatar, IconButton, Subheading } from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import ImagePicker, { ImagePickerResponse } from 'react-native-image-picker';
 import AuthContext from '../../context/auth';
 
-import { AvatarUser as AvatarComponent } from '../../components/avataruser'
+import { InputYesComponent } from '../../components'
 
 import { GetUserProfile } from '../../services/api/GetProfile'
 import { User } from 'src/models/User';
 import { AvatarUser } from '../../models/AvatarUser';
+import { lstGenders } from '../../data/dataUserRegister'
 
 import { styles } from './styles'
+import { useFocusEffect } from '@react-navigation/native';
+import { Picker } from '@react-native-community/picker';
+
+//Services
+import { SearchCEP } from '../../services/SearchCEP'
+
+//Models
+import { CEPjson } from '../../models'
 
 interface Props {
     theme: any,
@@ -25,8 +34,8 @@ function ProfileScreen() {
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setlastName] = useState('');
-    const [dataBirth, setDataBirth] = useState('');
-    const [genderCheck, setGenderCheck] = useState('first');
+    const [dateBirth, setdateBirth] = useState('');
+    const [gender, setGender] = useState('Man');
     const [country, setCountry] = useState('');
     const [street, setStreet] = useState('');
     const [city, setCity] = useState('');
@@ -34,15 +43,14 @@ function ProfileScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [State, setState] = useState('');
+    const [cellphone, setCellphone] = useState('');
+    const [CEP, setCEP] = useState('');
+    const [neighbourhood, setNeighbourhood] = useState('');
     const [editableInput, setEditableInput] = useState(false);
     const [isLoading, setIsloading] = useState(true);
-    const [findData, setFindData] = useState(true);
     const [usermodel, setUserModel] = useState<User | undefined>({} as User);
     const [avatarSource, setAvatarSource] = useState<AvatarUser>({} as AvatarUser);
-
-
-    let objUser: AvatarUser = {}
-
+    const [cepJSON, setCEPJSON] = useState<CEPjson | undefined>({} as CEPjson);
 
     const options = {
         title: 'Select Avatar',
@@ -52,39 +60,56 @@ function ProfileScreen() {
         },
     };
 
-    console.log(findData)
+    useFocusEffect(
+        React.useCallback(() => {
 
-    useEffect(() => {
-        setEditableInput(false);
-        setFindData(true)
-    }, [])
+            async function getuserprofile() {
+                const response = await GetUserProfile(user, setUserModel);
 
-    useEffect(() => {
-
-        async function any() {
-            const response = await GetUserProfile(user, setUserModel);
-
-            if (response) {
-                setUserModel(response)
-                if (response.avatarsource) {
-                    setAvatarSource(response.avatarsource!)
+                if (response) {
+                    setUserModel(response)
+                    if (response.avatarsource) {
+                        setAvatarSource(response.avatarsource!)
+                    }
+                    setIsloading(false)
                 }
-                setIsloading(false)
+            }
+            getuserprofile();
+
+        }, [])
+    );
+
+    useEffect(() => {
+
+        async function executeSearchCEP() {
+            try {
+                if (CEP.length == 8) {
+                    const response = await SearchCEP(CEP);
+                    if (response) {
+                        setCEPJSON(response);
+                    }
+                }
+            } catch (error) {
+                console.log(error)
             }
         }
-        if (findData) {
-            any();
-            setFindData(false);
+
+        executeSearchCEP();
+
+    }, [CEP])
+
+    useEffect(() => {
+
+        if (cepJSON) {
+            Keyboard.dismiss()
+            setStreet(cepJSON.logradouro!)
+            setCity(cepJSON.localidade!);
+            setNeighbourhood(cepJSON.bairro!);
+            setState(cepJSON.uf!)
+
         }
 
-    }, [findData])
-
-
-    const iconEdit = () => {
-        return (
-            <Icon name="user-edit" color="#3B58FF" size={20} />
-        )
-    }
+    }, [cepJSON])
 
     const enableInput = () => {
         setEditableInput(!editableInput ? true : false)
@@ -149,7 +174,7 @@ function ProfileScreen() {
                     </View>
                     <View style={{ width: '100%' }}>
                         <IconButton
-                            icon={iconEdit}
+                            icon={() => <Icon name="user-edit" size={20} color={theme.colors.surface} />}
                             size={25}
                             style={{ marginRight: '9%', marginTop: '2%', alignSelf: "flex-end" }}
                             onPress={() => enableInput()}
@@ -159,327 +184,289 @@ function ProfileScreen() {
                         <View style={styles.subContainerScroll}>
                             <View style={styles.containerInput}>
                                 <View style={styles.view_1_input}>
-                                    <Subheading>First Name: </Subheading>
+                                    <Subheading style={{ fontWeight: "bold" }}>First Name: </Subheading>
                                     <Text>{usermodel!.firstname!}</Text>
                                 </View>
                                 {editableInput &&
-                                    <TextInput
+
+
+                                    <InputYesComponent
                                         value={firstName}
-                                        onChangeText={text => setFirstName(text)}
-                                        placeholder="New FirstName"
-                                        keyboardAppearance="light"
-                                        keyboardType="email-address"
-                                        style={{ margin: 10, color: `${theme.colors.text}`, width: '60%' }}
-                                        focusable={false}
-                                        mode="flat"
+                                        setvalue={setFirstName}
+                                        placeholder="Boseman"
                                         label="New FirstName"
-                                        underlineColor={theme.colors.text}
-                                        placeholderTextColor={theme.colors.text}
-                                        selectionColor={theme.colors.text}
-                                        theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
-                                        editable={editableInput}
+                                        typeKeyboard="email-address"
+                                        width="60%"
+                                        maxLength={20}
                                     />
                                 }
                             </View>
 
                             <View style={styles.containerInput}>
                                 <View style={styles.view_1_input}>
-                                    <Subheading>Lastname: </Subheading>
+                                    <Subheading style={{ fontWeight: "bold" }}>Lastname: </Subheading>
                                     <Text>{usermodel!.lastname!}</Text>
                                 </View>
 
                                 {editableInput &&
-                                    <TextInput
+                                    <InputYesComponent
                                         value={lastName}
-                                        onChangeText={text => setlastName(text)}
-                                        placeholder="New LastName"
-                                        keyboardAppearance="light"
-                                        keyboardType="email-address"
-                                        style={{ margin: 10, color: `${theme.colors.text}`, width: '60%' }}
-                                        focusable={false}
-                                        mode="flat"
-                                        label="New LastName"
-                                        underlineColor={theme.colors.text}
-                                        placeholderTextColor={theme.colors.text}
-                                        selectionColor={theme.colors.text}
-                                        theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
-                                        editable={editableInput}
+                                        setvalue={setlastName}
+                                        placeholder="Chadwik"
+                                        label="New Lastname"
+                                        typeKeyboard="email-address"
+                                        width="60%"
+                                        maxLength={20}
                                     />
                                 }
                             </View>
 
                             <View style={styles.containerInput}>
                                 <View style={styles.view_1_input}>
-                                    <Subheading>Date Birth: </Subheading>
+                                    <Subheading style={{ fontWeight: "bold" }}>Date Birth: </Subheading>
                                     <Text>{usermodel?.datebirth!}</Text>
                                 </View>
 
                                 {editableInput &&
-                                    <TextInput
-                                        value={dataBirth}
-                                        onChangeText={text => setDataBirth(text)}
-                                        placeholder="New DataBirth"
-                                        keyboardAppearance="light"
-                                        keyboardType="email-address"
-                                        style={{ margin: 10, color: `${theme.colors.text}`, width: '60%' }}
-                                        focusable={false}
-                                        mode="flat"
-                                        label="New DataBirth"
-                                        underlineColor={theme.colors.text}
-                                        placeholderTextColor={theme.colors.text}
-                                        selectionColor={theme.colors.text}
-                                        theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
-                                        editable={editableInput}
+                                    <InputYesComponent
+                                        value={dateBirth}
+                                        setvalue={setdateBirth}
+                                        placeholder="DDMMYYYY"
+                                        label="New DateBirth"
+                                        typeKeyboard="numeric"
+                                        width="40%"
+                                        maxLength={8}
                                     />
                                 }
                             </View>
 
                             <View style={styles.containerInput}>
                                 <View style={styles.view_1_input}>
-                                    <Subheading>CPF/CNPJ: </Subheading>
+                                    <Subheading style={{ fontWeight: "bold" }}>Gender: </Subheading>
+                                    <Text>{usermodel?.gender!}</Text>
+                                </View>
+
+                                {editableInput &&
+                                    <Picker mode="dialog" style={{ width: '50%', color: theme.colors.text }}
+                                        selectedValue={gender}
+                                        onValueChange={(itemvalue, itemindex) => setGender(itemvalue.toString())}
+                                    >
+                                        {lstGenders.length > 0 && (
+                                            lstGenders.map((item) => {
+                                                return (
+                                                    <Picker.Item key={item.id} label={item.name} value={item.name} />
+                                                )
+                                            })
+                                        )}
+                                    </Picker>
+                                }
+                            </View>
+
+                            <View style={styles.containerInput}>
+                                <View style={styles.view_1_input}>
+                                    <Subheading style={{ fontWeight: "bold" }}>Cellphone: </Subheading>
+                                    <Text>{usermodel?.cellphone!}</Text>
+                                </View>
+
+                                {editableInput &&
+                                    <InputYesComponent
+                                        value={cellphone}
+                                        setvalue={setCellphone}
+                                        placeholder="exemple: DDXXXXXXXXX"
+                                        label="New Cellphone"
+                                        typeKeyboard="numeric"
+                                        width="60%"
+                                        maxLength={11}
+                                    />
+                                }
+                            </View>
+
+                            <View style={styles.containerInput}>
+                                <View style={styles.view_1_input}>
+                                    <Subheading style={{ fontWeight: "bold" }}>CPF/CNPJ: </Subheading>
                                     <Text>{usermodel!.cpf_cnpj!}</Text>
                                 </View>
                             </View>
 
                             <View style={styles.containerInput}>
                                 <View style={styles.view_1_input}>
-                                    <Subheading>RG: </Subheading>
+                                    <Subheading style={{ fontWeight: "bold" }}>RG: </Subheading>
                                     <Text>{usermodel?.RG!}</Text>
                                 </View>
                             </View>
 
                             <View style={styles.containerInput}>
                                 <View style={styles.view_1_input}>
-                                    <Subheading>Country: </Subheading>
+                                    <Subheading style={{ fontWeight: "bold" }}>CEP: </Subheading>
+                                    <Text>{usermodel!.address?.CEP!}</Text>
+                                </View>
+
+                                {editableInput &&
+                                    <InputYesComponent
+                                        value={CEP}
+                                        setvalue={setCEP}
+                                        placeholder="exemple: 00000111"
+                                        label="New CEP"
+                                        typeKeyboard="numeric"
+                                        width="50%"
+                                        maxLength={8}
+                                    />
+                                }
+                            </View>
+
+                            <View style={styles.containerInput}>
+                                <View style={styles.view_1_input}>
+                                    <Subheading style={{ fontWeight: "bold" }}>Number: </Subheading>
+                                    <Text>{usermodel!.address?.number!}</Text>
+                                </View>
+
+                                {editableInput &&
+                                    <InputYesComponent
+                                        value={number}
+                                        setvalue={setNumber}
+                                        placeholder="Exemple: 000"
+                                        label="New Number"
+                                        typeKeyboard="numeric"
+                                        width="40%"
+                                        maxLength={10}
+                                    />
+                                }
+                            </View>
+
+                            <View style={styles.containerInput}>
+                                <View style={styles.view_1_input}>
+                                    <Subheading style={{ fontWeight: "bold" }}>Street: </Subheading>
+                                    <Text>{usermodel!.address?.street!}</Text>
+                                </View>
+
+                                {editableInput &&
+                                    <InputYesComponent
+                                        value={street}
+                                        setvalue={setStreet}
+                                        placeholder="Exemple: Street Park Runbo"
+                                        label="New Street"
+                                        typeKeyboard="default"
+                                        width="60%"
+                                        maxLength={50}
+                                    />
+                                }
+                            </View>
+
+                            <View style={styles.containerInput}>
+                                <View style={styles.view_1_input}>
+                                    <Subheading style={{ fontWeight: "bold" }}>Neighbourhood: </Subheading>
+                                    <Text>{usermodel!.address?.neighbourhood!}</Text>
+                                </View>
+
+                                {editableInput &&
+                                    <InputYesComponent
+                                        value={neighbourhood}
+                                        setvalue={setNeighbourhood}
+                                        placeholder="Exemple: Morumbi"
+                                        label="New Neighbourhood"
+                                        typeKeyboard="default"
+                                        width="60%"
+                                        maxLength={50}
+                                    />
+                                }
+                            </View>
+
+                            <View style={styles.containerInput}>
+                                <View style={styles.view_1_input}>
+                                    <Subheading style={{ fontWeight: "bold" }}>City: </Subheading>
+                                    <Text>{usermodel!.address?.city!}</Text>
+                                </View>
+
+                                {editableInput &&
+                                    <InputYesComponent
+                                        value={city}
+                                        setvalue={setCity}
+                                        placeholder="Exemple: São Paulo"
+                                        label="New City"
+                                        typeKeyboard="default"
+                                        width="50%"
+                                        maxLength={30}
+                                    />
+                                }
+                            </View>
+
+                            <View style={styles.containerInput}>
+                                <View style={styles.view_1_input}>
+                                    <Subheading style={{ fontWeight: "bold" }}>State: </Subheading>
+                                    <Text>{usermodel!.address?.state!}</Text>
+                                </View>
+
+                                {editableInput &&
+                                    <InputYesComponent
+                                        value={State}
+                                        setvalue={setState}
+                                        placeholder="XX"
+                                        label="New State"
+                                        typeKeyboard="default"
+                                        width="30%"
+                                        maxLength={2}
+                                    />
+                                }
+                            </View>
+
+                            <View style={styles.containerInput}>
+                                <View style={styles.view_1_input}>
+                                    <Subheading style={{ fontWeight: "bold" }}>Country: </Subheading>
                                     <Text>{usermodel!.address?.country!}</Text>
                                 </View>
 
                                 {editableInput &&
-                                    <TextInput
+                                    <InputYesComponent
                                         value={country}
-                                        onChangeText={text => setCountry(text)}
-                                        placeholder="New Country"
-                                        keyboardAppearance="light"
-                                        keyboardType="default"
-                                        style={{ margin: 10, color: `${theme.colors.text}`, width: '40%' }}
-                                        focusable={false}
-                                        mode="flat"
+                                        setvalue={setCountry}
+                                        placeholder="XX"
                                         label="New Country"
-                                        underlineColor={theme.colors.text}
-                                        placeholderTextColor={theme.colors.text}
-                                        selectionColor={theme.colors.text}
-                                        theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
-                                        editable={editableInput}
+                                        typeKeyboard="default"
+                                        width="35%"
+                                        maxLength={2}
                                     />
                                 }
                             </View>
 
                             <View style={styles.containerInput}>
                                 <View style={styles.view_1_input}>
-                                    <Subheading>State: </Subheading>
-                                    <Text>{usermodel!.address!?.state!}</Text>
-                                </View>
-
-                                {editableInput &&
-                                    <TextInput
-                                        value={State}
-                                        onChangeText={text => setState(text)}
-                                        placeholder="New State"
-                                        keyboardAppearance="light"
-                                        keyboardType="default"
-                                        style={{ margin: 10, color: `${theme.colors.text}`, width: '40%' }}
-                                        focusable={false}
-                                        mode="flat"
-                                        label="New State"
-                                        underlineColor={theme.colors.text}
-                                        placeholderTextColor={theme.colors.text}
-                                        selectionColor={theme.colors.text}
-                                        theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
-                                        editable={editableInput}
-                                    />
-                                }
-                            </View>
-
-                            <View style={styles.containerInput}>
-                                <View style={styles.view_1_input}>
-                                    <Subheading>City: </Subheading>
-                                    <Text>{usermodel!.address!?.city!}</Text>
-                                </View>
-
-                                {editableInput &&
-                                    <TextInput
-                                        value={city}
-                                        onChangeText={text => setCity(text)}
-                                        placeholder="New City"
-                                        keyboardAppearance="light"
-                                        keyboardType="email-address"
-                                        style={{ margin: 10, color: `${theme.colors.text}`, width: '50%' }}
-                                        focusable={false}
-                                        mode="flat"
-                                        label="New City"
-                                        underlineColor={theme.colors.text}
-                                        placeholderTextColor={theme.colors.text}
-                                        selectionColor={theme.colors.text}
-                                        theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
-                                        editable={editableInput}
-                                    />
-                                }
-                            </View>
-
-                            <View style={styles.containerInput}>
-                                <View style={styles.view_1_input}>
-                                    <Subheading>Number: </Subheading>
-                                    <Text>{usermodel!.address!?.number!}</Text>
-                                </View>
-
-                                {editableInput &&
-                                    <TextInput
-                                        value={number}
-                                        onChangeText={text => setNumber(text)}
-                                        placeholder="New Number"
-                                        keyboardAppearance="light"
-                                        keyboardType="numeric"
-                                        style={{ margin: 10, color: `${theme.colors.text}`, width: '30%' }}
-                                        focusable={false}
-                                        mode="flat"
-                                        label="New Number"
-                                        underlineColor={theme.colors.text}
-                                        placeholderTextColor={theme.colors.text}
-                                        selectionColor={theme.colors.text}
-                                        theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
-                                        editable={editableInput}
-                                    />
-                                }
-                            </View>
-
-                            <View style={styles.containerInput}>
-                                <View style={styles.view_1_input}>
-                                    <Subheading>CEP: </Subheading>
-                                    <Text>{usermodel!.address!?.CEP!}</Text>
-                                </View>
-
-                                {editableInput &&
-                                    <TextInput
-                                        value={number}
-                                        onChangeText={text => setNumber(text)}
-                                        placeholder="New CEP"
-                                        keyboardAppearance="light"
-                                        keyboardType="numeric"
-                                        style={{ margin: 10, color: `${theme.colors.text}`, width: '30%' }}
-                                        focusable={false}
-                                        mode="flat"
-                                        label="New CEP"
-                                        underlineColor={theme.colors.text}
-                                        placeholderTextColor={theme.colors.text}
-                                        selectionColor={theme.colors.text}
-                                        theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
-                                        editable={editableInput}
-                                    />
-                                }
-                            </View>
-
-                            <View style={styles.containerInput}>
-                                <View style={styles.view_1_input}>
-                                    <Subheading>Country: </Subheading>
-                                    <Text>{usermodel!.address!?.country!}</Text>
-                                </View>
-
-                                {editableInput &&
-                                    <TextInput
-                                        value={number}
-                                        onChangeText={text => setNumber(text)}
-                                        placeholder="New Country"
-                                        keyboardAppearance="light"
-                                        keyboardType="email-address"
-                                        style={{ margin: 10, color: `${theme.colors.text}`, width: '30%' }}
-                                        focusable={false}
-                                        mode="flat"
-                                        label="New Country"
-                                        underlineColor={theme.colors.text}
-                                        placeholderTextColor={theme.colors.text}
-                                        selectionColor={theme.colors.text}
-                                        theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
-                                        editable={editableInput}
-                                    />
-                                }
-                            </View>
-
-                            <View style={styles.containerInput}>
-                                <View style={styles.view_1_input}>
-                                    <Subheading>Street: </Subheading>
-                                    <Text>{usermodel!.address!?.street!}</Text>
-                                </View>
-
-                                {editableInput &&
-                                    <TextInput
-                                        value={number}
-                                        onChangeText={text => setNumber(text)}
-                                        placeholder="New Street"
-                                        keyboardAppearance="light"
-                                        keyboardType="email-address"
-                                        style={{ margin: 10, color: `${theme.colors.text}`, width: '30%' }}
-                                        focusable={false}
-                                        mode="flat"
-                                        label="New Street"
-                                        underlineColor={theme.colors.text}
-                                        placeholderTextColor={theme.colors.text}
-                                        selectionColor={theme.colors.text}
-                                        theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
-                                        editable={editableInput}
-                                    />
-                                }
-                            </View>
-
-                            <View style={styles.containerInput}>
-                                <View style={styles.view_1_input}>
-                                    <Subheading>Email: </Subheading>
+                                    <Subheading style={{ fontWeight: "bold" }}>Email: </Subheading>
                                     <Text>{usermodel!.email!}</Text>
                                 </View>
 
                                 {editableInput &&
-                                    <TextInput
+                                    <InputYesComponent
                                         value={email}
-                                        onChangeText={text => setEmail(text)}
-                                        placeholder="name@example.com"
-                                        keyboardAppearance="light"
-                                        keyboardType="email-address"
-                                        style={{ margin: 10, color: `${theme.colors.text}`, width: '90%' }}
-                                        focusable={false}
-                                        mode="flat"
+                                        setvalue={setEmail}
+                                        placeholder="exemple: test@teste.com"
                                         label="New Email"
-                                        underlineColor={theme.colors.text}
-                                        placeholderTextColor={theme.colors.text}
-                                        selectionColor={theme.colors.text}
-                                        theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
-                                        editable={editableInput}
+                                        typeKeyboard="email-address"
+                                        width="60%"
+                                        maxLength={50}
                                     />
                                 }
                             </View>
 
                             <View style={styles.containerInput}>
                                 <View style={styles.view_1_input}>
-                                    <Subheading>Passsword: </Subheading>
-                                    <Text>{usermodel!.password!}</Text>
+                                    <Subheading style={{ fontWeight: "bold" }}>Password: </Subheading>
+                                    <Text>******************</Text>
                                 </View>
 
                                 {editableInput &&
-                                    <TextInput
-                                        secureTextEntry={true}
+                                    <InputYesComponent
                                         value={password}
-                                        onChangeText={text => setPassword(text)}
-                                        placeholder="New Password"
-                                        keyboardAppearance="light"
-                                        style={{ margin: 10, color: `${theme.colors.text}`, width: '90%' }}
-                                        mode="flat"
+                                        setvalue={setPassword}
+                                        placeholder="exemple: AOuhfkjds16513"
                                         label="New Password"
-                                        underlineColor={theme.colors.text}
-                                        placeholderTextColor={theme.colors.text}
-                                        selectionColor={theme.colors.text}
-                                        theme={{ colors: { primary: '#fdd835', placeholder: theme.colors.text } }}
-                                        editable={editableInput}
+                                        typeKeyboard="email-address"
+                                        width="60%"
+                                        maxLength={50}
+                                        secureTextEntry={true}
                                     />
                                 }
                             </View>
+
                         </View>
                     </ScrollView>
                 </View>
