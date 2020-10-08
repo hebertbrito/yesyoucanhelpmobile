@@ -33,7 +33,7 @@ export async function SendInformHouseless(data: HouseLessModel | undefined, user
                 lat: data!.lat!,
                 long: data!.long!,
                 cep: data!.CEP!,
-                createdAt: DATE,
+                createdAt: Date.now(),
                 name: data!.name!,
                 description: data!.description!
             }

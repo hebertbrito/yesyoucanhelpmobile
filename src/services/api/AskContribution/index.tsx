@@ -11,10 +11,10 @@ export async function AskContribution(user: User | undefined, dataRequest: AskCo
         if (dataRequest) {
 
             const date = GetDate();
-            const response = await axios.post(`${BASE_URL}orderstype/askcontribution`,
+            const response = await axios.post(`${BASE_URL}orderstype/askcontributions`,
                 {
                     idDocumentUser: dataRequest.idDocument,
-                    createdAt: date,
+                    createdAt: Date.now(),
                     cep: dataRequest.CEP,
                     lat: dataRequest.lat,
                     long: dataRequest.long,

@@ -13,7 +13,7 @@ export async function CreateUser(user: User | null | undefined) {
 
         if (user != null || user != undefined) {
 
-            const response = await axios.post(`${BASE_URL}user/adduser`,
+            const response = await axios.post(`${BASE_URL}user/addusers`,
                 {
                     firstname: user.firstname!,
                     lastname: user.lastname!,

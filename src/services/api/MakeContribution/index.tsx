@@ -10,11 +10,11 @@ export async function MakeContribution(user: User | undefined, dataRequest: Make
         if (dataRequest) {
 
             const date = GetDate();
-            const response = await axios.post(`${BASE_URL}orderstype/makecontribution`,
+            const response = await axios.post(`${BASE_URL}orderstype/makecontributions`,
                 {
                     idDocumentUser: dataRequest.idDocument,
                     cep: dataRequest.cep!,
-                    createdAt: date,
+                    createdAt: Date.now(),
                     lat: dataRequest!.lat,
                     long: dataRequest!.long,
                     products: dataRequest!.products
