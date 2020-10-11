@@ -5,10 +5,6 @@ import * as Animatable from 'react-native-animatable';
 import { styles } from './styles'
 import { useNavigation } from '@react-navigation/native';
 
-//services
-import translate from '../../services/translate/translate';
-
-
 //componentes
 import { ProgressBarComponent } from '../../components/progressbar'
 import { } from '../../components/buttons'
