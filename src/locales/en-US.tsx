@@ -7,5 +7,8 @@ export default {
     "sing_out": "Sing Out",
     "inform_houseless": "Inf Houseless",
     "preferences_menu": "Preferences",
-    "theme_menu": "DarkTheme"
+    "theme_menu": "DarkTheme",
+    "home_progressbar_best_profile": "Best Profile",
+    "home_progressbar_contributions": "Contributions",
+    "home_progressbar_request": "Requests",
 }

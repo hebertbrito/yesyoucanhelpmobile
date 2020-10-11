@@ -5,6 +5,9 @@ import * as Animatable from 'react-native-animatable';
 import { styles } from './styles'
 import { useNavigation } from '@react-navigation/native';
 
+//services
+import translate from '../../services/translate/translate';
+
 
 //componentes
 import { ProgressBarComponent } from '../../components/progressbar'
@@ -22,9 +25,9 @@ const HomeScreen = ({ ...props }) => {
             <ButtonDrawer navigate={navigate} />
             <Animatable.View animation="slideInUp" delay={500} useNativeDriver={true} style={styles.viewInfo}>
                 <View style={{ marginBottom: 20, marginTop: 30 }}>
-                    <ProgressBarComponent title="Better Profile" value={6} />
-                    <ProgressBarComponent title="Contributions" value={4} />
-                    <ProgressBarComponent title="Requests" value={6} />
+                    <ProgressBarComponent title="home_progressbar_best_profile" value={6} />
+                    <ProgressBarComponent title="home_progressbar_contributions" value={4} />
+                    <ProgressBarComponent title="home_progressbar_request" value={6} />
                 </View>
 
             </Animatable.View>
