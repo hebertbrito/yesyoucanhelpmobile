@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import ImagePicker, { ImagePickerResponse } from 'react-native-image-picker';
 import AuthContext from '../../context/auth';
 
-import { InputYesComponent } from '../../components'
+import { InputYesComponent, MainButton } from '../../components'
 
 import { GetUserProfile } from '../../services/api/GetProfile'
 import { User } from 'src/models/User';
@@ -75,6 +75,11 @@ function ProfileScreen() {
                 }
             }
             getuserprofile();
+
+            return () => {
+                //do something when screen are unfocused
+
+            }
 
         }, [])
     );
@@ -466,6 +471,11 @@ function ProfileScreen() {
                                     />
                                 }
                             </View>
+                            {editableInput &&
+
+                                <MainButton MainActionScreen={async function any() { }} />
+
+                            }
 
                         </View>
                     </ScrollView>
