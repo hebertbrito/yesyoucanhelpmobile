@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState, useContext } from 'react';
-import { Platform, SafeAreaView, View } from 'react-native';
+import { Platform, SafeAreaView, View, ActivityIndicator } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Callout, MarkerAnimated } from 'react-native-maps';
 import { Text, useTheme } from 'react-native-paper';
 const thememaps = require('../../assets/theme/darkmaptheme.json')
@@ -16,7 +16,9 @@ interface Maps {
     lstInfoHouseless: Array<ItemMapsLocationModels>,
     choicetheme: boolean,
     userlocation: MapsLocationModels,
-    visibileAnimatable(): void
+    visibileAnimatable(): void,
+    getDetailsCardAskontributions(idDocument: string): void
+    getDetailsCardInfoHouseless(idDocument: string): void
 }
 
 export function Maps(props: Maps) {
@@ -24,7 +26,7 @@ export function Maps(props: Maps) {
     const paperTheme = useTheme();
     const { navigate, setParams } = useNavigation();
 
-    const { lstAskContribution, lstContribution, lstInfoHouseless, choicetheme, userlocation, visibileAnimatable } = props;
+    const { lstAskContribution, lstContribution, lstInfoHouseless, choicetheme, userlocation, visibileAnimatable, getDetailsCardAskontributions, getDetailsCardInfoHouseless } = props;
 
 
     return (
@@ -38,11 +40,11 @@ export function Maps(props: Maps) {
             {lstAskContribution?.map(marker => (
                 <MarkerAnimated key={marker.idDocument}
                     coordinate={{ latitude: marker.latitude!, longitude: marker.longitude! }}
-                    rotation={5} pinColor={paperTheme.colors.primary}
+                    rotation={5} pinColor={paperTheme.colors.onSurface}
 
                 >
                     <Callout tooltip={false} style={{ width: 120, height: 50, borderRadius: 20, alignItems: "center" }}
-                        onPress={() => visibileAnimatable()}
+                        onPress={() => { getDetailsCardAskontributions(marker.idDocument!), visibileAnimatable() }}
                     >
                         <Text style={{ width: '100%', alignSelf: "center", color: '#000000' }}>
                             {marker.description?.substring(0, 45) + '...'}
@@ -54,10 +56,12 @@ export function Maps(props: Maps) {
             {lstInfoHouseless?.map(marker => (
                 <MarkerAnimated key={marker.idDocument}
                     coordinate={{ latitude: marker.latitude!, longitude: marker.longitude! }}
-                    rotation={10} pinColor={paperTheme.colors.primary}
+                    rotation={10} pinColor={paperTheme.colors.third}
 
                 >
-                    <Callout tooltip={false} style={{ width: 120, height: 50, borderRadius: 20, alignItems: "center" }}>
+                    <Callout tooltip={false} style={{ width: 120, height: 50, borderRadius: 20, alignItems: "center" }}
+                        onPress={() => { getDetailsCardInfoHouseless(marker.idDocument!), visibileAnimatable() }}
+                    >
                         <Text style={{ width: '100%', alignSelf: "center", color: '#000000' }}>
                             {marker.description?.substring(0, 45) + '...'}
                         </Text>

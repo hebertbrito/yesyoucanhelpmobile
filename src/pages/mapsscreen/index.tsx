@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Platform, SafeAreaView, View } from 'react-native'
+import { Alert, Platform, SafeAreaView, View } from 'react-native'
 import MapView, { Marker, PROVIDER_GOOGLE, Callout, Circle, MarkerAnimated } from 'react-native-maps';
 import { Button, Text, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -9,7 +9,9 @@ import * as Animatable from 'react-native-animatable';
 
 
 //Services
-import { GetDataMaps } from '../../services/api/GetDataMaps'
+import { GetDataMaps } from '../../services/api/GetDataMaps';
+import { GetDetailsCardAskConstributions, GetDetailsCardInfoHouseless } from '../../services/api/DetailsCard';
+import { AcceptOrders, ReportOrders } from '../../services/api/ActionOrders'
 
 //Context
 import AuthContext from '../../context/auth'
@@ -19,7 +21,7 @@ import { FabButton, MarkerContribution, CardDetailsInfo } from '../../components
 import { Maps } from './maps'
 
 //models
-import { LocationModel, MapsLocationModels, ItemMapsLocationModels } from '../../models';
+import { LocationModel, MapsLocationModels, ItemMapsLocationModels, CardDetails, UserLogin } from '../../models';
 import { useFocusEffect } from '@react-navigation/native';
 
 const MapsScreen = ({ ...props }) => {
@@ -37,6 +39,7 @@ const MapsScreen = ({ ...props }) => {
     const [lstInfoHouseless, setlstInfoHouseless] = useState<Array<ItemMapsLocationModels>>([] as Array<ItemMapsLocationModels>);
     const [isLoading, setIsLoading] = useState(true);
     const [visible, setvisible] = useState(false);
+    const [cardDetails, setCardDetails] = useState<CardDetails | undefined>()
 
 
     function WatchGeolocation() {
@@ -85,6 +88,41 @@ const MapsScreen = ({ ...props }) => {
         setvisible(visible ? false : true)
     }
 
+    async function getDetailsCardAskontributions(idDocument: string) {
+        const objCardDetails = await GetDetailsCardAskConstributions(idDocument, user);
+
+        if (objCardDetails) {
+            setCardDetails(objCardDetails)
+            console.log(objCardDetails)
+        }
+
+    }
+
+    async function getDetailsCardInfoHouseless(idDocument: string) {
+        const objCardDetails = await GetDetailsCardInfoHouseless(idDocument, user);
+
+        if (objCardDetails) {
+            setCardDetails(objCardDetails)
+            console.log(objCardDetails)
+        }
+
+    }
+
+    function CloseCardDetails() {
+        setvisible(false);
+        setCardDetails(undefined)
+    }
+
+    async function acceptOrders(idDocument: string, user: UserLogin | undefined, typeorder: string) {
+        await AcceptOrders(idDocument, user, typeorder);
+        Alert.alert("Você aceitou um chamado. Obrigado!.")
+    }
+
+    async function reportOrders(idDocument: string, user: UserLogin | undefined, typeorder: string) {
+        await ReportOrders(idDocument, user, typeorder);
+        Alert.alert("Você solicitou um alerta para este chamado. Obrigado!.");
+    }
+
     if (isLoading) {
         return (
             <View>
@@ -103,11 +141,19 @@ const MapsScreen = ({ ...props }) => {
                     lstInfoHouseless={lstInfoHouseless}
                     userlocation={location}
                     visibileAnimatable={visibileAnimatable}
+                    getDetailsCardAskontributions={getDetailsCardAskontributions}
+                    getDetailsCardInfoHouseless={getDetailsCardInfoHouseless}
                 />
                 <FabButton switchtheme={switchtheme} drawernavigator={props.navigate} />
 
-                {visible ?
-                    <CardDetailsInfo visibileAnimatable={visibileAnimatable} />
+                {visible && cardDetails ?
+                    <CardDetailsInfo
+                        visibileAnimatable={visibileAnimatable}
+                        objCardDetails={cardDetails}
+                        CloseCardDetails={CloseCardDetails}
+                        AcceptOrders={acceptOrders}
+                        ReportOrders={reportOrders}
+                    />
                     :
                     null
                 }

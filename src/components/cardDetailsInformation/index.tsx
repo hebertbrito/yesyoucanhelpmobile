@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Image, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import * as Animatable from 'react-native-animatable';
@@ -9,17 +9,26 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './styles'
 
 //Components
-import { Thumbs } from '../../components'
+import { Thumbs } from '../../components';
+import AuthContext from '../../context/auth'
+
+//models
+import { CardDetails, UserLogin } from '../../models'
 
 interface CardDetailsInfo {
-    visibileAnimatable(): void
+    visibileAnimatable(): void,
+    CloseCardDetails(): void,
+    AcceptOrders(idDocument: string, user: UserLogin | undefined, typeorder: string): void,
+    ReportOrders(idDocument: string, user: UserLogin | undefined, typeorder: string): void,
+    objCardDetails: CardDetails
 }
 
 export function CardDetailsInfo(props: CardDetailsInfo) {
 
     const theme = useTheme();
+    const { user } = useContext(AuthContext);
     const [typeOrder, setTypeorder] = useState('1');
-    const { visibileAnimatable } = props;
+    const { visibileAnimatable, objCardDetails, CloseCardDetails, AcceptOrders, ReportOrders } = props;
 
 
     return (
@@ -35,40 +44,45 @@ export function CardDetailsInfo(props: CardDetailsInfo) {
                     width: '100%', marginTop: '13%', flex: 1, backgroundColor: theme.colors.background, zIndex: -1,
                     borderTopRightRadius: 45, borderTopLeftRadius: 45, elevation: 10
                 }}>
-                <Icon size={25} name="times" style={styles.Icon} color={theme.colors.error} onPress={() => visibileAnimatable()} />
+                <Icon size={25} name="times" style={styles.Icon} color={theme.colors.error} onPress={() => CloseCardDetails()} />
                 <View style={styles.sub_body}>
                     <Subheading>
-                        Hebert Felipe
+                        {objCardDetails.firstname} {objCardDetails.lastname}
                     </Subheading>
                     <Caption>
-                        hebertfelipe.97@outlook.com.br
+                        {objCardDetails.email}
                     </Caption>
                 </View>
                 <View style={{ width: '100%' }}>
                     <ScrollView style={{ width: '100%' }} contentContainerStyle={{ flexGrow: 1, alignContent: "center", alignItems: "center" }}>
 
-                        <Thumbs />
+                        <Thumbs
+                            AcceptOrders={AcceptOrders}
+                            ReportOrders={ReportOrders}
+                            idDocument={objCardDetails.idDocument}
+                            typeorder={objCardDetails.type}
+                        />
 
                         <Divider style={{ backgroundColor: theme.colors.accent, width: '95%', height: 1, marginTop: 15, marginBottom: 8 }} />
 
                         <View style={{ width: '100%', padding: '3%', flexDirection: "column" }}>
                             <View style={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
                                 <View style={{ display: 'flex', flexDirection: 'column' }}>
-                                    {typeOrder == '2' ?
+                                    {objCardDetails.type == '3' ?
                                         <View>
                                             <Title>Name:</Title>
                                             <Paragraph>
-                                                Jeromel
+                                                {objCardDetails.name}
                                             </Paragraph>
                                         </View>
                                         :
                                         null
                                     }
-                                    {typeOrder == '1' ?
+                                    {objCardDetails.type == '2' ?
                                         <View style={{ marginRight: '10%', justifyContent: "center" }}>
                                             <Title>Product:</Title>
                                             <Paragraph>
-                                                Clothes
+                                                {objCardDetails.product}
                                             </Paragraph>
                                         </View>
                                         :
@@ -77,12 +91,12 @@ export function CardDetailsInfo(props: CardDetailsInfo) {
 
                                 </View>
 
-                                {typeOrder == '1' ?
+                                {objCardDetails.type == '2' ?
                                     <View style={{ alignSelf: "center", alignItems: "center", alignContent: "center", justifyContent: "center" }}>
                                         <Title>Quantity/Size:</Title>
                                         <Paragraph>
-                                            1
-                                    </Paragraph>
+                                            {objCardDetails.number}
+                                        </Paragraph>
                                     </View>
                                     :
                                     null
@@ -92,11 +106,11 @@ export function CardDetailsInfo(props: CardDetailsInfo) {
                             <View style={{ width: '100%', display: "flex" }}>
                                 <Title>Description:  </Title>
                                 <Paragraph style={{ fontStyle: "italic" }}>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto nostrum consectetur eligendi sint aliquam amet aut animi praesentium. Sed pariatur porro atque omnis. Eum quis assumenda debitis amet! Iusto, natus!
+                                    {objCardDetails.description}
                                 </Paragraph>
                             </View>
 
-                            {typeOrder == '2' ?
+                            {objCardDetails.type == '3' ?
                                 <View style={{ width: '95%', height: 500, borderColor: 'red', borderWidth: 2 }}>
                                     <Image source={require('../../assets/fotospublic/logoApp2.png')} style={{ width: '100%', height: '100%', resizeMode: "cover", alignSelf: "center" }} />
                                 </View>

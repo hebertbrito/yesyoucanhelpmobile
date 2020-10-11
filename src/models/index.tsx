@@ -10,3 +10,4 @@ export * from './UserLogin';
 export * from './HouseLessModel';
 export * from './MapsLocationModels';
 export * from './ItemMapsLocationModels';
+export * from './CardDetails';
