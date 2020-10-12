@@ -4,9 +4,13 @@ import { useTheme, Text, Avatar, Headline, List } from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import AuthContext from '../../context/auth';
+import { useNavigation } from '@react-navigation/native';
 
+//componentes
 import { NavigationButon } from '../../components'
 
+//services
+import translate from '../../services/translate/translate'
 import { GetUserProfile } from '../../services/api/GetProfile'
 import { User } from 'src/models/User';
 import { AvatarUser } from '../../models/AvatarUser';
@@ -16,7 +20,7 @@ import { listMenuItems } from '../../data/dataSettingsScreen'
 
 //CSS
 import { styles } from './styles'
-import { useNavigation } from '@react-navigation/native';
+
 
 interface Props {
     theme: any,
@@ -35,8 +39,8 @@ function OptionsScreens() {
             <View style={styles.viewContainer} >
                 <LinearGradient colors={[theme.colors.primary, '#F8B00C', '#fdd835']} style={styles.LinearGradient}>
                     <Headline style={{ marginTop: '5%' }}>
-                        User Settings
-                                </Headline>
+                        {translate('title_user_settings')}
+                    </Headline>
                 </LinearGradient>
                 <View style={{
                     width: '85%', height: '25%', marginTop: '20%',
@@ -57,8 +61,8 @@ function OptionsScreens() {
                         {listMenuItems.map(itemMenu => (
 
                             <List.Item
-                                title={itemMenu.title} key={itemMenu.id}
-                                description={itemMenu.description}
+                                title={`${translate(itemMenu.title)}`} key={itemMenu.id}
+                                description={`${translate(itemMenu.description)}`}
                                 left={props => <List.Icon {...props}
                                     icon={() => <Icon name={itemMenu.nameIcon!}
                                         size={25} color={theme.colors.text}
@@ -75,7 +79,7 @@ function OptionsScreens() {
                         routeNavigation="BottomNavigator"
                         subNavigation="HomeScreen"
                         iconName="home"
-                        nameButton="Go Home"
+                        nameButton={translate('home_menu')}
                     />
 
                 </ScrollView>

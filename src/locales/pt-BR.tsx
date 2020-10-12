@@ -1,5 +1,11 @@
 export default {
+    "advanced_search_menu": "Busca Avançada",
+    "description_advanced_search": "Veja os dados com mais detalhes",
+    "chart_menu": "Grafico de dados",
+    "description_chart": "Veja os dados com gráficos",
     "profile_menu": "Perfil",
+    "description_profile": "Faça alterações em seu usuário",
+    "settings_menu": "Ferramentas",
     "home_menu": "Página Inicial",
     "maps_menu": "Mapa",
     "contribution_menu": "Fazer Doações",
@@ -40,4 +46,6 @@ export default {
     "type_send_contribution": "Ponto de recebimento",
     "check_contribution_branch": "Enviar para filial",
     "check_contribution_meet_place": "Ponto de encontro",
+    "title_user_settings": "Configurações do Usuário",
+
 }

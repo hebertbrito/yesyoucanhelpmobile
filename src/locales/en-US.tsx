@@ -1,5 +1,11 @@
 export default {
+    "advanced_search_menu": "Advanced Search",
+    "description_advanced_search": "See the data with more details",
+    "chart_menu": "Chart of Data",
+    "description_chart": "See the data with charts",
     "profile_menu": "Profile",
+    "description_profile": "make changes to your user",
+    "settings_menu": "Settings",
     "home_menu": "Home",
     "maps_menu": "Maps",
     "contribution_menu": "Contributions",
@@ -41,4 +47,5 @@ export default {
     "type_send_contribution": "Checkpoint",
     "check_contribution_branch": "Send Product to branch",
     "check_contribution_meet_place": "Meet Place",
+    "title_user_settings": "User Settings",
 }

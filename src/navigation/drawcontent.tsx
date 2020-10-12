@@ -26,7 +26,7 @@ export const DrawContent = (props: Props) => {
     const sidebarMenus = [
         {
             nameIcon: 'cogs',
-            labelName: 'profile_menu',
+            labelName: 'settings_menu',
             route: 'OptionsScreens',
             navigate: () => navigation.navigate('OptionsScreens')
         },
