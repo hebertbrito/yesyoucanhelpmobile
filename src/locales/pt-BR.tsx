@@ -38,6 +38,8 @@ export default {
     "neighbourhood": "Bairro",
     "street": "Rua",
     "city": "Cidade",
+    "email": "Email",
+    "password": "Senha",
     "Ask_for_Contribution": "Pedir Contribuição",
     "informs_houseless": "Informar um Desabrigado",
     "set_image_button": "Imagem",
@@ -47,5 +49,6 @@ export default {
     "check_contribution_branch": "Enviar para filial",
     "check_contribution_meet_place": "Ponto de encontro",
     "title_user_settings": "Configurações do Usuário",
-
+    "button_login": "Logar",
+    "register_button": "Registre-se",
 }

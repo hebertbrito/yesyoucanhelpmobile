@@ -39,6 +39,8 @@ export default {
     "street": "Street",
     "city": "City",
     "name": "Name",
+    "email": "Email",
+    "password": "Password",
     "Ask_for_Contribution": "Ask for Contribution",
     "informs_houseless": "Inform Houseless",
     "set_image_button": "choose image",
@@ -48,4 +50,7 @@ export default {
     "check_contribution_branch": "Send Product to branch",
     "check_contribution_meet_place": "Meet Place",
     "title_user_settings": "User Settings",
+    "button_login": "Login",
+    "register_button": "Register",
+
 }

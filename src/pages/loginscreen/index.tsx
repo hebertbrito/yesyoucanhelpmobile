@@ -11,6 +11,9 @@ import styles from './styles'
 import { pad } from 'lodash';
 import { ScrollView } from 'react-native-gesture-handler';
 
+//services
+import translate from '../../services/translate/translate'
+
 
 const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
 
@@ -67,8 +70,8 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
                     <PaperTextInput
                         value={email}
                         onChangeText={text => setEmail(text)}
-                        placeholder="Email"
-                        label="Email"
+                        placeholder={`${translate('example')}: test@test.com`}
+                        label={`${translate('email')}`}
                         keyboardType="email-address"
                         style={{ margin: 10, color: paperTheme.colors.text }}
                         placeholderTextColor={paperTheme.colors.text}
@@ -83,8 +86,8 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
                         secureTextEntry={true}
                         value={password}
                         onChangeText={(text) => setPassword(text)}
-                        placeholder="Password"
-                        label="Password"
+                        placeholder={`${translate('password')}*`}
+                        label={`${translate('password')}`}
                         style={{ margin: 10 }}
                         placeholderTextColor={paperTheme.colors.text}
                         selectionColor={paperTheme.colors.text}
@@ -97,14 +100,14 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
                         style={{ width: '45%', padding: 2, alignSelf: "center" }}
                         color="#fdd835"
                     >
-                        Login
+                        {translate('button_login')}
                     </Button>
                     <TouchableOpacity style={{ width: 120, height: 50, alignSelf: "center" }}
                         onPress={() => navigation.navigate('RegisterUserScreen')}
                     >
                         <Text style={{ alignSelf: "center", margin: 3, color: 'red' }}>
-                            Register
-                    </Text>
+                            {translate('register_button')}
+                        </Text>
                     </TouchableOpacity>
                 </Animatable.View>
             </ScrollView>
