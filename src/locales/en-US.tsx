@@ -32,5 +32,9 @@ export default {
     "neighbourhood": "Neighbourhood",
     "street": "Street",
     "city": "City",
-
+    "name": "Name",
+    "Ask_for_Contribution": "Ask for Contribution",
+    "informs_houseless": "Inform Houseless",
+    "set_image_button": "choose image",
+    "set_remove_button": "Remove"
 }

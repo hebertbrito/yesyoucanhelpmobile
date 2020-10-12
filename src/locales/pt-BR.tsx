@@ -32,5 +32,8 @@ export default {
     "neighbourhood": "Bairro",
     "street": "Rua",
     "city": "Cidade",
-
+    "Ask_for_Contribution": "Pedir Contribuição",
+    "informs_houseless": "Informar um Desabrigado",
+    "set_image_button": "Imagem",
+    "set_remove_button": "Remover"
 }

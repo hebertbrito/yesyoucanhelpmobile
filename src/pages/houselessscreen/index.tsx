@@ -20,6 +20,7 @@ import { LocationModel, CEPjson, HouseLessModel } from '../../models';
 import { validateFormLocation } from '../../mocks/validateFormLocation'
 
 //Services
+import translate from '../../services/translate/translate'
 import { SearchCEP } from '../../services/SearchCEP';
 import { SearchGeocoding } from '../../services/SearchGeocoding'
 import { SendInformHouseless } from '../../services/api/InformHouseless'
@@ -268,19 +269,21 @@ const HouseLessScreen = () => {
         <SafeAreaView style={styles.safeView}>
             <ScrollView style={styles.scrollContainer} contentContainerStyle={styles.contentContainerStyle}>
                 <View style={styles.viewTitle}>
-                    <Headline>Inform Houseless</Headline>
+                    <Headline style={{ fontWeight: "bold" }}>
+                        {translate('informs_houseless')}
+                    </Headline>
                 </View>
                 <View style={{ width: '95%' }}>
                     <TextInput
                         value={name}
                         onChangeText={text => setName(text)}
-                        placeholder="Name"
+                        placeholder={`${translate('example')}: Peter`}
                         keyboardAppearance="light"
                         keyboardType="email-address"
                         style={{ margin: 10, color: `${paperTheme.colors.text}`, width: '60%' }}
                         focusable={false}
                         mode="outlined"
-                        label="Name"
+                        label={`${translate('name')}`}
                         underlineColor={paperTheme.colors.text}
                         placeholderTextColor={paperTheme.colors.text}
                         selectionColor={paperTheme.colors.text}
@@ -289,7 +292,7 @@ const HouseLessScreen = () => {
                     <TextInput
                         value={description}
                         onChangeText={text => setDescription(text)}
-                        placeholder="Description *"
+                        placeholder={`${translate('list_description')}*`}
                         keyboardAppearance="light"
                         keyboardType="email-address"
                         style={{ margin: 10, color: `${paperTheme.colors.text}`, width: '78%' }}
@@ -297,7 +300,7 @@ const HouseLessScreen = () => {
                         multiline={true}
                         numberOfLines={4}
                         mode="outlined"
-                        label="Description *"
+                        label={`${translate('list_description')}*`}
                         underlineColor={paperTheme.colors.text}
                         placeholderTextColor={paperTheme.colors.text}
                         selectionColor={paperTheme.colors.text}
@@ -320,7 +323,9 @@ const HouseLessScreen = () => {
                         width: '45%',
                         elevation: 2
                     }}>
-                        <Text style={{ color: '#000000' }}>Inform Address</Text>
+                        <Text style={{ color: '#000000' }}>
+                            {translate('check_use_address')}
+                        </Text>
                         <RadioButton
                             value="AddAddress"
                             status={checked === 'AddAddress' ? 'checked' : 'unchecked'}
@@ -341,7 +346,9 @@ const HouseLessScreen = () => {
                         width: '45%',
                         elevation: 2
                     }}>
-                        <Text style={{ color: '#000000' }}>To Use GPS</Text>
+                        <Text style={{ color: '#000000' }}>
+                            {translate('check_use_gps')}
+                        </Text>
                         <RadioButton
                             value="GPS"
                             status={checked === 'GPS' ? 'checked' : 'unchecked'}
@@ -385,7 +392,7 @@ const HouseLessScreen = () => {
                             theme={{ colors: { primary: paperTheme.colors.surface } }}
                             onPress={() => getImage()}
                         >
-                            Chose Image
+                            {translate('set_image_button')}
                         </Button>
                         {photo &&
                             <Button icon={() => <Icon name="trash-alt" size={20} color={paperTheme.colors.notification} />}
@@ -394,7 +401,7 @@ const HouseLessScreen = () => {
                                 onPress={() => setPhoto(undefined)}
                                 color={paperTheme.colors.notification}
                             >
-                                Delete Image
+                                {translate('set_remove_button')}
                             </Button>
                         }
                     </View>

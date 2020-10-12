@@ -243,7 +243,9 @@ const AskContributionScreen = () => {
     return (
         <SafeAreaView style={styles.safeView}>
             <ScrollView style={{ width: '100%' }} contentContainerStyle={{ display: "flex", flexGrow: 1, alignContent: "center", alignItems: "center" }}>
-                <Headline style={{ color: paperTheme.colors.text, marginTop: 10, marginBottom: 10, fontWeight: "bold" }}>Ask for Contribution</Headline>
+                <Headline style={{ color: paperTheme.colors.text, marginTop: 10, marginBottom: 10, fontWeight: "bold" }}>
+                    {translate('Ask_for_Contribution')}
+                </Headline>
 
                 <FormProduct dropdownvalueproduct={dropdownvalueproduct} setDropdownValueProduct={setDropdownValueProduct}
                     numberInput={numberInput} setNumberInput={setNumberInput}
