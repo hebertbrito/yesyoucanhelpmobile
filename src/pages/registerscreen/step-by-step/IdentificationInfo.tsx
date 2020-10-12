@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTheme, TextInput, Card, Title } from 'react-native-paper';
 import * as Animatable from 'react-native-animatable';
+import translate from '../../../services/translate/translate';
 
 
 interface IdentificationInfo {
@@ -24,12 +25,14 @@ export function IdentificationInfo(props: IdentificationInfo) {
             animation="fadeInRight" useNativeDriver={true} easing={"ease-in-out"}>
             <Card style={{ display: "flex", flexDirection: "column", width: '100%', backgroundColor: '#eeeeee', elevation: 4 }}>
                 <Card.Content style={{ backgroundColor: '#eeeeee' }}>
-                    <Title style={{ color: '#000000' }}>Identification Info</Title>
+                    <Title style={{ color: '#000000' }}>
+                        {translate('identification_info')}
+                    </Title>
                     <TextInput
                         value={cpf_cnpj}
                         onChangeText={text => setCPF_CNPJ(text)}
-                        placeholder="exemple: 9999999999"
-                        label="CPF/CNPJ"
+                        placeholder={`${translate('example')}: 9999999999`}
+                        label={`${translate('cpf_npj')}*`}
                         keyboardType="numeric"
                         style={{ marginTop: 10, width: '96.5%' }}
                         placeholderTextColor={theme.colors.text}
@@ -42,8 +45,8 @@ export function IdentificationInfo(props: IdentificationInfo) {
                         <TextInput
                             value={RG}
                             onChangeText={text => setRG(text)}
-                            placeholder="exemple: 9999999999"
-                            label="RG"
+                            placeholder={`${translate('example')}: 9999999999`}
+                            label={`${translate('rg')}*`}
                             keyboardType="numeric"
                             style={{ marginTop: 10, width: '96.5%' }}
                             placeholderTextColor={theme.colors.text}
@@ -58,8 +61,8 @@ export function IdentificationInfo(props: IdentificationInfo) {
                     <TextInput
                         value={cellphone}
                         onChangeText={text => setCellPhone(text)}
-                        placeholder="exemple: DDXXXXXXXXX"
-                        label="Cellphone"
+                        placeholder={`${translate('example')}: DDXXXXXXXXX`}
+                        label={`${translate('cellphone')}*`}
                         keyboardType="numeric"
                         style={{ marginTop: 10, width: '96.5%' }}
                         placeholderTextColor={theme.colors.text}

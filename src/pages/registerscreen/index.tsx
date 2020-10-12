@@ -15,6 +15,7 @@ import { User } from '../../models/User';
 
 import { CreateUser, SetAvatarUser } from '../../services/api/CreateUser'
 import { useNavigation } from '@react-navigation/native';
+import translate from '../../services/translate/translate'
 
 function RegisterScreen({ ...props }) {
 
@@ -279,7 +280,9 @@ function RegisterScreen({ ...props }) {
     function StateProgressBar(value: number) {
         return (
             <View style={{ width: '50%', paddingBottom: '5%', display: 'flex', flexDirection: 'column', justifyContent: "center", alignContent: "center" }}>
-                <Subheading style={{ alignSelf: "center", marginBottom: '3%' }}>Registration Progress</Subheading>
+                <Subheading style={{ alignSelf: "center", marginBottom: '3%' }}>
+                    {translate('registration_progress')}
+                </Subheading>
                 <ProgressBar progress={value * 0.25} color='#fdd835' style={{ width: '100%', height: 10, alignSelf: "center", borderRadius: 50, elevation: 3 }} />
             </View>
         )
@@ -299,7 +302,7 @@ function RegisterScreen({ ...props }) {
                             style={{ width: '30%', padding: 2, alignSelf: "center", justifyContent: "space-evenly", borderWidth: 1, borderColor: theme.colors.text }}
                             color={theme.colors.text}
                         >
-                            Back
+                            {translate('button_back')}
                         </Button>
                         :
                         null
@@ -314,7 +317,7 @@ function RegisterScreen({ ...props }) {
                             style={{ width: '30%', padding: 2, alignSelf: "center", justifyContent: "space-evenly", borderWidth: 1, borderColor: theme.colors.text }}
                             color={theme.colors.text}
                         >
-                            Next
+                            {translate('button_next')}
                         </Button>
                     }
 
@@ -332,7 +335,7 @@ function RegisterScreen({ ...props }) {
                         style={{ width: '50%', padding: 2, alignSelf: "center", justifyContent: "space-evenly" }}
                         color={theme.colors.notification}
                     >
-                        Cancel
+                        {translate('button_cancel')}
                     </Button>
 
                 </View>

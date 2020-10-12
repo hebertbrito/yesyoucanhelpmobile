@@ -10,6 +10,9 @@ import { styles } from './styles'
 
 import { lstGenders } from '../../../data/dataUserRegister'
 
+//services
+import translate from '../../../services/translate/translate'
+
 interface DataCommum {
     firstname: string,
     setFirstName: React.Dispatch<React.SetStateAction<string>>,
@@ -40,7 +43,9 @@ export function CommomData(props: DataCommum) {
             <Card style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-evenly", flexDirection: "column", elevation: 4, backgroundColor: '#eeeeee' }}
             >
                 <Card.Content style={{ backgroundColor: '#eeeeee' }}>
-                    <Title style={{ color: '#000000' }}>Commom data</Title>
+                    <Title style={{ color: '#000000' }}>
+                        {translate('commom_data')}
+                    </Title>
                     <View style={styles.viewCardCheckBox}>
                         <View style={{
                             paddingLeft: "2.5%",
@@ -54,7 +59,9 @@ export function CommomData(props: DataCommum) {
                             width: '45%',
                             elevation: 2
                         }}>
-                            <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>Physical person</Text>
+                            <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>
+                                {translate('check_register_physic_person')}
+                            </Text>
                             <RadioButton
                                 value={typeuser}
                                 status={typeuser === '1' ? 'checked' : 'unchecked'}
@@ -75,7 +82,9 @@ export function CommomData(props: DataCommum) {
                             width: '45%',
                             elevation: 2
                         }}>
-                            <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>Legal person</Text>
+                            <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>
+                                {translate('check_register_legal_perosn')}
+                            </Text>
                             <RadioButton
                                 value={typeuser}
                                 status={typeuser === '2' ? 'checked' : 'unchecked'}
@@ -90,8 +99,8 @@ export function CommomData(props: DataCommum) {
                         <TextInput
                             value={firstname}
                             onChangeText={text => setFirstName(text)}
-                            placeholder="exemple: T'Challa"
-                            label="First Name"
+                            placeholder={`${translate('example')}: T'Challa`}
+                            label={`${translate('firstname')}*`}
                             keyboardType="email-address"
                             style={{ marginTop: 10, width: '96.5%' }}
                             selectionColor={theme.colors.text}
@@ -107,8 +116,8 @@ export function CommomData(props: DataCommum) {
                         <TextInput
                             value={lastname}
                             onChangeText={text => setLastName(text)}
-                            placeholder="exemple: Aoubu"
-                            label="Last Name"
+                            placeholder={`${translate('example')}: Aoubu`}
+                            label={`${translate('lastname')}*`}
                             keyboardType="email-address"
                             style={{ marginTop: 10, width: '96.5%' }}
                             placeholderTextColor={theme.colors.text}
@@ -126,8 +135,8 @@ export function CommomData(props: DataCommum) {
                             <TextInput
                                 value={datebirth}
                                 onChangeText={text => setDateBirth(text)}
-                                placeholder="DD/MM/YYYY"
-                                label="Date Birth"
+                                placeholder="DDMMYYYY"
+                                label={`${translate('datebirth')}*`}
                                 keyboardType="numeric"
                                 style={{ marginTop: 10, width: '50%' }}
                                 placeholderTextColor={theme.colors.text}

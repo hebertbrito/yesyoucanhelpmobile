@@ -5,6 +5,9 @@ import { View } from 'react-native';
 import { ImagePickerResponse } from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/EvilIcons';
 
+//services
+import translate from '../../../services/translate/translate';
+
 interface LoginDatas {
     email: string,
     setEmail: React.Dispatch<React.SetStateAction<string>>,
@@ -24,7 +27,9 @@ export function LoginDatas(props: LoginDatas) {
         <Animatable.View style={{ justifyContent: "center", marginTop: 5, width: '90%' }} easing="ease-in-out" animation="fadeInRight" useNativeDriver={true}>
             <Card style={{ backgroundColor: '#eeeeee', elevation: 4 }}>
                 <Card.Content style={{ backgroundColor: '#eeeeee' }}>
-                    <Title style={{ color: '#000000' }}> Login Datas</Title>
+                    <Title style={{ color: '#000000' }}>
+                        {translate('login_datas')}
+                    </Title>
 
                     <View style={{
                         width: '100%',
@@ -51,8 +56,8 @@ export function LoginDatas(props: LoginDatas) {
                         <TextInput
                             value={email}
                             onChangeText={text => setEmail(text)}
-                            placeholder="exemple: test@teste.com"
-                            label="Email"
+                            placeholder={`${translate('example')}: test@test.com`}
+                            label={`${translate('email')}*`}
                             keyboardType="email-address"
                             style={{ marginTop: 10, width: '100%' }}
                             placeholderTextColor={theme.colors.text}
@@ -65,8 +70,8 @@ export function LoginDatas(props: LoginDatas) {
                             secureTextEntry={true}
                             value={password}
                             onChangeText={text => setPassword(text)}
-                            placeholder="Password"
-                            label="Password"
+                            placeholder={`${translate('password')}`}
+                            label={`${translate('password')}*`}
                             style={{ marginTop: 10, width: '100%' }}
                             placeholderTextColor={theme.colors.text}
                             selectionColor={theme.colors.text}

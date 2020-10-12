@@ -3,6 +3,9 @@ import { useTheme, TextInput, Card, Title } from 'react-native-paper';
 import * as Animatable from 'react-native-animatable';
 import { View } from 'react-native';
 
+//services
+import translate from '../../../services/translate/translate';
+
 interface AddressInfo {
     CEP: string,
     setCEP: React.Dispatch<React.SetStateAction<string>>,
@@ -38,8 +41,8 @@ export function AddressInfo(props: AddressInfo) {
                             <TextInput
                                 value={CEP}
                                 onChangeText={text => setCEP(text)}
-                                placeholder="exemple: 00000111"
-                                label="CEP"
+                                placeholder={`${translate('example')}: 00000111`}
+                                label={`${translate('cep')}*`}
                                 keyboardType="default"
                                 style={{ marginTop: 10, width: '50%' }}
                                 placeholderTextColor={theme.colors.text}
@@ -50,8 +53,8 @@ export function AddressInfo(props: AddressInfo) {
                             <TextInput
                                 value={number}
                                 onChangeText={text => setNumber(text)}
-                                placeholder="Exemple: 000"
-                                label="Number"
+                                placeholder={`${translate('example')}: 000`}
+                                label={`${translate('number')}*`}
                                 keyboardType="numeric"
                                 style={{ marginTop: 10, width: '45%' }}
                                 placeholderTextColor={theme.colors.text}
@@ -65,8 +68,8 @@ export function AddressInfo(props: AddressInfo) {
                             <TextInput
                                 value={neighbourhood}
                                 onChangeText={text => setNeighbourhood(text)}
-                                placeholder="Exemple: Morumbi"
-                                label="Neighbourhood"
+                                placeholder={`${translate('example')}: Morumbi`}
+                                label={`${translate('neighbourhood')}*`}
                                 keyboardType="email-address"
                                 style={{ marginTop: 10, width: '100%' }}
                                 placeholderTextColor={theme.colors.text}
@@ -77,8 +80,8 @@ export function AddressInfo(props: AddressInfo) {
                             <TextInput
                                 value={street}
                                 onChangeText={text => setStreet(text)}
-                                placeholder="Exemple: Street Park Runbo"
-                                label="Street"
+                                placeholder={`${translate('example')}: ${street} Park Strat`}
+                                label={`${translate('street')}*`}
                                 keyboardType="default"
                                 style={{ marginTop: 10, width: '100%' }}
                                 placeholderTextColor={theme.colors.text}
@@ -92,8 +95,8 @@ export function AddressInfo(props: AddressInfo) {
                             <TextInput
                                 value={city}
                                 onChangeText={text => setCity(text)}
-                                placeholder="Exemple: São Paulo"
-                                label="City"
+                                placeholder={`${translate('example')}: São Paulo`}
+                                label={`${translate('city')}*`}
                                 keyboardType="email-address"
                                 style={{ marginTop: 10, width: '45%' }}
                                 placeholderTextColor={theme.colors.text}
@@ -105,8 +108,8 @@ export function AddressInfo(props: AddressInfo) {
                             <TextInput
                                 value={state}
                                 onChangeText={text => setState(text)}
-                                placeholder="XX"
-                                label="State"
+                                placeholder={`XX`}
+                                label={`${translate('state')}*`}
                                 keyboardType="default"
                                 style={{ marginTop: 10, width: '25%' }}
                                 placeholderTextColor={theme.colors.text}
@@ -119,7 +122,7 @@ export function AddressInfo(props: AddressInfo) {
                                 value={country}
                                 onChangeText={text => setCountry(text)}
                                 placeholder="XX"
-                                label="Country"
+                                label={`${translate('country')}*`}
                                 keyboardType="default"
                                 style={{ marginTop: 10, width: '25%' }}
                                 placeholderTextColor={theme.colors.text}
