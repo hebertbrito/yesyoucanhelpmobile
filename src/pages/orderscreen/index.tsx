@@ -3,20 +3,23 @@ import { SafeAreaView, View, ScrollView, Keyboard } from 'react-native';
 import { useTheme, Text, Title, Subheading, List, Button, Divider, RadioButton, Headline, TextInput } from 'react-native-paper';
 import { Picker } from '@react-native-community/picker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import AuthContext from '../../context/auth'
+import AuthContext from '../../context/auth';
 
 //dataOrderMenu
-import { addressesDropdown } from '../../data/dataOrderscreen'
+import { addressesDropdown } from '../../data/dataOrderscreen';
 import { FormProduct } from '../../components/formproduct';
-import { MainButton } from '../../components/buttons'
-import ListProduct from './listproduct'
-import { GetLatLongByCheckBox } from '../../mocks/getlatlongbycheckbox'
+import { MainButton } from '../../components/buttons';
+import ListProduct from './listproduct';
+import { GetLatLongByCheckBox } from '../../mocks/getlatlongbycheckbox';
 
-import { MakeContribution } from '../../services/api/MakeContribution'
-import { MakeContributionModel } from '../../models/MakeContribution'
+//services
+import { MakeContribution } from '../../services/api/MakeContribution';
+import translate from '../../services/translate/translate'
+
+import { MakeContributionModel } from '../../models/MakeContribution';
 
 //screens
-import { styles } from './styles'
+import { styles } from './styles';
 
 
 const DEFAULTADDRESS = 'Rua Paulo Mazetto, 344 - Paulinia/SP';
@@ -161,7 +164,9 @@ const OrderScreen = () => {
                         width: '45%',
                         elevation: 2
                     }}>
-                        <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>Send Product to branch</Text>
+                        <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>
+                            {translate('check_contribution_branch')}
+                        </Text>
                         <RadioButton
                             value="SendBranch"
                             status={checked === 'SendBranch' ? 'checked' : 'unchecked'}
@@ -183,7 +188,9 @@ const OrderScreen = () => {
                         elevation: 2
 
                     }}>
-                        <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>Choose a meeting place</Text>
+                        <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>
+                            {translate('check_contribution_meet_place')}
+                        </Text>
                         <RadioButton
                             value="ChoseMPlace"
                             status={checked === 'ChoseMPlace' ? 'checked' : 'unchecked'}

@@ -36,5 +36,9 @@ export default {
     "Ask_for_Contribution": "Ask for Contribution",
     "informs_houseless": "Inform Houseless",
     "set_image_button": "choose image",
-    "set_remove_button": "Remove"
+    "set_remove_button": "Remove",
+    "title_make_contribution": "Contribution",
+    "type_send_contribution": "Checkpoint",
+    "check_contribution_branch": "Send Product to branch",
+    "check_contribution_meet_place": "Meet Place",
 }

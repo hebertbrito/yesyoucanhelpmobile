@@ -35,5 +35,9 @@ export default {
     "Ask_for_Contribution": "Pedir Contribuição",
     "informs_houseless": "Informar um Desabrigado",
     "set_image_button": "Imagem",
-    "set_remove_button": "Remover"
+    "set_remove_button": "Remover",
+    "title_make_contribution": "Fazer Doação",
+    "type_send_contribution": "Ponto de recebimento",
+    "check_contribution_branch": "Enviar para filial",
+    "check_contribution_meet_place": "Ponto de encontro",
 }
