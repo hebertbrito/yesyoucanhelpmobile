@@ -3,6 +3,9 @@ import { View } from 'react-native';
 import { TextInput, useTheme } from 'react-native-paper';
 import * as Animatable from 'react-native-animatable';
 
+//services
+import translate from '../../services/translate/translate'
+
 interface FormLocation {
     CEP: string,
     setCEP: React.Dispatch<React.SetStateAction<string>>,
@@ -33,8 +36,8 @@ function FormLocation(props: FormLocation) {
                     <TextInput
                         value={CEP}
                         onChangeText={text => setCEP(text)}
-                        placeholder="exemple: 00000111"
-                        label="CEP*"
+                        placeholder={`${translate('example')}: 0000111`}
+                        label={`${translate('cep')}*`}
                         keyboardType="numeric"
                         style={{ marginTop: 10, width: '50%' }}
                         placeholderTextColor={paperTheme.colors.text}
@@ -45,8 +48,8 @@ function FormLocation(props: FormLocation) {
                     <TextInput
                         value={number}
                         onChangeText={text => setNumber(text)}
-                        placeholder="Exemple: 000"
-                        label="Number*"
+                        placeholder={`${translate('example')}: 000`}
+                        label={`${translate('number')}*`}
                         keyboardType="numeric"
                         style={{ marginTop: 10, width: '45%' }}
                         placeholderTextColor={paperTheme.colors.text}
@@ -61,8 +64,8 @@ function FormLocation(props: FormLocation) {
                     <TextInput
                         value={neighborhood}
                         onChangeText={text => setNeighborhood(text)}
-                        placeholder="Exemple: Morumbi"
-                        label="Neighbourhood*"
+                        placeholder={`${translate('example')}: Morumbi`}
+                        label={`${translate('neighbourhood')}*`}
                         keyboardType="email-address"
                         style={{ marginTop: 10, width: '100%' }}
                         placeholderTextColor={paperTheme.colors.text}
@@ -74,8 +77,8 @@ function FormLocation(props: FormLocation) {
                     <TextInput
                         value={street}
                         onChangeText={text => setStreet(text)}
-                        placeholder="Exemple: Street Park Runbo"
-                        label="Street*"
+                        placeholder={`${translate('example')}: ${translate('street')} Park Runbo`}
+                        label={`${translate('street')}*`}
                         keyboardType="default"
                         style={{ marginTop: 10, width: '100%' }}
                         placeholderTextColor={paperTheme.colors.text}
@@ -87,8 +90,8 @@ function FormLocation(props: FormLocation) {
                     <TextInput
                         value={city}
                         onChangeText={text => setCity(text)}
-                        placeholder="Exemple: Sao Paulo"
-                        label="City*"
+                        placeholder={`${translate('example')}: São Paulo`}
+                        label={`${translate('city')}*`}
                         keyboardType="default"
                         style={{ marginTop: 10, width: '100%' }}
                         placeholderTextColor={paperTheme.colors.text}

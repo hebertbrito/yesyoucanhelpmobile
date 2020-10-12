@@ -3,27 +3,33 @@ import React, { useState } from 'react';
 export const itemsDropdown = [
     {
         id: 1,
-        name: 'Clothes'
+        name: 'lst_product_1',
+        value: 'Clothes'
     },
     {
         id: 2,
-        name: 'Shoes/Sneakers'
+        name: 'lst_product_2',
+        value: 'Shoes/Sneakers',
     },
     {
         id: 3,
-        name: 'Funiture'
+        name: 'lst_product_3',
+        value: 'Funiture',
     },
     {
         id: 4,
-        name: 'Electroportables'
+        name: 'lst_product_4',
+        value: 'Electroportables',
     },
     {
         id: 5,
-        name: 'Toys'
+        name: 'lst_product_5',
+        value: 'Toys',
     },
     {
         id: 6,
-        name: 'Basic Basket'
+        name: 'lst_product_6',
+        value: 'Basic Basket'
     }
 ]
 

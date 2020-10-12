@@ -12,6 +12,7 @@ import { AskContribution } from '../../services/api/AskContribution'
 import { styles } from './styles'
 
 //Serivices/API
+import translate from '../../services/translate/translate'
 import { SearchCEP } from '../../services/SearchCEP';
 import { SearchGeocoding } from '../../services/SearchGeocoding'
 
@@ -27,6 +28,7 @@ import { ModelList, CEPjson, LocationModel, AskContributionModel } from '../../m
 
 //Mocks
 import { validateFormLocation } from '../../mocks/validateFormLocation'
+
 
 
 const AskContributionScreen = () => {
@@ -269,7 +271,7 @@ const AskContributionScreen = () => {
                             width: '45%',
                             elevation: 2
                         }}>
-                            <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>Type the location</Text>
+                            <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>{translate('check_use_address')}</Text>
                             <RadioButton
                                 value="TypeLocation"
                                 status={checked === 'TypeLocation' ? 'checked' : 'unchecked'}
@@ -290,7 +292,7 @@ const AskContributionScreen = () => {
                             width: '45%',
                             elevation: 2
                         }}>
-                            <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>Use GPS</Text>
+                            <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>{translate('check_use_gps')}</Text>
                             <RadioButton
                                 value="AskUseGPS"
                                 status={checked === 'AskUseGPS' ? 'checked' : 'unchecked'}

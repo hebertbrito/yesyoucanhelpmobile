@@ -6,7 +6,10 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { styles } from './styles'
 
-import { itemsDropdown } from '../../data/dataOrderscreen'
+import { itemsDropdown } from '../../data/dataOrderscreen';
+
+//translate
+import translate from '../../services/translate/translate'
 
 interface FormProduct {
     dropdownvalueproduct: string,
@@ -22,7 +25,6 @@ interface FormProduct {
 export function FormProduct(props: FormProduct) {
 
     const paperTheme = useTheme();
-
     const { dropdownvalueproduct, setDropdownValueProduct, numberInput, setNumberInput,
         descriptionInput, setDescriptionInput, addProduct, showError
     } = props;
@@ -40,8 +42,8 @@ export function FormProduct(props: FormProduct) {
                     borderTopLeftRadius: 20, borderTopRightRadius: 20, height: '20%', justifyContent: "center"
                 }}>
                     <Title style={{ color: '#fafafa' }}>
-                        Item
-                </Title>
+                        {translate('title_form_produc')}
+                    </Title>
                 </View>
 
                 <View style={styles.bodyCard_1}>
@@ -52,7 +54,7 @@ export function FormProduct(props: FormProduct) {
                         {itemsDropdown.length > 0 && (
                             itemsDropdown.map((item) => {
                                 return (
-                                    <Picker.Item key={item.id} label={item.name} value={item.name} />
+                                    <Picker.Item key={item.id} label={translate(item.name)} value={item.value} />
                                 )
                             })
                         )}
@@ -62,7 +64,7 @@ export function FormProduct(props: FormProduct) {
                         value={numberInput}
                         onChangeText={text => setNumberInput(text)}
                         placeholder="00,0-0"
-                        label="Size/Quantity*"
+                        label={translate('label_form_size_quant')}
                         keyboardType="number-pad"
                         maxLength={6}
                         underlineColorAndroid={paperTheme.colors.text}
@@ -82,8 +84,8 @@ export function FormProduct(props: FormProduct) {
                         multiline={true}
                         numberOfLines={3}
                         maxLength={150}
-                        placeholder="About the product you will be contributing to..."
-                        label="Description*"
+                        placeholder={translate("label_form_product_desc_placeholder")}
+                        label={translate("label_form_product_desc_label")}
                         underlineColorAndroid={paperTheme.colors.text}
                         placeholderTextColor={paperTheme.colors.text}
                         style={{ color: paperTheme.colors.text, width: '96%' }}
@@ -105,7 +107,7 @@ export function FormProduct(props: FormProduct) {
                 }}
                 color={paperTheme.colors.text}
             >
-                Product
+                {translate('button_form_product')}
             </Button>
         </>
     )
