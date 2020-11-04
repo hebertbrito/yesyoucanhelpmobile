@@ -65,7 +65,7 @@ function RegisterScreen({ ...props }) {
                 console.log('User tapped custom button: ', response.customButton);
             } else {
                 // const source = { uri: response.uri };
-                console.log(response.origURL)
+                console.log(response.path)
                 setAvatarSource(response);
             }
         });
@@ -331,7 +331,8 @@ function RegisterScreen({ ...props }) {
                     }
 
                     <Button mode="text"
-                        onPress={() => { setStep(1), navigate('Login') }}
+                        // onPress={() => { setStep(1), navigate('Login') }}
+                        onPress={() => setavatar()}
                         style={{ width: '50%', padding: 2, alignSelf: "center", justifyContent: "space-evenly" }}
                         color={theme.colors.notification}
                     >
