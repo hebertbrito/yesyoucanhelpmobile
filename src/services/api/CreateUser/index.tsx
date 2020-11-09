@@ -3,13 +3,12 @@ import axios from 'axios';
 import { BASE_URL } from '../index';
 import { User } from '../../../models/User';
 import ImagePicker, { ImagePickerResponse } from 'react-native-image-picker';
+import RNFetchBlob from 'rn-fetch-blob'
 
 export async function CreateUser(user: User | null | undefined) {
     try {
         console.log('****dentro do create user')
         console.log(user)
-
-
 
         if (user != null || user != undefined) {
 
@@ -48,29 +47,14 @@ export async function CreateUser(user: User | null | undefined) {
 
 export async function SetAvatarUser(avatarsource: ImagePickerResponse) {
     try {
-
-        let payload = new FormData();
-        const avatar = {
-            name: avatarsource.fileName,
-            type: "image/png",
-            path: avatarsource.path
-        }
-        const originalname = avatarsource.fileName
-        payload.append('name', 'name')
-        payload.append('avatar', JSON.stringify({ type: "image/png", name: avatarsource.fileName, path: avatarsource.path }))
-        // payload.append('size', avatarsource.fileSize)
-        // payload.append('uri', avatarsource.uri)
-
-        const respose = await axios.post('https://multer-teste.herokuapp.com/setAvatarUser',
-        payload,
-            {
-                headers: { 'Content-Type': 'multipart/form-data' }
-            }
-        )
-
-
-        console.log(respose.data)
-
+        // 'https://multer-teste.herokuapp.com/setAvatarUser'
+           const response = await RNFetchBlob.fetch('POST', `${BASE_URL}user/setAvatarUser`, {
+                'Content-Type': 'multipart/form-data',
+            }, [
+                // element with property `filename` will be transformed into `file` in form data
+                { name: 'avatar', filename: avatarsource.fileName, data: avatarsource.data }
+            ])
+        console.log(response)
     } catch (error) {
         console.log(error);
     }

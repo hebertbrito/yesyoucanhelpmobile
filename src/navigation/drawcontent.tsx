@@ -15,7 +15,7 @@ interface Props {
 
 export const DrawContent = (props: Props) => {
 
-    const { SingOut } = useContext(AuthContext)
+    const { SingOut, user } = useContext(AuthContext)
 
     const { navigation } = props.props;
 
@@ -78,8 +78,19 @@ export const DrawContent = (props: Props) => {
             <DrawerContentScrollView {...props}>
                 <View style={styles.DrawContainer}>
                     <View style={styles.PerfilViews}>
-                        <Avatar.Image size={80} source={require('../assets/imageperfil/hebert.jpg')} />
-                        <Subheading>Hebert Felipe</Subheading>
+                        {user?.avatarsource?.uri != "" ?
+                            <>
+                                <Avatar.Image size={80} source={{uri: user?.avatarsource?.uri}} />
+                                <Subheading>{user?.firstname} {user?.lastname}</Subheading>
+                            </>
+                            :
+                            <>
+                                <Avatar.Image size={80} source={require('../assets/imageperfil/defaultavatar.jpg')} />
+                                <Subheading>{user?.firstname} {user?.lastname}</Subheading>
+                            </>
+                        }
+
+
                     </View>
                 </View>
                 <Divider style={{ backgroundColor: paperTheme.colors.accent }} />

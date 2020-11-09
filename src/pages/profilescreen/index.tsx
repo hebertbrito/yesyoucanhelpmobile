@@ -19,10 +19,13 @@ import { Picker } from '@react-native-community/picker';
 
 //Services
 import { SearchCEP } from '../../services/SearchCEP'
+import { UpdateUser } from '../../services/api/Updateuser'
 
 //Models
 import { CEPjson } from '../../models'
 
+//factory
+import { GetNewValues } from './factory'
 interface Props {
     theme: any,
 }
@@ -32,17 +35,17 @@ function ProfileScreen() {
     const theme = useTheme();
     const { user } = useContext(AuthContext);
 
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setlastName] = useState('');
-    const [dateBirth, setdateBirth] = useState('');
-    const [gender, setGender] = useState('Man');
+    const [firstname, setFirstName] = useState('');
+    const [lastname, setlastName] = useState('');
+    const [datebirth, setdateBirth] = useState('');
+    const [gender, setGender] = useState('');
     const [country, setCountry] = useState('');
     const [street, setStreet] = useState('');
     const [city, setCity] = useState('');
     const [number, setNumber] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [State, setState] = useState('');
+    const [state, setState] = useState('');
     const [cellphone, setCellphone] = useState('');
     const [CEP, setCEP] = useState('');
     const [neighbourhood, setNeighbourhood] = useState('');
@@ -75,7 +78,13 @@ function ProfileScreen() {
                 }
             }
             getuserprofile();
-
+            setAvatarSource({
+                fileName: "",
+                fileSize: 0,
+                path: "",
+                type: "",
+                uri: user?.avatarsource?.uri
+            })
             return () => {
                 //do something when screen are unfocused
 
@@ -122,8 +131,6 @@ function ProfileScreen() {
 
     const getImage = () => {
         ImagePicker.launchImageLibrary(options, (response) => {
-            console.log('Response = ', response);
-
             if (response.didCancel) {
                 console.log('User cancelled image picker');
             } else if (response.error) {
@@ -137,13 +144,26 @@ function ProfileScreen() {
                     path: response.path,
                     type: response.type,
                     uri: response.uri,
-                    fileName: response.fileName
-
+                    fileName: response.fileName,
+                    data: response.data
                 });
             }
         });
     }
+    async function updateuser() {
+        try {
 
+            const objNewValues = GetNewValues(
+                { firstname, lastname, datebirth, gender, email, password, cellphone },
+                { country, city, street, number, state, CEP, neighbourhood }
+            )
+
+            await UpdateUser(objNewValues, avatarSource, user!)
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
     return (
 
         isLoading ?
@@ -163,14 +183,14 @@ function ProfileScreen() {
                         alignItems: "center", justifyContent: "center"
                     }}>
                         <View style={styles.bodyCard}>
-                            {usermodel! ?
-                                <Avatar.Image size={100} source={require('../../assets/fotospublic/logoApp2.png')} style={{ alignSelf: "center", }} />
+                            {avatarSource.uri != "" ?
+                                <Avatar.Image size={120} source={{ uri: avatarSource.uri }} style={{ alignSelf: "center", }} />
                                 :
-                                <Avatar.Image size={100} source={require('../../assets/fotospublic/logoApp2.png')} style={{ alignSelf: "center", }} />
+                                <Avatar.Image size={100} source={require('../../assets/imageperfil/defaultavatar.jpg')} style={{ alignSelf: "center", }} />
                             }
                             <IconButton
                                 icon="camera"
-                                size={20}
+                                size={25}
                                 color={theme.colors.text}
                                 onPress={() => getImage()}
                                 style={{ position: "absolute", bottom: 0, alignSelf: "flex-end" }}
@@ -196,7 +216,7 @@ function ProfileScreen() {
 
 
                                     <InputYesComponent
-                                        value={firstName}
+                                        value={firstname}
                                         setvalue={setFirstName}
                                         placeholder="Boseman"
                                         label="New FirstName"
@@ -215,7 +235,7 @@ function ProfileScreen() {
 
                                 {editableInput &&
                                     <InputYesComponent
-                                        value={lastName}
+                                        value={lastname}
                                         setvalue={setlastName}
                                         placeholder="Chadwik"
                                         label="New Lastname"
@@ -234,7 +254,7 @@ function ProfileScreen() {
 
                                 {editableInput &&
                                     <InputYesComponent
-                                        value={dateBirth}
+                                        value={datebirth}
                                         setvalue={setdateBirth}
                                         placeholder="DDMMYYYY"
                                         label="New DateBirth"
@@ -403,7 +423,7 @@ function ProfileScreen() {
 
                                 {editableInput &&
                                     <InputYesComponent
-                                        value={State}
+                                        value={state}
                                         setvalue={setState}
                                         placeholder="XX"
                                         label="New State"
@@ -471,9 +491,9 @@ function ProfileScreen() {
                                     />
                                 }
                             </View>
-                            {editableInput &&
+                            {editableInput || avatarSource.data &&
 
-                                <MainButton MainActionScreen={async function any() { }} />
+                                <MainButton MainActionScreen={updateuser} />
 
                             }
 

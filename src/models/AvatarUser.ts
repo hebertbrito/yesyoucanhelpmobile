@@ -4,4 +4,5 @@ export interface AvatarUser {
     fileName?: string,
     type?: string,
     path?: string,
+    data?: any
 }

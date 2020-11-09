@@ -49,10 +49,10 @@ function OptionsScreens() {
                     alignItems: "center", justifyContent: "center"
                 }}>
                     <View style={styles.bodyCard}>
-                        {usermodel! ?
-                            <Avatar.Image size={100} source={require('../../assets/fotospublic/logoApp2.png')} style={{ alignSelf: "center", }} />
+                        {user?.avatarsource?.uri ?
+                            <Avatar.Image size={100} source={{uri: user.avatarsource.uri}} />
                             :
-                            <Avatar.Image size={100} source={require('../../assets/fotospublic/logoApp2.png')} style={{ alignSelf: "center", }} />
+                            <Avatar.Image size={100} source={require('../../assets/imageperfil/defaultavatar.jpg')} style={{ alignSelf: "center", }} />
                         }
                     </View>
                 </View>

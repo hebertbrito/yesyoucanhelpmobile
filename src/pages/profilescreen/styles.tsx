@@ -21,7 +21,8 @@ export const styles = StyleSheet.create({
     //cardImageContainer
     bodyCard: {
         display: "flex",
-        alignItems: "center"
+        alignItems: "center",
+        width: '50%'
     },
 
     //scroll

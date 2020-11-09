@@ -6,7 +6,8 @@ interface AutheContextData {
     signed: boolean,
     user: UserLogin | undefined;
     SignIn(email: string, password: string): any,
-    SingOut(): void
+    SingOut(): void,
+    isLoading: boolean
 }
 
 const AuthContext = createContext<AutheContextData>({} as AutheContextData);
@@ -14,6 +15,7 @@ const AuthContext = createContext<AutheContextData>({} as AutheContextData);
 export const AuthProvider: React.FC = ({ children }) => {
 
     const [user, setUser] = useState<UserLogin | undefined>(undefined);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         async function loadStorageData() {
@@ -27,18 +29,25 @@ export const AuthProvider: React.FC = ({ children }) => {
         loadStorageData()
     }, [])
 
-    async function SignIn(email: string, password: string) {
+    function UpdateStorageUser_User() {
+        //getUser especifico para trazer novos dados
 
+        //setar o user state
+
+        //atualizar o asyncstorage do usuario atual
+    }
+    
+    async function SignIn(email: string, password: string) {
+        setIsLoading(true)
         const response = await GetLoginUser(email, password);
 
-        if (response.message != undefined && response.message === 'login_sucessfull') {
-
+        if (response) {
             setUser(response)
 
             await AsyncStorage.setItem('@yycanhelp:user', JSON.stringify(response))
-
+            setIsLoading(false)
         }
-
+        setIsLoading(false)
         return response;
     }
 
@@ -48,7 +57,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ signed: !!user, user, SignIn, SingOut }}>
+        <AuthContext.Provider value={{ signed: !!user, user, SignIn, SingOut, isLoading: isLoading }}>
             {children}
         </AuthContext.Provider>
     )

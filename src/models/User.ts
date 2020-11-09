@@ -1,5 +1,6 @@
 import { AvatarUser } from './AvatarUser'
 export interface User {
+    idDocument?: string,
     firstname?: string,
     lastname?: string,
     datebirth?: string,

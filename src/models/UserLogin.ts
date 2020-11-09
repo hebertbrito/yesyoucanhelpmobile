@@ -3,5 +3,12 @@ export interface UserLogin {
     idDocument?: string,
     firstname?: string,
     lastname?: string,
-    token?: string
+    token?: string,
+    typeuser?: string,
+    avatarsource?:{
+        fileSize?: string,
+        fileName?: string,
+        uri?: string,
+        type?: string
+    }
 }

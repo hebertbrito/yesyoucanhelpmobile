@@ -5,6 +5,7 @@ import { Button, Text, useTheme, TextInput as PaperTextInput } from 'react-nativ
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import * as Animatable from 'react-native-animatable';
 import AuthContext from '../../context/auth';
+import { useFocusEffect } from '@react-navigation/native';
 
 //styles
 import styles from './styles'
@@ -18,12 +19,11 @@ import translate from '../../services/translate/translate'
 const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
 
     const paperTheme = useTheme();
-    const { SignIn, signed } = useContext(AuthContext)
+    const { SignIn, signed, isLoading } = useContext(AuthContext)
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [errorEmail, setErrorEmail] = useState(false as boolean);
     const [errorPassword, setErrorPassword] = useState(false as boolean);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
     const { navigation } = props;
 
 
@@ -47,16 +47,15 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
 
     async function Login(email: string, password: any) {
         try {
-            setIsLoading(true);
+           
             if (ValidateInputs(email, password)) {
 
                 const response = await SignIn(email, password);
                 // console.log(response);
                 // console.log(signed)
             }
-            setIsLoading(false);
         } catch (error) {
-            setIsLoading(false);
+            console.log(error)
         }
     }
     // console.log(signed);
@@ -98,7 +97,7 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
 
                     <Button icon={iconbutton} mode="contained" onPress={() => Login(email, password)}
                         style={{ width: '45%', padding: 2, alignSelf: "center" }}
-                        color="#fdd835"
+                        color="#fdd835" loading={isLoading}
                     >
                         {translate('button_login')}
                     </Button>
