@@ -5,9 +5,6 @@ import { UserLogin, AvatarUser } from 'src/models'
 
 export const AddAvatar = async function (avatarsource: AvatarUser, user: UserLogin) {
     try {
-        // const url = `${BASE_URL}statics/insert/avatars/${user.idDocument}`
-        const url = BASE_URL + 'statics/insert/avatars/' + user.idDocument;
-        console.log(url)
         const response = await RNFetchBlob.fetch('POST', `https://multer-teste.herokuapp.com/setAvatarUser2/${user.idDocument}`, {
             'Content-Type': 'multipart/form-data',
         }, [

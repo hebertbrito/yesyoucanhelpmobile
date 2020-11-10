@@ -110,7 +110,7 @@ export function CommomData(props: DataCommum) {
                             mode="outlined"
                             returnKeyType="next"
                             blurOnSubmit={false}
-                            error={firstname.length < 3 && showsErros == true ? true : false}
+                            error={firstname.length < 3 && showsErros}
                         />
 
                         <TextInput
@@ -126,6 +126,7 @@ export function CommomData(props: DataCommum) {
                             mode="outlined"
                             returnKeyType="next"
                             blurOnSubmit={false}
+                            error={lastname.length < 3 && showsErros}
                         />
                     </View>
 
@@ -143,6 +144,7 @@ export function CommomData(props: DataCommum) {
                                 theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
                                 maxLength={20}
                                 mode="outlined"
+                                error={datebirth.length < 8 && showsErros}
                             />
                             <Picker mode="dropdown" style={{ width: '50%', color: theme.colors.text }}
                                 selectedValue={gender}

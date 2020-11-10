@@ -14,14 +14,15 @@ interface LoginDatas {
     password: string,
     setPassword: React.Dispatch<React.SetStateAction<string>>,
     avatarSource: any,
-    getImage(): void
+    getImage(): void,
+    showsErros: boolean
 }
 
 export function LoginDatas(props: LoginDatas) {
 
     const theme = useTheme();
 
-    const { email, setEmail, password, setPassword, avatarSource, getImage } = props;
+    const { email, setEmail, password, setPassword, avatarSource, getImage, showsErros } = props;
 
     return (
         <Animatable.View style={{ justifyContent: "center", marginTop: 5, width: '90%' }} easing="ease-in-out" animation="fadeInRight" useNativeDriver={true}>
@@ -40,7 +41,7 @@ export function LoginDatas(props: LoginDatas) {
                             {avatarSource ?
                                 <Avatar.Image size={100} source={{ uri: avatarSource.uri }} style={{ alignSelf: "center", }} />
                                 :
-                                <Avatar.Image size={100} source={require('../../../assets/imageperfil/hebert.jpg')} style={{ alignSelf: "center", }} />
+                                <Avatar.Image size={100} source={require('../../../assets/imageperfil/defaultavatar.jpg')} style={{ alignSelf: "center", }} />
                             }
                             <IconButton
                                 icon="camera"
@@ -64,6 +65,7 @@ export function LoginDatas(props: LoginDatas) {
                             maxLength={50}
                             mode="outlined"
                             theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
+                            error={email.length < 10 && showsErros}
                         />
 
                         <TextInput
@@ -77,6 +79,7 @@ export function LoginDatas(props: LoginDatas) {
                             selectionColor={theme.colors.text}
                             mode="outlined"
                             theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
+                            error={password.length < 5 && showsErros}
                         />
                     </View>
                 </Card.Content>

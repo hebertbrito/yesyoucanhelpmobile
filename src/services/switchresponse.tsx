@@ -3,13 +3,16 @@ import translate from './translate/translate'
 export const switchState = (data: AxiosResponse) => {
     switch (data.status) {
         case 200:
-            if(data.data){
+            if (data.data) {
                 return data.data
             }
-            return null 
+            return null
             break;
         case 201:
-
+            if (data.data) {
+                return data.data
+            }
+            return null
             break;
         case 204:
 

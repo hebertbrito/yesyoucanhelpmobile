@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, Keyboard, View } from 'react-native';
+import { SafeAreaView, ScrollView, Keyboard, View, Alert } from 'react-native';
 import { Button, useTheme, ProgressBar, Subheading } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import ImagePicker, { ImagePickerResponse } from 'react-native-image-picker';
@@ -13,9 +13,13 @@ import { SearchCEP } from '../../services/SearchCEP';
 import { CEPjson } from 'src/models/CEPjson';
 import { User } from '../../models/User';
 
-import { CreateUser, SetAvatarUser } from '../../services/api/CreateUser'
+import { CreateUser } from '../../services/api/CreateUser'
+import { AddAvatar } from '../../services/api/StaticFiles'
 import { useNavigation } from '@react-navigation/native';
-import translate from '../../services/translate/translate'
+import translate from '../../services/translate/translate';
+
+//validation
+import { validateCreateUser } from './validation'
 
 function RegisterScreen({ ...props }) {
 
@@ -41,10 +45,8 @@ function RegisterScreen({ ...props }) {
     const [typeuser, setTypeUser] = useState('1');
     const [step, setStep] = useState(1);
     const [cepJSON, setCEPJSON] = useState<CEPjson | undefined>({} as CEPjson);
-    const [showsErros, setShowsErros] = useState<boolean>(false);
     const [avatarsource, setAvatarSource] = useState<ImagePickerResponse | null>();
-    const [objUser, setObjUser] = useState<User | null>();
-
+    const [error, setError] = useState(false)
     const options = {
         title: 'Select Avatar',
         storageOptions: {
@@ -53,6 +55,27 @@ function RegisterScreen({ ...props }) {
         },
     };
 
+    function clearfields() {
+        setFirstName('')
+        setLastName('')
+        setDateBirth('')
+        setCPF_CNPJ('')
+        setRG('')
+        setCountry('')
+        setState('')
+        setCity('')
+        setNumber('')
+        setCEP('')
+        setNeighbourhood('')
+        setGender('')
+        setCellPhone('')
+        setStreet('')
+        setCEPJSON({})
+        setPassword('')
+        setEmail('')
+        setAvatarSource(null)
+        setError(false)
+    }
 
     const getImage = () => {
         ImagePicker.launchImageLibrary(options, (response) => {
@@ -103,117 +126,32 @@ function RegisterScreen({ ...props }) {
 
     }, [cepJSON])
 
-    async function setavatar() {
+    async function createuser() {
         try {
-
-            if (avatarsource) {
-                await SetAvatarUser(avatarsource)
+            let objuser: User = {
+                typeuser, firstname, lastname, gender, datebirth, cellphone, RG, cpf_cnpj, email, password,
+                address: { CEP, city, country, neighbourhood, number, state, street }
             }
 
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    function ValidateDATA() {
-        // const objUser: User = {
-        //     firstname, lastname, datebirth, cpf_cnpj, RG, email,
-        //     password, gender, cellphone, typeuser,
-        //     address: {
-        //         CEP, city, country, neighbourhood,
-        //         number, state, street
-        //     },
-        //     avatarsource
-        // }
-
-        // setObjUser({
-        //     firstname, lastname, datebirth, cpf_cnpj, RG, email,
-        //     password, gender, cellphone, typeuser,
-        // })
-
-        // if (firstname == undefined || firstname!.length < 3)
-        //     setShowsErros(true)
-
-        // console.log('******depois do if *****')
-        // console.log(showsErros)
-        // if (lastname == undefined || lastname!.length < 3)
-        //     setShowsErros(true)
-
-        // if (typeuser! === '1') {
-
-        //     if (datebirth!.length != 8)
-        //         setShowsErros(true)
-
-        //     if (RG!.length < 7 || RG!.length == 8)
-        //         setShowsErros(true)
-
-        // }
-
-        // if (cellphone == undefined || cellphone!.length < 10)
-        //     setShowsErros(true)
-
-
-        // if (CEP == undefined || CEP!.length != 8)
-        //     setShowsErros(true)
-
-        // if (number == undefined || number!.length < 1)
-        //     setShowsErros(true)
-
-        // if (neighbourhood == undefined || neighbourhood!.length < 10)
-        //     setShowsErros(true)
-
-        // if (street == undefined || street!.length < 10)
-        //     setShowsErros(true)
-
-        // if (city == undefined || city!.length < 5)
-        //     setShowsErros(true)
-
-        // if (state == undefined || state!.length != 2)
-        //     setShowsErros(true)
-
-        // if (country == undefined || country!.length != 2)
-        //     setShowsErros(true)
-
-        // if (email == undefined || email!.length < 10)
-        //     setShowsErros(true)
-
-        // if (password == undefined || password!.length < 6)
-        //     setShowsErros(true)
-
-
-
-    }
-
-    async function InsertUser() {
-        try {
-
-            setObjUser({
-                firstname, lastname, datebirth, cpf_cnpj, RG, email,
-                password, gender, cellphone, typeuser,
-                address: {
-                    CEP, city, country, neighbourhood,
-                    number, state, street
-                },
-                avatarsource: {
-                    uri: avatarsource?.uri,
-                    fileSize: avatarsource?.fileSize,
-                    fileName: avatarsource?.fileName,
-                    type: avatarsource?.type,
-                    path: avatarsource?.path
+            if (validateCreateUser(objuser)) {
+                const data = await CreateUser(objuser!)
+                if (avatarsource && data) {
+                    await AddAvatar(avatarsource, { idDocument: data.idDocument })
                 }
-            })
-
-            console.log('*****dentro da função testeInsertUser')
-            console.log(objUser)
-
-            if (objUser != null && objUser != undefined) {
-                await CreateUser(objUser)
-
+                clearfields()
+                Alert.alert('Criado com sucesso', 'Redirecionar para tela inical',
+                [{
+                    text: 'OK',
+                    onPress: () => navigate('Login')
+                }],
+                {cancelable: false}
+                )
+            } else {
+                setError(true)
+                Alert.alert('Algum campo necessario nao preenchido')
             }
-
-
         } catch (error) {
-            console.log(error)
+            Alert.alert('Error no servidor, tente novamente mais tarde')
         }
     }
 
@@ -226,7 +164,7 @@ function RegisterScreen({ ...props }) {
                         gender={gender} setGender={setGender}
                         lastname={lastname} setLastName={setLastName}
                         typeuser={typeuser} setTypeUser={setTypeUser}
-                        showsErros={showsErros}
+                        showsErros={error}
                     />
                 )
                 break;
@@ -236,6 +174,7 @@ function RegisterScreen({ ...props }) {
                         cpf_cnpj={cpf_cnpj} setCPF_CNPJ={setCPF_CNPJ}
                         cellphone={cellphone} setCellPhone={setCellPhone}
                         typeuser={typeuser}
+                        showsErros={error}
                     />
                 )
                 break;
@@ -248,6 +187,7 @@ function RegisterScreen({ ...props }) {
                         number={number} setNumber={setNumber}
                         state={state} setState={setState}
                         street={street} setStreet={setStreet}
+                        showsErros={error}
                     />
                 )
                 break;
@@ -256,6 +196,7 @@ function RegisterScreen({ ...props }) {
                     <LoginDatas email={email} setEmail={setEmail}
                         password={password} setPassword={setPassword}
                         avatarSource={avatarsource} getImage={getImage}
+                        showsErros={error}
                     />
                 )
             default:
@@ -325,14 +266,13 @@ function RegisterScreen({ ...props }) {
 
                 <View style={{ display: "flex", flexDirection: "column", width: '90%', justifyContent: "center", padding: 10, marginTop: 5 }}>
                     {step === 4 ?
-                        <MainButton MainActionScreen={InsertUser} />
+                        <MainButton MainActionScreen={createuser} />
                         :
                         null
                     }
 
                     <Button mode="text"
-                        // onPress={() => { setStep(1), navigate('Login') }}
-                        onPress={() => setavatar()}
+                        onPress={() => { clearfields(), setStep(1), navigate('Login') }}
                         style={{ width: '50%', padding: 2, alignSelf: "center", justifyContent: "space-evenly" }}
                         color={theme.colors.notification}
                     >

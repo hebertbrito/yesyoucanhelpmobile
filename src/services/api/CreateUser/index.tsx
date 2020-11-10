@@ -2,44 +2,16 @@ import React from 'react';
 import axios from 'axios';
 import { BASE_URL } from '../index';
 import { User } from '../../../models/User';
+import { switchState } from '../../switchresponse'
 import ImagePicker, { ImagePickerResponse } from 'react-native-image-picker';
 import RNFetchBlob from 'rn-fetch-blob'
 
-export async function CreateUser(user: User | null | undefined) {
+export async function CreateUser(user: User) {
     try {
-        console.log('****dentro do create user')
-        console.log(user)
-
-        if (user != null || user != undefined) {
-
-            const response = await axios.post(`${BASE_URL}user/addusers`,
-                {
-                    firstname: user.firstname!,
-                    lastname: user.lastname!,
-                    datebirth: user.datebirth!,
-                    RG: user.RG!,
-                    cpf_cnpj: user.cpf_cnpj!,
-                    gender: user.gender!,
-                    password: user.password!,
-                    email: user.email!,
-                    cellphone: user.cellphone!,
-                    typeuser: user.typeuser!,
-                    address: {
-                        CEP: user.address?.CEP!,
-                        city: user.address?.city!,
-                        number: user.address?.number!,
-                        neighbourhood: user.address?.neighbourhood!,
-                        street: user.address?.street!,
-                        state: user.address?.state!,
-                        country: user.address?.country!
-                    },
-                    avatarsource: user.avatarsource ? user.avatarsource : {}
-                })
-            console.log('****retorno apos criar')
-            console.log(response.data)
-        }
-
-
+        const response = await axios.post(`${BASE_URL}user/addusers`, user)
+        
+        const data = switchState(response)
+        return data
     } catch (error) {
         console.log(error)
     }
@@ -48,12 +20,12 @@ export async function CreateUser(user: User | null | undefined) {
 export async function SetAvatarUser(avatarsource: ImagePickerResponse) {
     try {
         // 'https://multer-teste.herokuapp.com/setAvatarUser'
-           const response = await RNFetchBlob.fetch('POST', `${BASE_URL}user/setAvatarUser`, {
-                'Content-Type': 'multipart/form-data',
-            }, [
-                // element with property `filename` will be transformed into `file` in form data
-                { name: 'avatar', filename: avatarsource.fileName, data: avatarsource.data }
-            ])
+        const response = await RNFetchBlob.fetch('POST', `${BASE_URL}user/setAvatarUser`, {
+            'Content-Type': 'multipart/form-data',
+        }, [
+            // element with property `filename` will be transformed into `file` in form data
+            { name: 'avatar', filename: avatarsource.fileName, data: avatarsource.data }
+        ])
         console.log(response)
     } catch (error) {
         console.log(error);

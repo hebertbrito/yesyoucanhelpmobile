@@ -20,7 +20,8 @@ interface AddressInfo {
     number: string,
     setNumber: React.Dispatch<React.SetStateAction<string>>,
     street: string,
-    setStreet: React.Dispatch<React.SetStateAction<string>>
+    setStreet: React.Dispatch<React.SetStateAction<string>>,
+    showsErros: boolean
 }
 
 export function AddressInfo(props: AddressInfo) {
@@ -28,7 +29,8 @@ export function AddressInfo(props: AddressInfo) {
     const theme = useTheme();
 
     const { CEP, setCEP, country, setCountry, state, setState, city, setCity,
-        neighbourhood, setNeighbourhood, number, setNumber, street, setStreet
+        neighbourhood, setNeighbourhood, number, setNumber, street, setStreet,
+        showsErros
     } = props
 
     return (
@@ -49,6 +51,7 @@ export function AddressInfo(props: AddressInfo) {
                                 theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
                                 maxLength={8}
                                 mode="outlined"
+                                error={CEP.length < 8 && showsErros}
                             />
                             <TextInput
                                 value={number}
@@ -61,6 +64,7 @@ export function AddressInfo(props: AddressInfo) {
                                 theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
                                 maxLength={10}
                                 mode="outlined"
+                                error={number.length == 0 && showsErros}
                             />
                         </View>
 
@@ -129,6 +133,7 @@ export function AddressInfo(props: AddressInfo) {
                                 theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
                                 maxLength={2}
                                 mode="outlined"
+                                error={country.length < 2 && showsErros}
                             />
                         </View>
                     </View>

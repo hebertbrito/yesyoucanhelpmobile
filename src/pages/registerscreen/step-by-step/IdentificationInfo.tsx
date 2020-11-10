@@ -11,14 +11,15 @@ interface IdentificationInfo {
     setRG: React.Dispatch<React.SetStateAction<string>>,
     typeuser: string,
     cellphone: string,
-    setCellPhone: React.Dispatch<React.SetStateAction<string>>
+    setCellPhone: React.Dispatch<React.SetStateAction<string>>,
+    showsErros: boolean
 }
 
 export function IdentificationInfo(props: IdentificationInfo) {
 
     const theme = useTheme();
 
-    const { RG, setRG, cpf_cnpj, setCPF_CNPJ, typeuser, cellphone, setCellPhone } = props;
+    const { RG, setRG, cpf_cnpj, setCPF_CNPJ, typeuser, cellphone, setCellPhone, showsErros } = props;
 
     return (
         < Animatable.View style={{ justifyContent: "center", margin: 5, width: '90%' }}
@@ -39,6 +40,7 @@ export function IdentificationInfo(props: IdentificationInfo) {
                         theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
                         maxLength={15}
                         mode="outlined"
+                        error={cpf_cnpj.length < 11 && showsErros}
                     />
 
                     {typeuser == '1' ?
@@ -53,6 +55,7 @@ export function IdentificationInfo(props: IdentificationInfo) {
                             theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
                             maxLength={10}
                             mode="outlined"
+                            error={RG.length < 9 && showsErros}
                         />
                         :
                         null
@@ -69,6 +72,7 @@ export function IdentificationInfo(props: IdentificationInfo) {
                         theme={{ colors: { placeholder: '#000000', background: '#eeeeee', text: '#000000' } }}
                         maxLength={11}
                         mode="outlined"
+                        error={cellphone.length < 10 && showsErros}
                     />
                 </Card.Content>
             </Card>
