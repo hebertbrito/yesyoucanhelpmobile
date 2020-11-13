@@ -33,6 +33,44 @@ export const itemsDropdown = [
     }
 ]
 
+export const items = [
+    {
+        id: 0,
+        name: 'lst_product_0',
+        value: ''
+    },
+    {
+        id: 1,
+        name: 'lst_product_1',
+        value: 'lst_product_1'
+    },
+    {
+        id: 2,
+        name: 'lst_product_2',
+        value: 'lst_product_2',
+    },
+    {
+        id: 3,
+        name: 'lst_product_3',
+        value: 'lst_product_3',
+    },
+    {
+        id: 4,
+        name: 'lst_product_4',
+        value: 'lst_product_4',
+    },
+    {
+        id: 5,
+        name: 'lst_product_5',
+        value: 'lst_product_5',
+    },
+    {
+        id: 6,
+        name: 'lst_product_6',
+        value: 'lst_product_6'
+    }
+]
+
 export const addressesDropdown = [
     {
         id: 1,

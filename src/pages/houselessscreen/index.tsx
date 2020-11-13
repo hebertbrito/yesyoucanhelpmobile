@@ -195,7 +195,8 @@ const HouseLessScreen = () => {
                                 lat: response.lat,
                                 long: response.long,
                                 name: name,
-                                description: description
+                                description: description,
+                                photo: photo
                             }
 
                             // await AskContribution(user, objdata)
@@ -229,7 +230,8 @@ const HouseLessScreen = () => {
                                 lat: response.lat,
                                 long: response.long,
                                 name,
-                                description
+                                description,
+                                photo: photo
                             }
 
                             // await AskContribution(user, objdata)

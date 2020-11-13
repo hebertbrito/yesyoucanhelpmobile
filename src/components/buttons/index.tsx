@@ -63,7 +63,7 @@ interface ButtonComponent {
     iconName: string,
     size: number,
     isSend: boolean,
-    MainActionScreen(): void,
+    MainActionScreen(): Promise<void>,
     styles: StyleProp<ViewStyle>
 }
 

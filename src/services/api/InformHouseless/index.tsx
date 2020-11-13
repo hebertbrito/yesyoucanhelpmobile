@@ -1,31 +1,13 @@
-import { DarkTheme } from '@react-navigation/native';
+import RNFetchBlob from 'rn-fetch-blob'
 import axios from 'axios';
 import { BASE_URL } from '../'
-import { GetDate } from '../../../mocks/getdate';
 import { HouseLessModel, UserLogin } from '../../../models'
+
+//servies
+import { AddImageHouseless } from '../StaticFiles'
 
 export async function SendInformHouseless(data: HouseLessModel | undefined, user: UserLogin | undefined) {
     try {
-        const DATE = GetDate();
-
-        // const { photo } = data;
-
-        // const bodyData = new FormData();
-        // bodyData.append('idDocument', data.idDocument!);
-        // bodyData.append('lat', data.lat!);
-        // bodyData.append('long', data.long!);
-        // bodyData.append('cep', data.CEP!);
-        // bodyData.append('createdAt', DATE);
-        // bodyData.append('name', data.name!);
-        // bodyData.append('description', data.description!);
-        // bodyData.append('imagehouseless', JSON.stringify({
-        //     type: photo?.type!,
-        //     filename: photo!.fileName!,
-        //     name: photo!.fileName!,
-        //     uri: photo!.uri,
-        //     oriUri: photo?.origURL,
-        //     timestamp: photo!.timestamp!
-        // }))
 
         if (data) {
             const datas = {
@@ -44,7 +26,9 @@ export async function SendInformHouseless(data: HouseLessModel | undefined, user
                 }
             })
 
-            console.log(response.data)
+            if (response.data && data.photo) {
+                await AddImageHouseless(data.photo, response.data)
+            }
         }
 
 

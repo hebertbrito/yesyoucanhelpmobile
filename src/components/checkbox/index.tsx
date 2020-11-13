@@ -14,7 +14,7 @@ const Check = (props: Check) => {
     const { isValue, setValueCheckbox, title } = props;
 
     return (
-        <View style={{ justifyContent: "center", alignContent: "center", width: '25%', elevation: 3 }}>
+        <View style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center",alignContent: "center", width: '25%', elevation: 3 }}>
             <Subheading>
                 {title}
             </Subheading>

@@ -11,3 +11,4 @@ export * from './HouseLessModel';
 export * from './MapsLocationModels';
 export * from './ItemMapsLocationModels';
 export * from './CardDetails';
+export * from './AdvancedSearch';

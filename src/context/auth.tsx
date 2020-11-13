@@ -36,19 +36,22 @@ export const AuthProvider: React.FC = ({ children }) => {
 
         //atualizar o asyncstorage do usuario atual
     }
-    
+
     async function SignIn(email: string, password: string) {
-        setIsLoading(true)
-        const response = await GetLoginUser(email, password);
+        try {
+            setIsLoading(true)
+            const response = await GetLoginUser(email, password);
 
-        if (response) {
-            setUser(response)
+            if (response) {
+                setUser(response)
 
-            await AsyncStorage.setItem('@yycanhelp:user', JSON.stringify(response))
+                await AsyncStorage.setItem('@yycanhelp:user', JSON.stringify(response))
+                setIsLoading(false)
+            }
             setIsLoading(false)
+        } catch (error) {
+            console.log(error)
         }
-        setIsLoading(false)
-        return response;
     }
 
     async function SingOut() {

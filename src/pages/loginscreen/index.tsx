@@ -50,9 +50,8 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
            
             if (ValidateInputs(email, password)) {
 
-                const response = await SignIn(email, password);
-                // console.log(response);
-                // console.log(signed)
+                await SignIn(email, password);
+        
             }
         } catch (error) {
             console.log(error)

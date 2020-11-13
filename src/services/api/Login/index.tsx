@@ -3,6 +3,7 @@ import axios from 'axios';
 import { BASE_URL } from '../index';
 import { UserLogin } from '../../../models/UserLogin'
 import { switchState } from '../../switchresponse'
+import { Alert } from 'react-native';
 
 
 export const GetLoginUser = async function (email: string, password: string) {
@@ -14,7 +15,6 @@ export const GetLoginUser = async function (email: string, password: string) {
                 email: email,
                 password: password
             });
-
 
         objUserLogin = switchState(response)
         return objUserLogin

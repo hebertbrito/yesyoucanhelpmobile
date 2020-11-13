@@ -49,3 +49,17 @@ export const RemoveAvatar = async function (user: UserLogin) {
     }
 }
 
+export const AddImageHouseless = async function (photo: AvatarUser, idDocumentOrder: string) {
+    try {
+        const response = await RNFetchBlob.fetch('POST', `https://multer-teste.herokuapp.com/imagehouseles/${idDocumentOrder}`, {
+            'Content-Type': 'multipart/form-data',
+        }, [
+            // element with property `filename` will be transformed into `file` in form data
+            { name: 'image', filename: photo.fileName, data: photo.data }
+        ])
+        console.log(response)
+    } catch (error) {
+        console.log(error)
+    }
+}
+

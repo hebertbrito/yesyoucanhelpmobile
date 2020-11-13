@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { SafeAreaView, View, ScrollView, StatusBar, Platform, StyleSheet } from 'react-native';
+import { SafeAreaView, View, ScrollView, StatusBar, Platform, StyleSheet, Alert } from 'react-native';
 import { useTheme, Text, Avatar, Headline, List, Title, IconButton, Checkbox, Subheading, Divider, Button } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
+import { useNavigation } from '@react-navigation/native';
 
 import {
     DatePicker,
@@ -12,32 +12,96 @@ import {
     NavigationButon,
     MainButton,
     ButtonComponent,
-    ButtonDrawer
-} from '../../components'
+    DropdownYesComponent
+} from '../../components';
+
+//mock
+import { GetFormatDate, ValidationInputDate } from './mock';
+
+//models
+import { AdvancedSearch, AdvancedSearchResponse } from '../../models';
+
+//services
+import { GetAdvancedSearch } from '../../services/api/AdvancedSearch';
+
+//context
+import Auth from '../../context/auth';
+
+//childs
+import { RenderList } from './factory'
 
 const AdvancedSerach = () => {
 
     const paperTheme = useTheme();
+    const { navigate } = useNavigation();
+    const { user } = useContext(Auth)
 
-    const [date, setDate] = useState(new Date);
-    const [mode, setMode] = useState('');
-    const [show, setShow] = useState(false);
+    const [startdate, setStartDate] = useState(new Date());
+    const [enddate, setEndDate] = useState(new Date());
+    const [showstartdate, setShowStartDate] = useState(false);
+    const [showenddate, setShowEndDate] = useState(false);
     const [isReported, setIsReported] = useState(false);
     const [isliked, setIsLiked] = useState(false);
     const [radiovalue, setRadioValue] = useState('askcontribution');
+    const [dropdownvalueproduct, setDropdownValueProduct] = useState('')
+    const [lstDatas, setLstDatas] = useState<Array<AdvancedSearchResponse>>([] as Array<AdvancedSearchResponse>)
 
-    const onChange = (event: any, selectedDate: any) => {
-        const currentDate = selectedDate || date;
-        setShow(show ? false : true);
-        setDate(currentDate);
-        console.log(currentDate)
-    };
-
-    function ShowDataTime() {
-        setShow(show ? false : true);
+    function onChangeStartDate(event: any, selectedDate: any) {
+        setShowStartDate(false);
+        setStartDate(selectedDate)
+    }
+    function onChangeEndDate(event: any, selectedDate: any) {
+        setShowEndDate(false);
+        setEndDate(selectedDate)
+    }
+    function ShowStartDate() {
+        setShowStartDate(showstartdate ? false : true);
     }
 
-    async function any() {
+    function ShowEndDate() {
+        setShowEndDate(showenddate ? false : true);
+    }
+
+    async function getadvancedsearch() {
+        try {
+            const _startdate = GetFormatDate(startdate)
+            const _enddate = GetFormatDate(enddate)
+            if (ValidationInputDate(_startdate, _enddate)) {
+                const objModel: AdvancedSearch = {
+                    startdate: _startdate,
+                    enddate: _enddate,
+                    typeaction: radiovalue,
+                    accept: "",
+                    rating: "",
+                    products: "" //dropdownvalueproduct
+                }
+
+                const datas = await GetAdvancedSearch(objModel, user!)
+                if (datas) {
+                    setLstDatas(datas)
+                    console.log(lstDatas)
+                }
+
+            } else {
+                Alert.alert('EndDate não pode ser menos que StartDate')
+            }
+        } catch (error) {
+            Alert.alert(error.toString())
+        }
+    }
+
+    function DynamicIcon() {
+
+        if ('askcontribution' == radiovalue) {
+            return (
+                <Icon name="hands-helping" size={20} color={paperTheme.colors.text} />
+            )
+        } else {
+            return (
+                <Icon name="home" size={20} color={paperTheme.colors.text} />
+            )
+        }
+
 
     }
 
@@ -45,106 +109,69 @@ const AdvancedSerach = () => {
         <SafeAreaView style={{ width: "100%", flex: 1, alignContent: "center", alignItems: "center" }}>
 
             <View style={{ width: "100%", display: "flex", justifyContent: "center", marginBottom: '3%', marginTop: '5%' }}>
-                <Headline style={{ alignSelf: "center" }}>
+                <Headline style={{ alignSelf: "center", fontWeight: "bold" }}>
                     Advanced Search
                 </Headline>
             </View>
-            <View style={{ width: "95%", display: "flex", flexDirection: "column", margin: '2%', justifyContent: "center", alignContent: "center", }}>
-                <Subheading>
-                    Set type filter
-                </Subheading>
-                <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly", alignItems: "center", alignContent: "center" }}>
-                    <DatePicker ShowDataTime={ShowDataTime} />
-                    <CheckBoxComponent isValue={isReported} setValueCheckbox={setIsReported} title="Report" />
-                    <CheckBoxComponent isValue={isliked} setValueCheckbox={setIsLiked} title="Accept" />
+            <View style={{
+                width: '95%', height: 196,
+                borderRadius: 20, backgroundColor: paperTheme.colors.background, shadowColor: '#FAFAFA',
+                shadowOffset: { width: 0, height: 12 }, shadowOpacity: 1, shadowRadius: 16.00, elevation: 20, display: "flex",
+                flexDirection: "column",
+            }}>
+                <View style={{ width: '100%', height: 40, backgroundColor: paperTheme.colors.primary, borderTopLeftRadius: 20, borderTopRightRadius: 20, justifyContent: "center" }}>
+                    <Subheading style={{ paddingLeft: '4%', alignSelf: "center" }}>
+                        Select filter
+                    </Subheading>
+                </View>
+                <View style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                    <DatePicker ShowStartDate={ShowStartDate} startdate={startdate} enddate={enddate} ShowEndDate={ShowEndDate} />
+                    <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly" }}>
+                        <CheckBoxComponent isValue={isReported} setValueCheckbox={setIsReported} title="Report" />
+                        <CheckBoxComponent isValue={isliked} setValueCheckbox={setIsLiked} title="Accept" />
+                        <DropdownYesComponent dropdownvalueproduct={dropdownvalueproduct} setDropdownValueProduct={setDropdownValueProduct} />
+                    </View>
                 </View>
                 <RadioGroupComponent value={radiovalue} setValue={setRadioValue} />
             </View>
 
-            {show && (
+            {showstartdate && (
                 <DateTimePicker
                     testID="dateTimePicker"
-                    value={date}
+                    value={startdate}
                     mode="date"
                     is24Hour={true}
                     display="calendar"
-                    onChange={onChange}
+                    onChange={onChangeStartDate}
+                />
+            )}
 
+            {showenddate && (
+                <DateTimePicker
+                    testID="dateTimePicker"
+                    value={enddate}
+                    mode="date"
+                    is24Hour={true}
+                    display="calendar"
+                    onChange={onChangeEndDate}
                 />
             )}
 
             <Divider style={{ backgroundColor: paperTheme.colors.accent, width: '95%', height: 1, marginTop: 15, marginBottom: 8 }} />
 
             <ScrollView style={{ width: '100%' }} contentContainerStyle={{ flexGrow: 1, marginTop: '1%' }}>
-                <List.Item
-                    title="Contribution"
-                    description="Hebert - Doa-se sofá usado"
-                    right={props => <List.Icon {...props} icon={() => <Icon name="hands-helping"
-                        size={20} color={paperTheme.colors.text}
-                    />} />}
-                />
-                <List.Item
-                    title="Contribution"
-                    description="Hebert - Doa-se sofá usado"
-                    right={props => <List.Icon {...props} icon={() => <Icon name="hands-helping"
-                        size={20} color={paperTheme.colors.text}
-                    />} />}
-                />
-                <List.Item
-                    title="Contribution"
-                    description="Hebert - Doa-se sofá usado"
-                    right={props => <List.Icon {...props} icon={() => <Icon name="hands-helping"
-                        size={20} color={paperTheme.colors.text}
-                    />} />}
-                />
-                <List.Item
-                    title="Contribution"
-                    description="Hebert - Doa-se sofá usado"
-                    right={props => <List.Icon {...props} icon={() => <Icon name="hands-helping"
-                        size={20} color={paperTheme.colors.text}
-                    />} />}
-                />
-                <List.Item
-                    title="Contribution"
-                    description="Hebert - Doa-se sofá usado"
-                    right={props => <List.Icon {...props} icon={() => <Icon name="hands-helping"
-                        size={20} color={paperTheme.colors.text}
-                    />} />}
-                />
-                <List.Item
-                    title="Contribution"
-                    description="Hebert - Doa-se sofá usado"
-                    right={props => <List.Icon {...props} icon={() => <Icon name="hands-helping"
-                        size={20} color={paperTheme.colors.text}
-                    />} />}
-                />
-                <List.Item
-                    title="Contribution"
-                    description="Hebert - Doa-se sofá usado"
-                    right={props => <List.Icon {...props} icon={() => <Icon name="hands-helping"
-                        size={20} color={paperTheme.colors.text}
-                    />} />}
-                />
-                <List.Item
-                    title="Contribution"
-                    description="Hebert - Doa-se sofá usado"
-                    right={props => <List.Icon {...props} icon={() => <Icon name="hands-helping"
-                        size={20} color={paperTheme.colors.text}
-                    />} />}
-                />
-
-
+                <RenderList lstDatas={lstDatas} radiovalue={radiovalue} />
             </ScrollView>
 
             <View style={styles.bottomButonsView}>
                 <Button mode="text"
-                    onPress={() => { }}
+                    onPress={() => navigate('OptionsScreens')}
                     style={{ width: '25%', padding: 2, alignSelf: "center", justifyContent: "space-evenly", borderWidth: 1, borderColor: paperTheme.colors.text }}
                     color={paperTheme.colors.text}
                 >
                     Back
                 </Button>
-                <ButtonComponent iconName="search" isSend={false} nameButton="Search" size={20} styles={styles.buttoncomponente} MainActionScreen={() => { }} />
+                <ButtonComponent iconName="search" isSend={false} nameButton="Search" size={20} styles={styles.buttoncomponente} MainActionScreen={getadvancedsearch} />
                 <Button mode="outlined"
                     onPress={() => { }}
                     style={{ width: '25%', padding: 2, alignSelf: "center", justifyContent: "space-evenly", borderWidth: 1, borderColor: paperTheme.colors.surface }}
