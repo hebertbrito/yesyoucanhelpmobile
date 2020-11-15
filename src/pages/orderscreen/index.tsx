@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { SafeAreaView, View, ScrollView, Keyboard } from 'react-native';
+import { SafeAreaView, View, ScrollView, Keyboard, Alert } from 'react-native';
 import { useTheme, Text, Title, Subheading, List, Button, Divider, RadioButton, Headline, TextInput } from 'react-native-paper';
 import { Picker } from '@react-native-community/picker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -20,6 +20,9 @@ import { MakeContributionModel } from '../../models/MakeContribution';
 
 //screens
 import { styles } from './styles';
+
+//errorswitch
+import { SwitchErros } from './validation'
 
 
 const DEFAULTADDRESS = 'Rua Paulo Mazetto, 344 - Paulinia/SP';
@@ -101,14 +104,17 @@ const OrderScreen = () => {
                     products: lstProducts
                 }
                 setIsSend(true);
-                await MakeContribution(user, dataRequest)
+                await MakeContribution(user!, dataRequest)
+                setLstProducts([])
                 setIsSend(false);
+                Alert.alert(`${translate("completed")}`, `${translate("completed_order_message")}`)
+            } else {
+                Alert.alert(`${translate("attention")}`, `${translate("attention_message")}`)
             }
 
         } catch (error) {
-            console.log(error)
             setIsSend(false);
-
+            SwitchErros(error)
         }
     }
 
@@ -217,7 +223,7 @@ const OrderScreen = () => {
                     </View>
                 }
                 <View style={{ width: '95%' }}>
-                    <MainButton MainActionScreen={SendProducts} />
+                    <MainButton MainActionScreen={SendProducts} isSend={isSend} />
                 </View>
             </View>
         </ScrollView >

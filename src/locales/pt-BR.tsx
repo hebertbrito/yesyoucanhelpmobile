@@ -73,4 +73,9 @@ export default {
     "email_password_incorrect": "Email ou Senha estão incorretos",
     "user_not_found": "Usuario não encontrado",
     "internal_server_error": "Erro do Servidor Interno",
+    "completed": "Concluído",
+    "necessary_data_not_informed": "Dados necessários não informados",
+    "attention": "Atenção",
+    "attention_message": "É preciso ter um item para completa uma solicitação",
+
 }

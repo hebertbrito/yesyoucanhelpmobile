@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { BASE_URL } from '../';
-import { User } from '../../../models/User';
+import { UserLogin } from '../../../models';
 import { MakeContributionModel } from '../../../models/MakeContribution';
 import { GetDate } from '../../../mocks/getdate';
+import { ValidationException } from '../../../helpers/errors/validation'
 
-export async function MakeContribution(user: User | undefined, dataRequest: MakeContributionModel) {
+export async function MakeContribution(user: UserLogin, dataRequest: MakeContributionModel) {
     try {
         console.log(dataRequest)
         if (dataRequest) {
@@ -30,6 +31,7 @@ export async function MakeContribution(user: User | undefined, dataRequest: Make
         }
 
     } catch (error) {
-        console.log(error)
+        const value = ValidationException(error)
+        return Promise.reject(value)
     }
 }

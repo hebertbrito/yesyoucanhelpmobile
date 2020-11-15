@@ -72,4 +72,8 @@ export default {
     "email_password_incorrect": "Email or Password is incorrect",
     "user_not_found": "User not found",
     "internal_server_error": "Internal server error",
+    "completed": "Completed",
+    "necessary_data_not_informed": "Necessary data not informed",
+    "attention": "Attention",
+    "attention_message": "You must have an item to complete a request",
 }
