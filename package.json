@@ -6,7 +6,7 @@
     "clear": "npm cache clean --force && cd android && gradlew cleanBuildCache && cd ../",
     "android": "npx react-native run-android",
     "ios": "react-native run-ios",
-    "start": "react-native start",
+    "start": "react-native start --reset-cache",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },

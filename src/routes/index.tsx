@@ -22,6 +22,10 @@ interface Props {
     SwitchDarkTheme?: boolean
 }
 
+const options = {
+    swipeEnabled: false,
+    headerShown: false
+}
 
 export const Routes = (props: Props) => {
     const { signed } = useContext(AuthContext);
@@ -42,18 +46,18 @@ export const Routes = (props: Props) => {
             {signed ? (
 
                 <>
-                    <Drawer.Screen name="BottomNavigator" component={BottomNavigator} />
-                    <Drawer.Screen name="MapsScreen" component={MapsScreen} {...props} options={{ gestureEnabled: false, swipeEnabled: false }} />
-                    <Drawer.Screen name="OptionsScreens" component={OptionsScreens}/>
-                    <Drawer.Screen name="ProfileScreen" component={ProfileScreen} />
-                    <Drawer.Screen name="AdvancedSerach" component={AdvancedSerach} />
-                    <Drawer.Screen name="ChartScreen" component={ChartScreen} />
+                    <Drawer.Screen name="BottomNavigator" component={BottomNavigator} options={{ headerShown: false }} />
+                    <Drawer.Screen name="MapsScreen" component={MapsScreen} {...props} options={{ gestureEnabled: false, swipeEnabled: false, headerShown: false }} />
+                    <Drawer.Screen name="OptionsScreens" component={OptionsScreens} options={{ headerShown: false }} />
+                    <Drawer.Screen name="ProfileScreen" component={ProfileScreen} options={{ headerShown: false }} />
+                    <Drawer.Screen name="AdvancedSerach" component={AdvancedSerach} options={{ headerShown: false }} />
+                    <Drawer.Screen name="ChartScreen" component={ChartScreen} options={{ headerShown: false }} />
                 </>
 
             ) : (
                     <>
-                        <Drawer.Screen name="Login" component={LoginScreen} options={{ swipeEnabled: false }} />
-                        <Drawer.Screen name="RegisterUserScreen" component={RegisterUserScreen} options={{ swipeEnabled: false }} />
+                        <Drawer.Screen name="Login" component={LoginScreen} options={options} />
+                        <Drawer.Screen name="RegisterUserScreen" component={RegisterUserScreen} options={options} />
                     </>
                 )}
 
