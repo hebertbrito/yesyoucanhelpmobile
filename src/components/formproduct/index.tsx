@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { styles } from './styles'
 
-import { itemsDropdown } from '../../data/dataOrderscreen';
+import { itemsDropdown, items as itemsdropdown } from '../../data/dataOrderscreen';
 
 //translate
 import translate from '../../services/translate/translate'
@@ -51,8 +51,8 @@ export function FormProduct(props: FormProduct) {
                         selectedValue={dropdownvalueproduct}
                         onValueChange={(itemvalue, itemindex) => setDropdownValueProduct(itemvalue.toString())}
                     >
-                        {itemsDropdown.length > 0 && (
-                            itemsDropdown.map((item) => {
+                        {itemsdropdown.length > 0 && (
+                            itemsdropdown.map((item) => {
                                 return (
                                     <Picker.Item key={item.id} label={translate(item.name)} value={item.value} />
                                 )

@@ -26,7 +26,10 @@ import { SearchGeocoding } from '../../services/SearchGeocoding'
 import { SendInformHouseless } from '../../services/api/InformHouseless'
 
 //CSS
-import styles from './styles'
+import styles from './styles';
+
+//validation
+import { SwitchErros } from './validation'
 
 const HouseLessScreen = () => {
     const { user } = useContext(AuthContext);
@@ -179,16 +182,13 @@ const HouseLessScreen = () => {
             switch (checked) {
                 case 'AddAddress':
 
-                    if (validateFormLocation(number, neighborhood, street, setErrorFormLocation)) {
+                    if (number != "" && neighborhood != "" && street != "") {
 
                         const pathAddress = `${street}, ${number}, ${city}`
 
                         const response = await SearchGeocoding(pathAddress, setMessageError, CEP);
 
-                        if (response != undefined && response != null
-                            && photo != null && photo != undefined
-                            && name && description
-                        ) {
+                        if (response != undefined && photo != undefined && name && description) {
                             const objdata: HouseLessModel = {
                                 idDocument: user?.idDocument!,
                                 CEP: response.cep,
@@ -201,14 +201,14 @@ const HouseLessScreen = () => {
 
                             // await AskContribution(user, objdata)
                             await SendInformHouseless(objdata, user);
-
+                            Alert.alert(`${translate("completed")}`, `${translate("completed_order_message")}`)
                         } else {
-                            setMessageError('Dados Insuficientes para pedir contribuição')
-
+                            Alert.alert(`${translate("error")}`, `${translate("necessary_data_not_informed")}`)
                         }
 
                     } else {
-                        setMessageError('Dados Insuficientes para pedir contribuição')
+                        setErrorFormLocation(true)
+                        Alert.alert(`${translate("error")}`, `${translate("error_location_address")}`)
                     }
 
                     break;
@@ -218,9 +218,7 @@ const HouseLessScreen = () => {
                         const pathAddress = `${location.lat}, ${location.long}`
                         const response = await SearchGeocoding(pathAddress, setMessageError, CEP);
 
-                        if (response != undefined && response != null && photo != null && photo != undefined
-                            && name && description
-                        ) {
+                        if (response != undefined && photo && name && description) {
 
                             console.log('dentro do if para construir o objeto')
 
@@ -236,34 +234,33 @@ const HouseLessScreen = () => {
 
                             // await AskContribution(user, objdata)
                             await SendInformHouseless(objdata, user);
-
+                            Alert.alert(`${translate("completed")}`, `${translate("completed_order_message")}`)
                         } else {
-                            setMessageError('Dados Insuficientes para pedir contribuição')
+                            Alert.alert(`${translate("error")}`, `${translate("necessary_data_not_informed")}`)
                         }
 
                     } else {
-                        setMessageError('Dados Insuficientes para pedir contribuição')
+                        Alert.alert(`${translate("error")}`, `${translate("error_location")}`)
                     }
                 default:
                     break;
             }
         } catch (error) {
-            setMessageError(error.message)
+            return Promise.reject(error)
         }
 
     }
 
     //#endregion
 
-    async function teste() {
+    async function MainFunction() {
         try {
             setIsSend(true);
             await SendAksContribution();
             setIsSend(false);
-
         } catch (error) {
-            console.log(error)
             setIsSend(false);
+            SwitchErros(error)
         }
     }
 
@@ -407,7 +404,7 @@ const HouseLessScreen = () => {
                             </Button>
                         }
                     </View>
-                    <MainButton MainActionScreen={teste} isSend={isSend} />
+                    <MainButton MainActionScreen={MainFunction} isSend={isSend} />
                 </View>
             </ScrollView>
         </SafeAreaView>

@@ -76,4 +76,7 @@ export default {
     "necessary_data_not_informed": "Necessary data not informed",
     "attention": "Attention",
     "attention_message": "You must have an item to complete a request",
+    "completed_order_message": "You action has been completed. Thank you.",
+    "error_location": "Error trying to find your location",
+    "error_location_address": "Error trying to find address",
 }

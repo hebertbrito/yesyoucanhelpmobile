@@ -1,14 +1,15 @@
 import RNFetchBlob from 'rn-fetch-blob'
 import axios from 'axios';
-import { BASE_URL } from '../'
-import { HouseLessModel, UserLogin } from '../../../models'
+import { BASE_URL } from '../';
+import { HouseLessModel, UserLogin } from '../../../models';
+import { ValidationException } from '../../../helpers/errors/validation'
 
 //servies
 import { AddImageHouseless } from '../StaticFiles'
 
 export async function SendInformHouseless(data: HouseLessModel | undefined, user: UserLogin | undefined) {
     try {
-
+        console.log("cai aqui")
         if (data) {
             const datas = {
                 idDocumentUser: data.idDocument!,
@@ -33,6 +34,7 @@ export async function SendInformHouseless(data: HouseLessModel | undefined, user
 
 
     } catch (error) {
-        console.log(error)
+        const value = ValidationException(error)
+        return Promise.reject(value)
     }
 }
