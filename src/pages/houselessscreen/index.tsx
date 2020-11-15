@@ -59,7 +59,14 @@ const HouseLessScreen = () => {
     const [errorFormLocation, setErrorFormLocation] = useState<boolean>(false);
     const [isSend, setIsSend] = useState<boolean>(false);
 
+    //#region CLEAR FIELDS
 
+    function clearfields() {
+        setName("")
+        setDescription("")
+    }
+
+    //#endregion
 
     //#region Get and Clear GEOLOCATION
 
@@ -199,6 +206,8 @@ const HouseLessScreen = () => {
                                 photo: photo
                             }
                             await SendInformHouseless(objdata, user);
+                            setErrorFormLocation(false)
+                            clearfields()
                             Alert.alert(`${translate("completed")}`, `${translate("completed_order_message")}`)
                         } else {
                             Alert.alert(`${translate("error")}`, `${translate("necessary_data_not_informed")}`)
@@ -232,6 +241,7 @@ const HouseLessScreen = () => {
 
                             // await AskContribution(user, objdata)
                             await SendInformHouseless(objdata, user);
+                            clearfields()
                             Alert.alert(`${translate("completed")}`, `${translate("completed_order_message")}`)
                         } else {
                             Alert.alert(`${translate("error")}`, `${translate("necessary_data_not_informed")}`)
