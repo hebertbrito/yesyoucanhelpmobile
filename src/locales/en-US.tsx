@@ -67,6 +67,9 @@ export default {
     "check_register_legal_perosn": "Legal Person",
     "identification_info": "Identification Information",
     "login_datas": "Login Datas",
-    "button_cancel": "Cancel"
-
+    "button_cancel": "Cancel",
+    "error": "Error",
+    "email_password_incorrect": "Email or Password is incorrect",
+    "user_not_found": "User not found",
+    "internal_server_error": "Internal server error",
 }

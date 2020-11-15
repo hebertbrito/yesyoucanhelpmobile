@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { BASE_URL } from '../';
 import { UserLogin, AdvancedSearch, AdvancedSearchResponse } from '../../../models';
+import { ValidationException } from '../../../helpers/errors/validation'
 
 export async function GetAdvancedSearch(datas: AdvancedSearch, user: UserLogin) {
     try {
@@ -20,14 +21,12 @@ export async function GetAdvancedSearch(datas: AdvancedSearch, user: UserLogin) 
             response.data.map(item => {
                 lstDatas.push(item)
             })
-            
+
             return lstDatas
         }
         return []
     } catch (error) {
-        const regex = new RegExp(/\d+/)
-        let teste = regex.exec(error.toString())
-        console.log(teste)
-
+        const value = ValidationException(error)
+        Promise.reject(value)
     }
 }

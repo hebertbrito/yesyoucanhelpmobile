@@ -3,8 +3,7 @@ import axios from 'axios';
 import { BASE_URL } from '../index';
 import { UserLogin } from '../../../models/UserLogin'
 import { switchState } from '../../switchresponse'
-import { Alert } from 'react-native';
-
+import { ValidationException } from '../../../helpers/errors/validation'
 
 export const GetLoginUser = async function (email: string, password: string) {
     try {
@@ -19,6 +18,7 @@ export const GetLoginUser = async function (email: string, password: string) {
         objUserLogin = switchState(response)
         return objUserLogin
     } catch (error) {
-        console.log(error)
+        const value = ValidationException(error)
+        return Promise.reject(value)
     }
 }

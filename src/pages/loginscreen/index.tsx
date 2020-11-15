@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import * as Animatable from 'react-native-animatable';
 import AuthContext from '../../context/auth';
 import { useFocusEffect } from '@react-navigation/native';
-
+import { SwitchErros } from './validation'
 //styles
 import styles from './styles'
 import { pad } from 'lodash';
@@ -22,10 +22,8 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
     const { SignIn, signed, isLoading } = useContext(AuthContext)
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [errorEmail, setErrorEmail] = useState(false as boolean);
-    const [errorPassword, setErrorPassword] = useState(false as boolean);
+    const [error, setError] = useState(false);
     const { navigation } = props;
-
 
     const iconbutton = () => {
         return <Icon name="sign-in-alt" size={20} />
@@ -47,14 +45,16 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
 
     async function Login(email: string, password: any) {
         try {
-           
+            setError(false)
             if (ValidateInputs(email, password)) {
 
                 await SignIn(email, password);
-        
+
             }
         } catch (error) {
-            console.log(error)
+            // const teste = Promise.resolve(error)
+            SwitchErros(error, setError)
+
         }
     }
     // console.log(signed);
@@ -77,7 +77,7 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
                         mode="outlined"
                         theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
                         maxLength={50}
-                        returnKeyType="next"
+                        error={error}
                     />
 
                     <PaperTextInput
@@ -92,6 +92,7 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
                         mode="outlined"
                         theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
                         maxLength={30}
+                        error={error}
                     />
 
                     <Button icon={iconbutton} mode="contained" onPress={() => Login(email, password)}

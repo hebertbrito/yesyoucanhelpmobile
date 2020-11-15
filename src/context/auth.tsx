@@ -50,7 +50,8 @@ export const AuthProvider: React.FC = ({ children }) => {
             }
             setIsLoading(false)
         } catch (error) {
-            console.log(error)
+            setIsLoading(false)
+            return Promise.reject(error)
         }
     }
 

@@ -68,5 +68,9 @@ export default {
     "login_datas": "Dados para Login",
     "button_cancel": "Cancelar",
     "button_next": "Seguir",
-    "button_back": "Voltar"
+    "button_back": "Voltar",
+    "error": "Erro",
+    "email_password_incorrect": "Email ou Senha estão incorretos",
+    "user_not_found": "Usuario não encontrado",
+    "internal_server_error": "Erro do Servidor Interno",
 }

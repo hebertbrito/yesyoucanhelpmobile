@@ -44,7 +44,7 @@ export const Routes = (props: Props) => {
                 <>
                     <Drawer.Screen name="BottomNavigator" component={BottomNavigator} />
                     <Drawer.Screen name="MapsScreen" component={MapsScreen} {...props} options={{ gestureEnabled: false, swipeEnabled: false }} />
-                    <Drawer.Screen name="OptionsScreens" component={OptionsScreens} />
+                    <Drawer.Screen name="OptionsScreens" component={OptionsScreens}/>
                     <Drawer.Screen name="ProfileScreen" component={ProfileScreen} />
                     <Drawer.Screen name="AdvancedSerach" component={AdvancedSerach} />
                     <Drawer.Screen name="ChartScreen" component={ChartScreen} />
