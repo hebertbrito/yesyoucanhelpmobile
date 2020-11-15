@@ -184,7 +184,7 @@ const AskContributionScreen = () => {
 
                         const response = await SearchGeocoding(pathAddress, setMessageError, CEP);
 
-                        if (response != undefined && response != null && lstProducts.length > 0) {
+                        if (response != undefined && lstProducts.length > 0) {
                             const objdata: AskContributionModel = {
                                 idDocument: user?.idDocument!,
                                 CEP: response.cep,
@@ -212,8 +212,8 @@ const AskContributionScreen = () => {
 
                         const pathAddress = `${location.lat}, ${location.long}`
                         const response = await SearchGeocoding(pathAddress, setMessageError, CEP);
-
-                        if (response != undefined && response != null && lstProducts.length > 0) {
+                        console.log(lstProducts)
+                        if (response != undefined && lstProducts.length > 0) {
                             const objdata: AskContributionModel = {
                                 idDocument: user?.idDocument!,
                                 CEP: response.cep,
@@ -226,7 +226,7 @@ const AskContributionScreen = () => {
                             Alert.alert(`${translate("completed")}`, `${translate("completed_order_message")}`)
 
                         } else {
-                            Alert.alert(`${translate("completed")}`, `${translate("completed_order_message")}`)
+                            Alert.alert(`${translate("attention")}`, `${translate("necessary_data_not_informed")}`)
                         }
 
                     } else {
