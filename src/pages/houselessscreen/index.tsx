@@ -198,8 +198,6 @@ const HouseLessScreen = () => {
                                 description: description,
                                 photo: photo
                             }
-
-                            // await AskContribution(user, objdata)
                             await SendInformHouseless(objdata, user);
                             Alert.alert(`${translate("completed")}`, `${translate("completed_order_message")}`)
                         } else {
