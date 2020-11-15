@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { BASE_URL } from '../';
-import { User } from '../../../models/User';
+import { UserLogin } from '../../../models';
 import { AskContributionModel } from '../../../models/AskContributionModel';
-import { GetDate } from '../../../mocks/getdate'
-export async function AskContribution(user: User | undefined, dataRequest: AskContributionModel) {
+import { GetDate } from '../../../mocks/getdate';
+import { ValidationException } from '../../../helpers/errors/validation'
+export async function AskContribution(user: UserLogin, dataRequest: AskContributionModel) {
     try {
 
 
@@ -30,6 +31,7 @@ export async function AskContribution(user: User | undefined, dataRequest: AskCo
         }
 
     } catch (error) {
-        console.log(error)
+        const value = ValidationException(error)
+        return Promise.reject(value)
     }
 }

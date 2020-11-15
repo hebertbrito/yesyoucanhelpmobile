@@ -29,6 +29,8 @@ import { ModelList, CEPjson, LocationModel, AskContributionModel } from '../../m
 //Mocks
 import { validateFormLocation } from '../../mocks/validateFormLocation'
 
+//validate
+import { SwitchErros } from './validation'
 
 
 const AskContributionScreen = () => {
@@ -55,9 +57,17 @@ const AskContributionScreen = () => {
     const [IdWatch, setIdWatch] = useState<number>(0)
     const [isSend, setIsSend] = useState<boolean>(false);
 
+    function clearfieldsaddress() {
+        setCEP("")
+        setNumber("")
+        setStreet("")
+        setNeighborhood("")
+        setCity("")
+    }
+
     function resetStateCard() {
         setDescriptionInput('');
-        setDropdownValueProduct('Clothes');
+        setDropdownValueProduct('');
         setNumberInput('');
     }
 
@@ -183,14 +193,17 @@ const AskContributionScreen = () => {
                                 products: lstProducts
                             }
 
-                            await AskContribution(user, objdata)
+                            await AskContribution(user!, objdata)
+                            setErrorFormLocation(false)
+                            clearfieldsaddress()
+                            Alert.alert(`${translate("completed")}`, `${translate("completed_order_message")}`)
                         } else {
-                            setMessageError('Dados Insuficientes para pedir contribuição')
-
+                            Alert.alert(`${translate("attention")}`, `${translate("necessary_data_not_informed")}`)
                         }
 
                     } else {
-                        setMessageError('Dados Insuficientes para pedir contribuição')
+                        setErrorFormLocation(true)
+                        Alert.alert(`${translate("error")}`, `${translate("error_location_address")}`)
                     }
 
                     break;
@@ -209,19 +222,21 @@ const AskContributionScreen = () => {
                                 products: lstProducts
                             }
 
-                            await AskContribution(user, objdata)
+                            await AskContribution(user!, objdata)
+                            Alert.alert(`${translate("completed")}`, `${translate("completed_order_message")}`)
+
                         } else {
-                            setMessageError('Dados Insuficientes para pedir contribuição')
+                            Alert.alert(`${translate("completed")}`, `${translate("completed_order_message")}`)
                         }
 
                     } else {
-                        setMessageError('Dados Insuficientes para pedir contribuição')
+                        Alert.alert(`${translate("error")}`, `${translate("error_location")}`)
                     }
                 default:
                     break;
             }
         } catch (error) {
-            setMessageError(error.message)
+            return Promise.reject(error)
         }
 
     }
@@ -231,11 +246,9 @@ const AskContributionScreen = () => {
             setIsSend(true);
             await SendAksContribution();
             setIsSend(false);
-
         } catch (error) {
-            console.log(error)
-            setMessageError(error.message)
             setIsSend(false);
+            SwitchErros(error)
         }
     }
 
