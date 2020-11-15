@@ -64,6 +64,7 @@ const HouseLessScreen = () => {
     function clearfields() {
         setName("")
         setDescription("")
+        setPhoto(undefined)
     }
 
     //#endregion
