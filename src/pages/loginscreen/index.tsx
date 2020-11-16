@@ -32,14 +32,6 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
     const [subcolorButton, setSubcolorButton] = useState("")
     const { navigation } = props;
 
-    function teste(text: string) {
-        return (
-            <SnackBarYes isVisible={isVisible} onDismiss={onDismiss} onPress={onPress}
-                text={text} style={{ height: 20, width: "50%" }}
-            />
-        )
-    }
-
     function onPress() {
         setIsVisible(!isVisible)
     }

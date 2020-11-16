@@ -1,6 +1,7 @@
 import React, { memo } from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 import { Snackbar } from 'react-native-paper'
+import { Text } from 'react-native-paper/lib/typescript/src/components/Avatar/Avatar'
 import translate from '../../services/translate/translate'
 
 interface SnackBarYes {
@@ -31,8 +32,7 @@ const SnackBarYesComponente = (props: SnackBarYes) => {
                 },
             }}>
 
-
-            {title ? translate(`${title}`) : null}  {translate(`${text}`)}
+            {translate(`${text}`)}
         </Snackbar>
     )
 }

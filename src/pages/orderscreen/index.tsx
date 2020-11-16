@@ -24,6 +24,9 @@ import { styles } from './styles';
 //errorswitch
 import { SwitchErros } from './validation'
 
+//componentes
+import { SnackBarYes } from '../../components'
+
 
 const DEFAULTADDRESS = 'Rua Paulo Mazetto, 344 - Paulinia/SP';
 interface ModelList {
@@ -47,6 +50,13 @@ const OrderScreen = () => {
     const [showError, setShowError] = useState<boolean>(false);
     const [isSend, setIsSend] = useState<boolean>(false);
 
+    //state about notification
+    const [isVisible, setIsVisible] = useState(false)
+    const [text, setText] = useState("")
+    const [colorbackground, setColorBackground] = useState("")
+    const [textcolor, setTextColor] = useState("")
+    const [subcolorButton, setSubcolorButton] = useState("")
+    const [title, setTitle] = useState("")
 
     function resetStateCard() {
         setDescriptionInput('');
@@ -107,126 +117,150 @@ const OrderScreen = () => {
                 await MakeContribution(user!, dataRequest)
                 setLstProducts([])
                 setIsSend(false);
-                Alert.alert(`${translate("completed")}`, `${translate("completed_order_message")}`)
+                //201
+                // Alert.alert(`${translate("completed")}`, `${translate("completed_order_message")}`)
+                SwitchErros(201, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+                setIsVisible(true);
             } else {
-                Alert.alert(`${translate("attention")}`, `${translate("attention_message")}`)
+                //204
+                // Alert.alert(`${translate("attention")}`, `${translate("attention_message")}`)
+                SwitchErros(204, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+                setIsVisible(true);
             }
 
         } catch (error) {
             setIsSend(false);
-            SwitchErros(error)
+            SwitchErros(error, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+            setIsVisible(true);
         }
     }
 
+    function onPress() {
+        setIsVisible(!isVisible)
+    }
+
+    function onDismiss() {
+        setIsVisible(!isVisible)
+    }
+
     return (
-        <ScrollView style={styles.containerSafe}
-            contentContainerStyle={{
-                alignContent: "center",
-                alignItems: "center",
-            }}
-            pagingEnabled={true}
-            nestedScrollEnabled={true}
-        >
-            <Headline style={{
-                color: paperTheme.colors.text, marginTop: 10, marginBottom: 10,
-                fontWeight: "bold"
-            }}
-            >
-                Contribution
-            </Headline>
-
-            <FormProduct dropdownvalueproduct={dropdownvalueproduct} setDropdownValueProduct={setDropdownValueProduct}
-                numberInput={numberInput} setNumberInput={setNumberInput}
-                descriptionInput={descriptionInput} setDescriptionInput={setDescriptionInput}
-                addProduct={addProduct} showError={showError}
-            />
-
-            {<ListProduct lstProducts={lstProducts} removeItemList={removeItemList} />}
-
-
-            <Divider style={{ backgroundColor: paperTheme.colors.accent, width: '95%', height: 1, marginTop: 15, marginBottom: 8 }} />
-
-            <View style={styles.containerCheckpoint}>
-                <Subheading style={{
-                    display: "flex",
-                    flexDirection: "row",
+        <SafeAreaView style={{ flex: 1, width: "100%" }}>
+            <ScrollView style={styles.containerSafe}
+                contentContainerStyle={{
+                    alignContent: "center",
                     alignItems: "center",
-                    justifyContent: "space-between",
-                    color: paperTheme.colors.text,
-                    padding: 5
+                }}
+                pagingEnabled={true}
+                nestedScrollEnabled={true}
+            >
+                <Headline style={{
+                    color: paperTheme.colors.text, marginTop: 10, marginBottom: 10,
+                    fontWeight: "bold"
                 }}
                 >
-                    Checkpoint</Subheading>
-                <View style={styles.viewCardCheckBox}>
-                    <View style={{
-                        paddingLeft: "2.5%",
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        alignContent: "center",
-                        backgroundColor: paperTheme.colors.onSurface,
-                        justifyContent: "center",
-                        borderRadius: 10,
-                        width: '45%',
-                        elevation: 2
-                    }}>
-                        <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>
-                            {translate('check_contribution_branch')}
-                        </Text>
-                        <RadioButton
-                            value="SendBranch"
-                            status={checked === 'SendBranch' ? 'checked' : 'unchecked'}
-                            onPress={() => setChecked('SendBranch')}
-                            color={'#000000'}
-                            uncheckedColor={'#000000'}
-                        />
-                    </View>
-                    <View style={{
-                        paddingLeft: "2.5%",
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        alignContent: "center",
-                        backgroundColor: paperTheme.colors.onSurface,
-                        justifyContent: "center",
-                        borderRadius: 10,
-                        width: '45%',
-                        elevation: 2
+                    Contribution
+            </Headline>
 
-                    }}>
-                        <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>
-                            {translate('check_contribution_meet_place')}
-                        </Text>
-                        <RadioButton
-                            value="ChoseMPlace"
-                            status={checked === 'ChoseMPlace' ? 'checked' : 'unchecked'}
-                            onPress={() => setChecked('ChoseMPlace')}
-                            color={'#000000'}
-                            uncheckedColor={'#000000'}
-                        />
+                <FormProduct dropdownvalueproduct={dropdownvalueproduct} setDropdownValueProduct={setDropdownValueProduct}
+                    numberInput={numberInput} setNumberInput={setNumberInput}
+                    descriptionInput={descriptionInput} setDescriptionInput={setDescriptionInput}
+                    addProduct={addProduct} showError={showError}
+                />
+
+                {<ListProduct lstProducts={lstProducts} removeItemList={removeItemList} />}
+
+
+                <Divider style={{ backgroundColor: paperTheme.colors.accent, width: '95%', height: 1, marginTop: 15, marginBottom: 8 }} />
+
+                <View style={styles.containerCheckpoint}>
+                    <Subheading style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        color: paperTheme.colors.text,
+                        padding: 5
+                    }}
+                    >
+                        Checkpoint</Subheading>
+                    <View style={styles.viewCardCheckBox}>
+                        <View style={{
+                            paddingLeft: "2.5%",
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            alignContent: "center",
+                            backgroundColor: paperTheme.colors.onSurface,
+                            justifyContent: "center",
+                            borderRadius: 10,
+                            width: '45%',
+                            elevation: 2
+                        }}>
+                            <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>
+                                {translate('check_contribution_branch')}
+                            </Text>
+                            <RadioButton
+                                value="SendBranch"
+                                status={checked === 'SendBranch' ? 'checked' : 'unchecked'}
+                                onPress={() => setChecked('SendBranch')}
+                                color={'#000000'}
+                                uncheckedColor={'#000000'}
+                            />
+                        </View>
+                        <View style={{
+                            paddingLeft: "2.5%",
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            alignContent: "center",
+                            backgroundColor: paperTheme.colors.onSurface,
+                            justifyContent: "center",
+                            borderRadius: 10,
+                            width: '45%',
+                            elevation: 2
+
+                        }}>
+                            <Text style={{ color: '#000000', display: "flex", flexWrap: "wrap", width: '70%' }}>
+                                {translate('check_contribution_meet_place')}
+                            </Text>
+                            <RadioButton
+                                value="ChoseMPlace"
+                                status={checked === 'ChoseMPlace' ? 'checked' : 'unchecked'}
+                                onPress={() => setChecked('ChoseMPlace')}
+                                color={'#000000'}
+                                uncheckedColor={'#000000'}
+                            />
+                        </View>
+                    </View>
+                    {checked === "ChoseMPlace" &&
+                        <View>
+                            <Picker mode="dialog" style={{ width: '50%', color: paperTheme.colors.text }}
+                                selectedValue={dropdownvalueaddress}
+                                onValueChange={(itemvalue, itemindex) => setDropdownValueAddress(itemvalue.toString())}
+                            >
+                                {addressesDropdown.length > 0 && (
+                                    addressesDropdown.map((item) => {
+                                        return (
+                                            <Picker.Item key={item.id} label={item.address} value={item.address} />
+                                        )
+                                    })
+                                )}
+                            </Picker>
+                        </View>
+                    }
+                    <View style={{ width: '95%' }}>
+                        <MainButton MainActionScreen={SendProducts} isSend={isSend} />
                     </View>
                 </View>
-                {checked === "ChoseMPlace" &&
-                    <View>
-                        <Picker mode="dialog" style={{ width: '50%', color: paperTheme.colors.text }}
-                            selectedValue={dropdownvalueaddress}
-                            onValueChange={(itemvalue, itemindex) => setDropdownValueAddress(itemvalue.toString())}
-                        >
-                            {addressesDropdown.length > 0 && (
-                                addressesDropdown.map((item) => {
-                                    return (
-                                        <Picker.Item key={item.id} label={item.address} value={item.address} />
-                                    )
-                                })
-                            )}
-                        </Picker>
-                    </View>
-                }
-                <View style={{ width: '95%' }}>
-                    <MainButton MainActionScreen={SendProducts} isSend={isSend} />
-                </View>
-            </View>
-        </ScrollView >
+            </ScrollView >
+            <SnackBarYes isVisible={isVisible} onDismiss={onDismiss} onPress={onPress}
+                text={text} 
+                style={{ height: 50, width: "90%",
+                backgroundColor: colorbackground, alignSelf: "center", bottom: 15, display: "flex", flexWrap: "wrap", justifyContent: "center", alignContent: "center" }}
+                textcolor={textcolor} subcolorButton={subcolorButton} title={title}
+            />
+        </SafeAreaView>
+
     )
 }
 
