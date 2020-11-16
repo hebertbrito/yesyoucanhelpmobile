@@ -9,12 +9,13 @@ import { useFocusEffect } from '@react-navigation/native';
 import { SwitchErros } from './validation'
 //styles
 import styles from './styles'
-import { pad } from 'lodash';
 import { ScrollView } from 'react-native-gesture-handler';
 
 //services
 import translate from '../../services/translate/translate'
 
+//components
+import { SnackBarYes } from '../../components'
 
 const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) => {
 
@@ -23,7 +24,33 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [error, setError] = useState(false);
+    const [eyepassword, setEyePassword] = useState(true)
+    const [isVisible, setIsVisible] = useState(false)
+    const [text, setText] = useState("")
+    const [colorbackground, setColorBackground] = useState("")
+    const [textcolor, setTextColor] = useState("")
+    const [subcolorButton, setSubcolorButton] = useState("")
     const { navigation } = props;
+
+    function teste(text: string) {
+        return (
+            <SnackBarYes isVisible={isVisible} onDismiss={onDismiss} onPress={onPress}
+                text={text} style={{ height: 20, width: "50%" }}
+            />
+        )
+    }
+
+    function onPress() {
+        setIsVisible(!isVisible)
+    }
+
+    function onDismiss() {
+        setIsVisible(!isVisible)
+    }
+
+    function eyePassword() {
+        setEyePassword(!eyepassword)
+    }
 
     const iconbutton = () => {
         return <Icon name="sign-in-alt" size={20} />
@@ -52,15 +79,18 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
 
             }
         } catch (error) {
-            // const teste = Promise.resolve(error)
-            SwitchErros(error, setError)
-
+            SwitchErros(error, setError, setText, setColorBackground, setTextColor, setSubcolorButton, paperTheme)
+            setIsVisible(true)
         }
     }
     // console.log(signed);
     return (
 
         <SafeAreaView style={styles.safeareContainer}>
+            <SnackBarYes isVisible={isVisible} onDismiss={onDismiss} onPress={onPress}
+                text={text} style={{ height: 50, width: "80%", backgroundColor: colorbackground, alignSelf: "center" }}
+                textcolor={textcolor} subcolorButton={subcolorButton}
+            />
             <ScrollView style={{ width: '100%' }} contentContainerStyle={{ flexGrow: 1, alignItems: "center", justifyContent: "center" }}>
                 <Animatable.Image animation="bounceInDown" delay={1100} useNativeDriver={true} source={require('../../assets/fotospublic/logoLetra.png')} style={{ height: '40%', width: '50%' }} />
 
@@ -81,7 +111,7 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
                     />
 
                     <PaperTextInput
-                        secureTextEntry={true}
+                        secureTextEntry={eyepassword}
                         value={password}
                         onChangeText={(text) => setPassword(text)}
                         placeholder={`${translate('password')}*`}
@@ -93,6 +123,15 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
                         theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
                         maxLength={30}
                         error={error}
+                        right={
+                            <PaperTextInput.Icon
+                                name="eye"
+                                color={paperTheme.colors.text}
+                                onPress={() => {
+                                    eyePassword()
+                                }}
+                            />
+                        }
                     />
 
                     <Button icon={iconbutton} mode="contained" onPress={() => Login(email, password)}
