@@ -3,18 +3,48 @@ import { Alert } from 'react-native';
 
 import translate from '../../services/translate/translate'
 
-export function SwitchErros(value: number): void {
+export function SwitchErros(
+    value: number,
+    setText: React.Dispatch<React.SetStateAction<string>>,
+    setColorBackground: React.Dispatch<React.SetStateAction<string>>,
+    setTextColor: React.Dispatch<React.SetStateAction<string>>,
+    setSubcolorButton: React.Dispatch<React.SetStateAction<string>>,
+    setTitle: React.Dispatch<React.SetStateAction<string>>,
+    paperTheme: any
+): void {
     switch (value) {
+        case 201:
+            setTitle("completed")
+            setText("completed_order_message")
+            setColorBackground(paperTheme.colors.onSurface)
+            setTextColor("#212121")
+            setSubcolorButton("#212121")
+            break;
+        case 204:
+            setTitle("error")
+            setText("necessary_data_not_informed")
+            setColorBackground(paperTheme.colors.third)
+            setTextColor("#212121")
+            setSubcolorButton("#212121")
+            break;
         case 401:
-            // return { status: 401, name: "email_password_incorrect" }
-            Alert.alert(`${translate("error")}`, `${translate("necessary_data_not_informed")}`)
+            setTitle("error")
+            setText("necessary_data_not_informed")
+            setColorBackground(paperTheme.colors.notification)
+            setTextColor("#fafafa")
+            setSubcolorButton("#fafafa")
             break;
         case 500:
-            // return { status: 500, name: "internal_server_error" }
-            Alert.alert(`${translate("error")}`, `${translate("internal_server_error")}`)
+            setText("internal_server_error")
+            setColorBackground(paperTheme.colors.error)
+            setTextColor("#fafafa")
+            setSubcolorButton("#fafafa")
             break;
         default:
-            // return { status: 0, name: "undefined" }
+            setText("internal_server_error")
+            setColorBackground(paperTheme.colors.error)
+            setTextColor("#fafafa")
+            setSubcolorButton("#fafafa")
             break;
     }
 }
