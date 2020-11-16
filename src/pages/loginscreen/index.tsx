@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, SafeAreaView, TextInput, Alert, TouchableOpacity } from 'react-native';
+import { View, SafeAreaView, TextInput, Alert, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { DrawerContentComponentProps, DrawerContentOptions } from '@react-navigation/drawer';
 import { Button, Text, useTheme, TextInput as PaperTextInput } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -87,58 +87,62 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
                 <Animatable.Image animation="bounceInDown" delay={1100} useNativeDriver={true} source={require('../../assets/fotospublic/logoLetra.png')} style={{ height: '40%', width: '50%' }} />
 
                 <Animatable.View style={styles.formView} animation="fadeInLeft" delay={1200} useNativeDriver={true}>
-                    <PaperTextInput
-                        value={email}
-                        onChangeText={text => setEmail(text)}
-                        placeholder={`${translate('example')}: test@test.com`}
-                        label={`${translate('email')}`}
-                        keyboardType="email-address"
-                        style={{ margin: 10, color: paperTheme.colors.text }}
-                        placeholderTextColor={paperTheme.colors.text}
-                        selectionColor={paperTheme.colors.text}
-                        mode="outlined"
-                        theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
-                        maxLength={50}
-                        error={error}
-                    />
+                    <KeyboardAvoidingView behavior="padding">
 
-                    <PaperTextInput
-                        secureTextEntry={eyepassword}
-                        value={password}
-                        onChangeText={(text) => setPassword(text)}
-                        placeholder={`${translate('password')}*`}
-                        label={`${translate('password')}`}
-                        style={{ margin: 10 }}
-                        placeholderTextColor={paperTheme.colors.text}
-                        selectionColor={paperTheme.colors.text}
-                        mode="outlined"
-                        theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
-                        maxLength={30}
-                        error={error}
-                        right={
-                            <PaperTextInput.Icon
-                                name="eye"
-                                color={paperTheme.colors.text}
-                                onPress={() => {
-                                    eyePassword()
-                                }}
-                            />
-                        }
-                    />
+                        <PaperTextInput
+                            value={email}
+                            onChangeText={text => setEmail(text)}
+                            placeholder={`${translate('example')}: test@test.com`}
+                            label={`${translate('email')}`}
+                            keyboardType="email-address"
+                            style={{ margin: 10, color: paperTheme.colors.text }}
+                            placeholderTextColor={paperTheme.colors.text}
+                            selectionColor={paperTheme.colors.text}
+                            mode="outlined"
+                            theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
+                            maxLength={50}
+                            error={error}
+                        />
 
-                    <Button icon={iconbutton} mode="contained" onPress={() => Login(email, password)}
-                        style={{ width: '45%', padding: 2, alignSelf: "center" }}
-                        color="#fdd835" loading={isLoading}
-                    >
-                        {translate('button_login')}
-                    </Button>
-                    <TouchableOpacity style={{ width: 120, height: 50, alignSelf: "center" }}
-                        onPress={() => navigation.navigate('RegisterUserScreen')}
-                    >
-                        <Text style={{ alignSelf: "center", margin: 3, color: 'red' }}>
-                            {translate('register_button')}
-                        </Text>
-                    </TouchableOpacity>
+                        <PaperTextInput
+                            secureTextEntry={eyepassword}
+                            value={password}
+                            onChangeText={(text) => setPassword(text)}
+                            placeholder={`${translate('password')}*`}
+                            label={`${translate('password')}`}
+                            style={{ margin: 10 }}
+                            placeholderTextColor={paperTheme.colors.text}
+                            selectionColor={paperTheme.colors.text}
+                            mode="outlined"
+                            theme={{ colors: { placeholder: paperTheme.colors.text, text: paperTheme.colors.text } }}
+                            maxLength={30}
+                            error={error}
+                            right={
+                                <PaperTextInput.Icon
+                                    name="eye"
+                                    color={paperTheme.colors.text}
+                                    onPress={() => {
+                                        eyePassword()
+                                    }}
+                                />
+                            }
+                        />
+
+                        <Button icon={iconbutton} mode="contained" onPress={() => Login(email, password)}
+                            style={{ width: '45%', padding: 2, alignSelf: "center" }}
+                            color="#fdd835" loading={isLoading}
+                        >
+                            {translate('button_login')}
+                        </Button>
+                        <TouchableOpacity style={{ width: 120, height: 50, alignSelf: "center" }}
+                            onPress={() => navigation.navigate('RegisterUserScreen')}
+                        >
+                            <Text style={{ alignSelf: "center", margin: 3, color: 'red' }}>
+                                {translate('register_button')}
+                            </Text>
+                        </TouchableOpacity>
+                    </KeyboardAvoidingView>
+
                 </Animatable.View>
             </ScrollView>
         </SafeAreaView>

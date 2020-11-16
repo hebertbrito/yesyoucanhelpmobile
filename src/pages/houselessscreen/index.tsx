@@ -288,6 +288,7 @@ const HouseLessScreen = () => {
         } catch (error) {
             setIsSend(false);
             SwitchErros(error, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+            setIsVisible(true)
         }
     }
 

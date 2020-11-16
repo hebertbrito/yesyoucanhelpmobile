@@ -18,8 +18,11 @@ import { AddAvatar } from '../../services/api/StaticFiles'
 import { useNavigation } from '@react-navigation/native';
 import translate from '../../services/translate/translate';
 
+//components
+import { SnackBarYes } from '../../components'
+
 //validation
-import { validateCreateUser } from './validation'
+import { validateCreateUser, SwitchErros } from './validation'
 
 function RegisterScreen({ ...props }) {
 
@@ -47,6 +50,15 @@ function RegisterScreen({ ...props }) {
     const [cepJSON, setCEPJSON] = useState<CEPjson | undefined>({} as CEPjson);
     const [avatarsource, setAvatarSource] = useState<ImagePickerResponse | null>();
     const [error, setError] = useState(false)
+
+    //state about notification
+    const [isVisible, setIsVisible] = useState(false)
+    const [text, setText] = useState("")
+    const [colorbackground, setColorBackground] = useState("")
+    const [textcolor, setTextColor] = useState("")
+    const [subcolorButton, setSubcolorButton] = useState("")
+    const [title, setTitle] = useState("")
+
     const options = {
         title: 'Select Avatar',
         storageOptions: {
@@ -140,18 +152,20 @@ function RegisterScreen({ ...props }) {
                 }
                 clearfields()
                 Alert.alert('Criado com sucesso', 'Redirecionar para tela inical',
-                [{
-                    text: 'OK',
-                    onPress: () => navigate('Login')
-                }],
-                {cancelable: false}
+                    [{
+                        text: 'OK',
+                        onPress: () => navigate('Login')
+                    }],
+                    { cancelable: false }
                 )
             } else {
                 setError(true)
-                Alert.alert('Algum campo necessario nao preenchido')
+                SwitchErros(204, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, theme)
+                setIsVisible(true)
             }
         } catch (error) {
-            Alert.alert('Error no servidor, tente novamente mais tarde')
+            SwitchErros(error, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, theme)
+            setIsVisible(true)
         }
     }
 
@@ -229,6 +243,14 @@ function RegisterScreen({ ...props }) {
         )
     }
 
+    function onPress() {
+        setIsVisible(!isVisible)
+    }
+
+    function onDismiss() {
+        setIsVisible(!isVisible)
+    }
+
     return (
         <SafeAreaView style={styles.safeView}>
             <ScrollView style={{ width: "100%" }} contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: "center" }}>
@@ -282,6 +304,15 @@ function RegisterScreen({ ...props }) {
                 </View>
 
             </ScrollView>
+            <SnackBarYes isVisible={isVisible} onDismiss={onDismiss} onPress={onPress}
+                text={text}
+                style={{
+                    height: 50, width: "90%",
+                    backgroundColor: colorbackground, alignSelf: "center", bottom: 15,
+                    display: "flex", flexWrap: "wrap", justifyContent: "center", alignContent: "center"
+                }}
+                textcolor={textcolor} subcolorButton={subcolorButton} title={title}
+            />
         </SafeAreaView>
     )
 }

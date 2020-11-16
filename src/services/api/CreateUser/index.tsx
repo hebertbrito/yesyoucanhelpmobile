@@ -5,6 +5,7 @@ import { User } from '../../../models/User';
 import { switchState } from '../../switchresponse'
 import ImagePicker, { ImagePickerResponse } from 'react-native-image-picker';
 import RNFetchBlob from 'rn-fetch-blob'
+import { ValidationException } from '../../../helpers/errors/validation'
 
 export async function CreateUser(user: User) {
     try {
@@ -13,7 +14,8 @@ export async function CreateUser(user: User) {
         const data = switchState(response)
         return data
     } catch (error) {
-        console.log(error)
+        const value = ValidationException(error)
+        return Promise.reject(value)
     }
 }
 
@@ -28,7 +30,8 @@ export async function SetAvatarUser(avatarsource: ImagePickerResponse) {
         ])
         console.log(response)
     } catch (error) {
-        console.log(error);
+        const value = ValidationException(error)
+        return Promise.reject(value)
     }
 }
 

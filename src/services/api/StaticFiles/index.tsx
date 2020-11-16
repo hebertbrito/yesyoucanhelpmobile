@@ -2,6 +2,7 @@ import RNFetchBlob from 'rn-fetch-blob'
 import axios from 'axios'
 import { BASE_URL } from '../index'
 import { UserLogin, AvatarUser } from 'src/models'
+import { ValidationException } from '../../../helpers/errors/validation'
 
 export const AddAvatar = async function (avatarsource: AvatarUser, user: UserLogin) {
     try {
@@ -13,7 +14,8 @@ export const AddAvatar = async function (avatarsource: AvatarUser, user: UserLog
         ])
         console.log(response)
     } catch (error) {
-        console.log(error)
+        const value = ValidationException(error)
+        return Promise.reject(value)
     }
 }
 
@@ -29,7 +31,8 @@ export const AddAvatar_Return_Data = async function (avatarsource: AvatarUser, u
         ])
         console.log(response.json())
     } catch (error) {
-        console.log(error)
+        const value = ValidationException(error)
+        return Promise.reject(value)
     }
 }
 
@@ -42,10 +45,11 @@ export const RemoveAvatar = async function (user: UserLogin) {
         }
 
         //apagar o avatarsource do asyncstorage do usuario, e do objeto atual em uso
-        
+
 
     } catch (error) {
-        console.log(error)
+        const value = ValidationException(error)
+        return Promise.reject(value)
     }
 }
 
@@ -59,7 +63,8 @@ export const AddImageHouseless = async function (photo: AvatarUser, idDocumentOr
         ])
         console.log(response)
     } catch (error) {
-        console.log(error)
+        const value = ValidationException(error)
+        return Promise.reject(value)
     }
 }
 
