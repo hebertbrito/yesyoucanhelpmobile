@@ -11,7 +11,7 @@ import AuthContext from '../../context/auth'
 
 //compoenents
 import FormLocation from '../../components/formlocation'
-import { MainButton } from '../../components'
+import { MainButton, SnackBarYes } from '../../components'
 
 //Models
 import { LocationModel, CEPjson, HouseLessModel } from '../../models';
@@ -58,6 +58,15 @@ const HouseLessScreen = () => {
     const [IdWatch, setIdWatch] = useState<number>(0);
     const [errorFormLocation, setErrorFormLocation] = useState<boolean>(false);
     const [isSend, setIsSend] = useState<boolean>(false);
+
+
+    //state about notification
+    const [isVisible, setIsVisible] = useState(false)
+    const [text, setText] = useState("")
+    const [colorbackground, setColorBackground] = useState("")
+    const [textcolor, setTextColor] = useState("")
+    const [subcolorButton, setSubcolorButton] = useState("")
+    const [title, setTitle] = useState("")
 
     //#region CLEAR FIELDS
 
@@ -209,14 +218,19 @@ const HouseLessScreen = () => {
                             await SendInformHouseless(objdata, user);
                             setErrorFormLocation(false)
                             clearfields()
-                            Alert.alert(`${translate("completed")}`, `${translate("completed_order_message")}`)
+                            SwitchErros(201, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+                            setIsVisible(true)
                         } else {
-                            Alert.alert(`${translate("error")}`, `${translate("necessary_data_not_informed")}`)
+                            SwitchErros(204, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+                            setIsVisible(true)
                         }
 
                     } else {
+                        //204
                         setErrorFormLocation(true)
-                        Alert.alert(`${translate("error")}`, `${translate("error_location_address")}`)
+                        SwitchErros(204, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+                        setText("error_location_address")
+                        setIsVisible(true)
                     }
 
                     break;
@@ -243,13 +257,17 @@ const HouseLessScreen = () => {
                             // await AskContribution(user, objdata)
                             await SendInformHouseless(objdata, user);
                             clearfields()
-                            Alert.alert(`${translate("completed")}`, `${translate("completed_order_message")}`)
+                            SwitchErros(201, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+                            setIsVisible(true)
                         } else {
-                            Alert.alert(`${translate("error")}`, `${translate("necessary_data_not_informed")}`)
+                            SwitchErros(204, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+                            setIsVisible(true)
                         }
 
                     } else {
-                        Alert.alert(`${translate("error")}`, `${translate("error_location")}`)
+                        SwitchErros(204, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+                        setText("error_location")
+                        setIsVisible(true)
                     }
                 default:
                     break;
@@ -269,8 +287,16 @@ const HouseLessScreen = () => {
             setIsSend(false);
         } catch (error) {
             setIsSend(false);
-            SwitchErros(error)
+            SwitchErros(error, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
         }
+    }
+
+    function onPress() {
+        setIsVisible(!isVisible)
+    }
+
+    function onDismiss() {
+        setIsVisible(!isVisible)
     }
 
     return (
@@ -416,6 +442,15 @@ const HouseLessScreen = () => {
                     <MainButton MainActionScreen={MainFunction} isSend={isSend} />
                 </View>
             </ScrollView>
+            <SnackBarYes isVisible={isVisible} onDismiss={onDismiss} onPress={onPress}
+                text={text}
+                style={{
+                    height: 50, width: "90%",
+                    backgroundColor: colorbackground, alignSelf: "center", bottom: 15,
+                    display: "flex", flexWrap: "wrap", justifyContent: "center", alignContent: "center"
+                }}
+                textcolor={textcolor} subcolorButton={subcolorButton} title={title}
+            />
         </SafeAreaView>
     )
 }
