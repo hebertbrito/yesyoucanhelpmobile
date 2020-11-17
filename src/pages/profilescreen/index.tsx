@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import ImagePicker, { ImagePickerResponse } from 'react-native-image-picker';
 import AuthContext from '../../context/auth';
 
-import { InputYesComponent, MainButton } from '../../components'
+import { InputYesComponent, MainButton, SnackBarYes } from '../../components'
 
 import { GetUserProfile } from '../../services/api/GetProfile'
 import { User } from 'src/models/User';
@@ -26,6 +26,9 @@ import { CEPjson } from '../../models'
 
 //factory
 import { GetNewValues } from './factory'
+
+//validation
+import { SwitchErros } from './validation'
 interface Props {
     theme: any,
 }
@@ -54,6 +57,14 @@ function ProfileScreen() {
     const [usermodel, setUserModel] = useState<User | undefined>({} as User);
     const [avatarSource, setAvatarSource] = useState<AvatarUser>({} as AvatarUser);
     const [cepJSON, setCEPJSON] = useState<CEPjson | undefined>({} as CEPjson);
+
+    //state about notification
+    const [isVisible, setIsVisible] = useState(false)
+    const [text, setText] = useState("")
+    const [colorbackground, setColorBackground] = useState("")
+    const [textcolor, setTextColor] = useState("")
+    const [subcolorButton, setSubcolorButton] = useState("")
+    const [title, setTitle] = useState("")
 
     const options = {
         title: 'Select Avatar',
@@ -161,9 +172,19 @@ function ProfileScreen() {
             await UpdateUser(objNewValues, avatarSource, user!)
 
         } catch (error) {
-            console.log(error)
+            SwitchErros(error, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+            setIsVisible(true)
         }
     }
+
+    function onPress() {
+        setIsVisible(!isVisible)
+    }
+
+    function onDismiss() {
+        setIsVisible(!isVisible)
+    }
+
     return (
 
         isLoading ?
@@ -491,15 +512,25 @@ function ProfileScreen() {
                                     />
                                 }
                             </View>
-                            {editableInput || avatarSource.data &&
+                            {editableInput || avatarSource.data ?
 
                                 <MainButton MainActionScreen={updateuser} />
-
+                                :
+                                null
                             }
 
                         </View>
                     </ScrollView>
                 </View>
+                <SnackBarYes isVisible={isVisible} onDismiss={onDismiss} onPress={onPress}
+                    text={text}
+                    style={{
+                        height: 50, width: "90%",
+                        backgroundColor: colorbackground, alignSelf: "center", bottom: 15,
+                        display: "flex", flexWrap: "wrap", justifyContent: "center", alignContent: "center"
+                    }}
+                    textcolor={textcolor} subcolorButton={subcolorButton} title={title}
+                />
             </SafeAreaView>
     )
 }
