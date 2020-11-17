@@ -5,6 +5,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import ImagePicker, { ImagePickerResponse } from 'react-native-image-picker';
 import AuthContext from '../../context/auth';
+import LottieView from 'lottie-react-native';
 
 import { InputYesComponent, MainButton, SnackBarYes } from '../../components'
 
@@ -188,7 +189,9 @@ function ProfileScreen() {
     return (
 
         isLoading ?
-            <View><Text>Poha</Text></View>
+            <SafeAreaView style={{ flex: 1, width: "100%", justifyContent: "center", alignItems: "center" }}>
+                <LottieView source={require('../../assets/lottiefiles/loading.json')} autoPlay loop speed={0.7} resizeMode="contain"/>
+            </SafeAreaView>
             :
             <SafeAreaView style={styles.safeView}>
                 <View style={styles.viewContainer} >

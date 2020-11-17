@@ -73,6 +73,11 @@ export const DrawContent = (props: Props) => {
             <Icon color={paperTheme.colors.notification} size={20} name="sign-out-alt" />
         )
     }
+
+    function hehehe(event: any){
+        navigation.navigate("ProfileScreen")
+
+    }
     return (
         <>
             <DrawerContentScrollView {...props}>
@@ -80,7 +85,7 @@ export const DrawContent = (props: Props) => {
                     <View style={styles.PerfilViews}>
                         {user?.avatarsource?.uri != "" ?
                             <>
-                                <Avatar.Image size={80} source={{uri: user?.avatarsource?.uri}} />
+                                <Avatar.Image size={80} source={{uri: user?.avatarsource?.uri}} onTouchStart={(event) => hehehe(event)}/>
                                 <Subheading>{user?.firstname} {user?.lastname}</Subheading>
                             </>
                             :
