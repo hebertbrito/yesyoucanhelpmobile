@@ -50,9 +50,9 @@ function OptionsScreens() {
                 }}>
                     <View style={styles.bodyCard}>
                         {user?.avatarsource?.uri ?
-                            <Avatar.Image size={100} source={{uri: user.avatarsource.uri}} />
+                            <Avatar.Image size={125} source={{uri: user.avatarsource.uri}} />
                             :
-                            <Avatar.Image size={100} source={require('../../assets/imageperfil/defaultavatar.jpg')} style={{ alignSelf: "center", }} />
+                            <Avatar.Image size={125} source={require('../../assets/imageperfil/defaultavatar.jpg')} style={{ alignSelf: "center", }} />
                         }
                     </View>
                 </View>
