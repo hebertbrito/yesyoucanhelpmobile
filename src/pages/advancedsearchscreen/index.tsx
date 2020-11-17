@@ -3,7 +3,7 @@ import { SafeAreaView, View, ScrollView, StatusBar, Platform, StyleSheet, Alert 
 import { useTheme, Text, Avatar, Headline, List, Title, IconButton, Checkbox, Subheading, Divider, Button } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 
 import {
     DatePicker,
@@ -45,6 +45,27 @@ const AdvancedSerach = () => {
     const [radiovalue, setRadioValue] = useState('askcontribution');
     const [dropdownvalueproduct, setDropdownValueProduct] = useState('')
     const [lstDatas, setLstDatas] = useState<Array<AdvancedSearchResponse>>([] as Array<AdvancedSearchResponse>)
+
+    useFocusEffect(
+        React.useCallback(() => {
+            return () => {
+                clearfields()
+                null
+            }
+        }, [])
+    );    
+
+    function clearfields() {
+        setIsLiked(false)
+        setStartDate(new Date())
+        setEndDate(new Date())
+        setShowStartDate(false)
+        setShowEndDate(false)
+        setIsReported(false)
+        setRadioValue("askcontribution")
+        setDropdownValueProduct("")
+        setLstDatas([])
+    }
 
     function onChangeStartDate(event: any, selectedDate: any) {
         setShowStartDate(false);
