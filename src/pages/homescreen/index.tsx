@@ -1,9 +1,10 @@
 import * as React from 'react';
-import { View, SafeAreaView } from 'react-native';
+import { View, SafeAreaView, TouchableOpacity } from 'react-native';
 import { Button, Text, ProgressBar, useTheme } from 'react-native-paper';
 import * as Animatable from 'react-native-animatable';
 import { styles } from './styles'
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 //componentes
 import { ProgressBarComponent } from '../../components/progressbar'
@@ -13,6 +14,7 @@ import { ButtonDrawer } from '../../components/buttonDrawer'
 const HomeScreen = ({ ...props }) => {
     const paperTheme = useTheme()
     const { navigate } = useNavigation()
+
     return (
         <SafeAreaView style={styles.safeView}>
             <Animatable.Image animation="fadeInDown" delay={500} useNativeDriver={true} source={require('../../assets/fotospublic/social.jpg')}
@@ -26,7 +28,16 @@ const HomeScreen = ({ ...props }) => {
                     <ProgressBarComponent title="home_progressbar_request" value={6} />
                 </View>
 
+
+                <TouchableOpacity style={styles.touchpad}>
+                    <Icon name="map-marked-alt" size={30} />
+                    <Text style={{color: "#000000"}}>
+                        Maps
+                    </Text>
+                </TouchableOpacity>
             </Animatable.View>
+
+
 
         </SafeAreaView>
     )

@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { styles } from './styles'
 
-import { itemsDropdown, items as itemsdropdown } from '../../data/dataOrderscreen';
+import { items as itemsdropdown } from '../../data/dataOrderscreen';
 
 //translate
 import translate from '../../services/translate/translate'
