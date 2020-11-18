@@ -54,7 +54,7 @@ const ListProduct = (props: Props) => {
                                 <View key={item.id} style={{ width: '100%' }}>
                                     <View style={styles.scrollViewDisplay}>
                                         <View style={styles.titleList}>
-                                            <Subheading style={{ margin: 8, color: paperTheme.colors.onBackground }}>{translate('button_form_product')}: {item.product}</Subheading>
+                                            <Subheading style={{ margin: 8, color: paperTheme.colors.onBackground }}>{translate('button_form_product')}: {translate(item.product)}</Subheading>
                                             <Text style={{ color: paperTheme.colors.onBackground }}> - </Text>
                                             <Text style={{ margin: 8, color: paperTheme.colors.onBackground }}>{translate('label_form_size_quant')}: {item.number}</Text>
                                         </View>
