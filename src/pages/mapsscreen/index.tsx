@@ -17,7 +17,7 @@ import { AcceptOrders, ReportOrders } from '../../services/api/ActionOrders'
 import AuthContext from '../../context/auth'
 
 //components
-import { FabButton, MarkerContribution, CardDetailsInfo } from '../../components';
+import { FabButton, MarkerContribution, CardDetailsInfo, CardOrderPoint } from '../../components';
 import { Maps } from './maps'
 
 //models
@@ -30,7 +30,7 @@ const MapsScreen = ({ ...props }) => {
     const paperTheme = useTheme();
 
     const [choicetheme, setChoiceTheme] = useState<boolean>(false);
-    const [location, setLocation] = useState<MapsLocationModels>({latitude: 0, longitude: 0, latitudeDelta: 0.2, longitudeDelta: 0.2});
+    const [location, setLocation] = useState<MapsLocationModels>({ latitude: 0, longitude: 0, latitudeDelta: 0.2, longitudeDelta: 0.2 });
     const [messageError, setMessageError] = useState("");
     const [IdWatch, setIdWatch] = useState<number>(0);
     const [isLoadingPosition, setIsLoadingPosition] = useState<boolean>(true);
@@ -40,6 +40,7 @@ const MapsScreen = ({ ...props }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [visible, setvisible] = useState(false);
     const [cardDetails, setCardDetails] = useState<CardDetails | undefined>()
+    const [iscardorderpoint, setIsCardOrderPoint] = useState(false);
 
 
     function WatchGeolocation() {
@@ -70,7 +71,7 @@ const MapsScreen = ({ ...props }) => {
                 }
 
             }
-            
+
             teste();
             setIsLoading(false)
             return () => {
@@ -124,6 +125,10 @@ const MapsScreen = ({ ...props }) => {
         Alert.alert("Você solicitou um alerta para este chamado. Obrigado!.");
     }
 
+    function test(){
+        setIsCardOrderPoint(!iscardorderpoint)
+    }
+
     if (isLoading) {
         return (
             <View>
@@ -144,6 +149,7 @@ const MapsScreen = ({ ...props }) => {
                     visibileAnimatable={visibileAnimatable}
                     getDetailsCardAskontributions={getDetailsCardAskontributions}
                     getDetailsCardInfoHouseless={getDetailsCardInfoHouseless}
+                    teste={test}
                 />
                 <FabButton switchtheme={switchtheme} drawernavigator={props.navigate} />
 
@@ -159,6 +165,12 @@ const MapsScreen = ({ ...props }) => {
                     null
                 }
 
+                {iscardorderpoint
+                    ?
+                    <CardOrderPoint teste={test}/>
+                    :
+                    null
+                }
 
             </SafeAreaView>
         )

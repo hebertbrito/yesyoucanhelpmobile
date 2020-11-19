@@ -15,3 +15,4 @@ export * from './lotties';
 export * from './inputyes';
 export * from './dropdownyes';
 export * from './snackbaryes';
+export * from './cardorderpoint';
