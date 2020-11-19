@@ -32,8 +32,7 @@ export function Maps(props: Maps) {
     return (
         <MapView style={{ flex: 1, zIndex: -1, width: '100%', opacity: 1 }} provider={PROVIDER_GOOGLE}
             showsUserLocation={true} customMapStyle={choicetheme ? thememaps : []}
-            // initialRegion={region[0]}
-            region={{ latitude: -22.7850332, longitude: -47.1925444, latitudeDelta: 0.2, longitudeDelta: 0.2 }}
+            initialRegion={{latitude: userlocation.latitude, longitude: userlocation.longitude, latitudeDelta: 0.2, longitudeDelta: 0.2}}
             mapType={"standard"}
         >
 
@@ -41,7 +40,6 @@ export function Maps(props: Maps) {
                 <MarkerAnimated key={marker.idDocument}
                     coordinate={{ latitude: marker.latitude!, longitude: marker.longitude! }}
                     rotation={5} pinColor={paperTheme.colors.onSurface}
-
                 >
                     <Callout tooltip={false} style={{ width: 120, height: 50, borderRadius: 20, alignItems: "center" }}
                         onPress={() => { getDetailsCardAskontributions(marker.idDocument!), visibileAnimatable() }}

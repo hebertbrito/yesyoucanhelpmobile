@@ -30,7 +30,7 @@ const MapsScreen = ({ ...props }) => {
     const paperTheme = useTheme();
 
     const [choicetheme, setChoiceTheme] = useState<boolean>(false);
-    const [location, setLocation] = useState<MapsLocationModels>({} as MapsLocationModels);
+    const [location, setLocation] = useState<MapsLocationModels>({latitude: 0, longitude: 0, latitudeDelta: 0.2, longitudeDelta: 0.2});
     const [messageError, setMessageError] = useState("");
     const [IdWatch, setIdWatch] = useState<number>(0);
     const [isLoadingPosition, setIsLoadingPosition] = useState<boolean>(true);
@@ -57,7 +57,7 @@ const MapsScreen = ({ ...props }) => {
 
     useFocusEffect(
         React.useCallback(() => {
-
+            WatchGeolocation()
             async function teste() {
                 const response = await GetDataMaps(user!)
 
@@ -70,12 +70,13 @@ const MapsScreen = ({ ...props }) => {
                 }
 
             }
-            WatchGeolocation();
+            
             teste();
             setIsLoading(false)
             return () => {
                 //do something when screen are unfocused
                 setIsLoading(true)
+                null
             }
         }, [])
     );
