@@ -19,6 +19,7 @@ const Check = (props: Check) => {
                 {title}
             </Subheading>
             <Checkbox
+                disabled={true}
                 status={isValue ? 'checked' : 'unchecked'}
                 onPress={() => setValueCheckbox(!isValue)}
                 color={paperTheme.colors.primary}

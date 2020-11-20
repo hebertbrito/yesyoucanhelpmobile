@@ -102,7 +102,7 @@ function ProfileScreen() {
 
             return () => {
                 //do something when screen are unfocused
-
+                null
             }
 
         }, [])
