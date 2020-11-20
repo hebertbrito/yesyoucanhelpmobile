@@ -89,14 +89,17 @@ function ProfileScreen() {
                     setIsloading(false)
                 }
             }
-            getuserprofile();
-            setAvatarSource({
-                fileName: "",
-                fileSize: 0,
-                path: "",
-                type: "",
-                uri: user?.avatarsource?.uri
-            })
+            setTimeout(() => {
+                getuserprofile();
+                setAvatarSource({
+                    fileName: "",
+                    fileSize: 0,
+                    path: "",
+                    type: "",
+                    uri: user?.avatarsource?.uri
+                })
+            }, 2000);
+
             return () => {
                 //do something when screen are unfocused
 
@@ -190,7 +193,7 @@ function ProfileScreen() {
 
         isLoading ?
             <SafeAreaView style={{ flex: 1, width: "100%", justifyContent: "center", alignItems: "center" }}>
-                <LottieView source={require('../../assets/lottiefiles/loading.json')} autoPlay loop speed={0.7} resizeMode="contain"/>
+                <LottieView source={require('../../assets/lottiefiles/searching-for-profile.json')} autoPlay loop speed={0.7} resizeMode="contain" />
             </SafeAreaView>
             :
             <SafeAreaView style={styles.safeView}>

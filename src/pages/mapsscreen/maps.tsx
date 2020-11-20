@@ -19,7 +19,7 @@ interface Maps {
     visibileAnimatable(): void,
     getDetailsCardAskontributions(idDocument: string): void
     getDetailsCardInfoHouseless(idDocument: string): void
-    GetDataBySpecificPoint(): Promise<void>
+    GetDataBySpecificPoint(titlecardpoint: string, point: number): Promise<void>
 }
 
 export function Maps(props: Maps) {
@@ -70,12 +70,22 @@ export function Maps(props: Maps) {
             ))}
 
 
-            <Marker coordinate={{ latitude: -22.908592, longitude: -47.075944 }}>
+            <Marker coordinate={{ latitude: -22.908592, longitude: -47.075944 }} pinColor="violet">
                 <Callout tooltip={false} style={{ width: 120, height: 50, borderRadius: 20, alignItems: "center" }}
-                    onPress={() => { GetDataBySpecificPoint() }}
+                    onPress={() => { GetDataBySpecificPoint("contribution_menu", 13035270) }}
                 >
                     <Text style={{ width: '100%', alignSelf: "center", color: '#000000' }}>
                         poha
+                    </Text>
+                </Callout>
+            </Marker>
+
+            <Marker coordinate={{ latitude: -22.784969, longitude: -47.1924555 }} pinColor="violet">
+                <Callout tooltip={false} style={{ width: 120, height: 50, borderRadius: 20, alignItems: "center" }}
+                    onPress={() => { GetDataBySpecificPoint("contribution_menu", 13142150) }}
+                >
+                    <Text style={{ width: '100%', alignSelf: "center", color: '#000000' }}>
+                        poha2
                     </Text>
                 </Callout>
             </Marker>

@@ -34,12 +34,12 @@ export async function GetDataMaps(user: UserLogin) {
     }
 }
 
-export async function GetDatasMapsSpecificPoint(user: UserLogin) {
+export async function GetDatasMapsSpecificPoint(user: UserLogin, point: number) {
     try {
 
         let lstResponse: Array<ItemMapsSpecificLocation> = []
 
-        const response = await axios.get(`${BASE_URL}orderstype/getdatamaps/13035270`, {
+        const response = await axios.get(`${BASE_URL}orderstype/getdatamaps/${point}`, {
             headers: {
                 Authorization: `Bearer ${user!.token!}`
             }

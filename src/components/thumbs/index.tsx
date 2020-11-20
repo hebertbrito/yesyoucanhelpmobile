@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import { IconButton, Paragraph } from 'react-native-paper';
+import { IconButton, Paragraph, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 //context
@@ -48,6 +48,7 @@ export function ThumbsOrder(props: Thumbs) {
 
     const { AcceptOrders, idDocument, typeorder, ReportOrders } = props;
     const { user } = useContext(AuthContex);
+    const theme = useTheme()
 
     return (
         <View style={{ display: 'flex', flexDirection: "row", justifyContent: 'center', width: "40%" }}>
@@ -56,7 +57,34 @@ export function ThumbsOrder(props: Thumbs) {
                 justifyContent: 'space-evenly'
             }}>
                 <TouchableOpacity style={{ display: "flex", flexDirection: "column" }} disabled={false}>
-                    <IconButton icon={() => <Icon name="thumbs-down" size={20} color="#d50000" />} style={{ alignSelf: "center" }} disabled={false}
+                    <IconButton icon={() => <Icon name="exclamation-circle" size={20} color={theme.colors.third} />} style={{ alignSelf: "center" }} disabled={false}
+                        onPress={() => ReportOrders(idDocument, user, typeorder)}
+                    />
+                </TouchableOpacity>
+                <TouchableOpacity style={{ display: "flex", flexDirection: "column" }}>
+                    <IconButton icon={() => <Icon name="thumbs-up" size={20} color={theme.colors.surface} />} style={{ alignSelf: "center" }}
+                        onPress={() => AcceptOrders(idDocument, user, typeorder)}
+                    />
+                </TouchableOpacity>
+            </View>
+        </View>
+    )
+}
+
+export function ThumbsOrderPoint(props: Thumbs) {
+
+    const { AcceptOrders, idDocument, typeorder, ReportOrders } = props;
+    const { user } = useContext(AuthContex);
+    const theme = useTheme()
+
+    return (
+        <View style={{ display: 'flex', flexDirection: "row", justifyContent: 'center', width: "40%" }}>
+            <View style={{
+                width: '50%', display: "flex", flexDirection: "row", marginTop: '2%',
+                justifyContent: 'space-evenly'
+            }}>
+                <TouchableOpacity style={{ display: "flex", flexDirection: "column" }} disabled={false}>
+                    <IconButton icon={() => <Icon name="exclamation-circle" size={20} color={theme.colors.third} />} style={{ alignSelf: "center" }} disabled={false}
                         onPress={() => ReportOrders(idDocument, user, typeorder)}
                     />
                 </TouchableOpacity>

@@ -6,6 +6,8 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 const thememaps = require('../../assets/theme/darkmaptheme.json');
 import Geolocation from 'react-native-geolocation-service';
 import * as Animatable from 'react-native-animatable';
+import LottieView from 'lottie-react-native';
+
 
 //validation
 import { SwitchErros } from './validation'
@@ -43,6 +45,7 @@ const MapsScreen = ({ ...props }) => {
     const [visible, setvisible] = useState(false);
     const [cardDetails, setCardDetails] = useState<CardDetails | undefined>()
     const [iscardorderpoint, setIsCardOrderPoint] = useState(false);
+    const [titleCardOrderPoint, SetTitleCardOrderPoint] = useState("")
 
 
     //state about notification
@@ -82,7 +85,9 @@ const MapsScreen = ({ ...props }) => {
             }
 
             teste();
-            setIsLoading(false)
+            setTimeout(() => {
+                setIsLoading(false)
+            }, 2000);
             return () => {
                 //do something when screen are unfocused
                 setIsLoading(true)
@@ -160,9 +165,10 @@ const MapsScreen = ({ ...props }) => {
     }
 
     //search for speciflocation branch or meetpoint
-    async function GetDataBySpecificPoint() {
+    async function GetDataBySpecificPoint(titlecardpoint: string, point: number) {
         try {
-            const lstresponse = await GetDatasMapsSpecificPoint(user!)
+            const lstresponse = await GetDatasMapsSpecificPoint(user!, point)
+            SetTitleCardOrderPoint(titlecardpoint)
             setlstContribution(lstresponse)
             showiscardorderpoint()
         } catch (error) {
@@ -177,11 +183,9 @@ const MapsScreen = ({ ...props }) => {
 
     if (isLoading) {
         return (
-            <View>
-                <Text>
-                    khsdgfsdhgfds
-                </Text>
-            </View>
+            <SafeAreaView style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                <LottieView source={require('../../assets/lottiefiles/location-maps.json')} autoPlay loop />
+            </SafeAreaView>
         )
     } else {
         return (
@@ -213,10 +217,12 @@ const MapsScreen = ({ ...props }) => {
 
                 {iscardorderpoint
                     ?
-                    <CardOrderPoint showiscardorderpoint={showiscardorderpoint} lstContribution={lstContribution} title="contribution_menu" key={Math.round(5) * 3} />
+                    <CardOrderPoint showiscardorderpoint={showiscardorderpoint} lstContribution={lstContribution} title={titleCardOrderPoint} />
                     :
                     null
                 }
+
+
                 <SnackBarYes isVisible={isVisible} onDismiss={onPress} onPress={onPress}
                     text={text}
                     style={{
