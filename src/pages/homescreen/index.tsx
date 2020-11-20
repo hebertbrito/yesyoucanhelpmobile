@@ -29,7 +29,7 @@ const HomeScreen = ({ ...props }) => {
                 </View>
 
 
-                <TouchableOpacity style={styles.touchpad}>
+                <TouchableOpacity style={styles.touchpad} onPress={() => navigate("MapsScreen")}>
                     <Icon name="map-marked-alt" size={30} />
                     <Text style={{color: "#000000"}}>
                         Maps

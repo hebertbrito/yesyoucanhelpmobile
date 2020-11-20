@@ -8,3 +8,16 @@ export interface ItemMapsLocationModels {
     latitudeDelta?: number,
     longitudeDelta?: number
 }
+
+export interface ItemMapsSpecificLocation {
+    id: string,
+    product: string,
+    description: string,
+    number: string,
+    uri: string,
+    ownname: string,
+    createdAt: {
+        _seconds: number,
+        _nanoseconds: number
+    }
+}

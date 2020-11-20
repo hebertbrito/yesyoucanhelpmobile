@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { UserLogin } from 'src/models';
 import { BASE_URL } from '../'
+import { ValidationException } from '../../../helpers/errors/validation'
 
 export async function AcceptOrders(idDocument: string, user: UserLogin | undefined, typeorder: string) {
     try {
@@ -25,8 +26,9 @@ export async function AcceptOrders(idDocument: string, user: UserLogin | undefin
         })
 
 
-    } catch (error: any) {
-        console.log(error)
+    } catch (error) {
+        const value = ValidationException(error);
+        return Promise.reject(value)
     }
 }
 
@@ -53,6 +55,7 @@ export async function ReportOrders(idDocument: string, user: UserLogin | undefin
         })
 
     } catch (error: any) {
-        console.log(error)
+        const value = ValidationException(error);
+        return Promise.reject(value)
     }
 }

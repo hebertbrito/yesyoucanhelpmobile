@@ -19,7 +19,7 @@ interface Maps {
     visibileAnimatable(): void,
     getDetailsCardAskontributions(idDocument: string): void
     getDetailsCardInfoHouseless(idDocument: string): void
-    teste(): void
+    GetDataBySpecificPoint(): Promise<void>
 }
 
 export function Maps(props: Maps) {
@@ -28,7 +28,7 @@ export function Maps(props: Maps) {
     const { navigate, setParams } = useNavigation();
 
     const { lstAskContribution, lstContribution, lstInfoHouseless, choicetheme, userlocation,
-        visibileAnimatable, getDetailsCardAskontributions, getDetailsCardInfoHouseless, teste } = props;
+        visibileAnimatable, getDetailsCardAskontributions, getDetailsCardInfoHouseless, GetDataBySpecificPoint } = props;
 
 
     return (
@@ -72,7 +72,7 @@ export function Maps(props: Maps) {
 
             <Marker coordinate={{ latitude: -22.908592, longitude: -47.075944 }}>
                 <Callout tooltip={false} style={{ width: 120, height: 50, borderRadius: 20, alignItems: "center" }}
-                    onPress={() => { teste() }}
+                    onPress={() => { GetDataBySpecificPoint() }}
                 >
                     <Text style={{ width: '100%', alignSelf: "center", color: '#000000' }}>
                         poha

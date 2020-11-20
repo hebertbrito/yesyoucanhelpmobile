@@ -11,28 +11,40 @@ import styles from './styles'
 //Components
 import { Thumbs, ThumbsOrder } from '../../components';
 import AuthContext from '../../context/auth'
+import { ItemMapsSpecificLocation } from 'src/models';
+
+//translate
+import translate from '../../services/translate/translate'
 
 
-function CardOrderItem() {
+interface CardOrderItem {
+    data: ItemMapsSpecificLocation
+}
+
+function CardOrderItem(props: ItemMapsSpecificLocation) {
 
     const theme = useTheme();
-
+    const { createdAt, description, id, number, ownname, product, uri } = props;
 
     return (
         <>
-            <View style={{ width: "95%", display: "flex", flexDirection: "column", marginBottom: 5 }}>
+            <View style={{ width: "95%", display: "flex", flexDirection: "column", marginBottom: 5 }} key={id}>
                 <View style={{ display: "flex", width: "100%", flexDirection: "row", alignItems: "center", justifyContent: "space-evenly" }}>
-                    <Avatar.Image source={require('../../assets/imageperfil/defaultavatar.jpg')} size={30} />
+                    {uri != "" ?
+                        <Avatar.Image source={{ uri: uri }} size={30} />
+                        :
+                        <Avatar.Image source={require('../../assets/imageperfil/defaultavatar.jpg')} size={30} />
+                    }
                     <Paragraph style={{ width: "25%", display: "flex", flexWrap: "wrap", marginLeft: "2%" }}>
-                        Nome Sobrenome
+                        {ownname}
                     </Paragraph>
                     <Caption style={{ width: "20%", display: "flex" }}>
-                        18/09/1997
+                        {new Date(createdAt._seconds * 1000).toLocaleDateString("pt-br")}
                     </Caption>
                     <ThumbsOrder AcceptOrders={() => { }} ReportOrders={() => { }} idDocument="text" typeorder="ok" />
                 </View>
                 <Paragraph>
-                    fadlsjhfoçdsujagfpiçdasghufpidsyhfgpisdhgfpidsufgdsoiufgdspkjhfgsdkjgfsdkfgsdfsdafsdajhlfgdsaliufggofidjglikfjdhlgçkhjdflçgkjhfdçlgjhfdkçjghdfkjghkfdjhgdsçfuighdçf
+                    {translate(product)} - {description}
                 </Paragraph>
             </View>
 
@@ -43,15 +55,16 @@ function CardOrderItem() {
 
 
 interface CardOrder {
-    teste(): void
+    showiscardorderpoint(): void,
+    lstContribution: Array<ItemMapsSpecificLocation>,
+    title: string
 }
 
 function CardOrder(props: CardOrder) {
 
     const theme = useTheme();
     const { user } = useContext(AuthContext);
-    const [typeOrder, setTypeorder] = useState('1');
-    const { teste } = props;
+    const { showiscardorderpoint, lstContribution, title } = props;
 
 
     return (
@@ -65,16 +78,26 @@ function CardOrder(props: CardOrder) {
                 }}>
                 <View style={{ width: "90%", alignItems: "center", justifyContent: "center", margin: 5 }}>
                     <Subheading>
-                        Titulo
+                        {translate(title)}
                     </Subheading>
                     <Icon size={20} name="times" color={theme.colors.error} style={{ position: "absolute", alignSelf: "flex-end" }}
-                        onPress={() => teste() }
+                        onPress={() => showiscardorderpoint()}
                     />
                 </View>
                 <View style={{ width: '100%' }}>
                     <ScrollView style={{ width: '100%' }} contentContainerStyle={{ flexGrow: 1, alignContent: "center", alignItems: "center" }}>
-
-                        <CardOrderItem />
+                        {lstContribution.length > 0
+                            ?
+                            lstContribution.map(item => (
+                                <CardOrderItem key={item.id} {...item} />
+                            ))
+                            :
+                            <>
+                            <Text>
+                                    no content
+                            </Text>
+                            </>
+                        }
 
                     </ScrollView>
                 </View>

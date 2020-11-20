@@ -7,9 +7,11 @@ const thememaps = require('../../assets/theme/darkmaptheme.json');
 import Geolocation from 'react-native-geolocation-service';
 import * as Animatable from 'react-native-animatable';
 
+//validation
+import { SwitchErros } from './validation'
 
 //Services
-import { GetDataMaps } from '../../services/api/GetDataMaps';
+import { GetDataMaps, GetDatasMapsSpecificPoint } from '../../services/api/GetDataMaps';
 import { GetDetailsCardAskConstributions, GetDetailsCardInfoHouseless } from '../../services/api/DetailsCard';
 import { AcceptOrders, ReportOrders } from '../../services/api/ActionOrders'
 
@@ -17,11 +19,11 @@ import { AcceptOrders, ReportOrders } from '../../services/api/ActionOrders'
 import AuthContext from '../../context/auth'
 
 //components
-import { FabButton, MarkerContribution, CardDetailsInfo, CardOrderPoint } from '../../components';
+import { FabButton, MarkerContribution, CardDetailsInfo, CardOrderPoint, SnackBarYes } from '../../components';
 import { Maps } from './maps'
 
 //models
-import { LocationModel, MapsLocationModels, ItemMapsLocationModels, CardDetails, UserLogin } from '../../models';
+import { LocationModel, MapsLocationModels, ItemMapsLocationModels, CardDetails, UserLogin, ItemMapsSpecificLocation } from '../../models';
 import { useFocusEffect } from '@react-navigation/native';
 
 const MapsScreen = ({ ...props }) => {
@@ -34,7 +36,7 @@ const MapsScreen = ({ ...props }) => {
     const [messageError, setMessageError] = useState("");
     const [IdWatch, setIdWatch] = useState<number>(0);
     const [isLoadingPosition, setIsLoadingPosition] = useState<boolean>(true);
-    const [lstContribution, setlstContribution] = useState<Array<ItemMapsLocationModels>>([] as Array<ItemMapsLocationModels>)
+    const [lstContribution, setlstContribution] = useState<Array<ItemMapsSpecificLocation>>([] as Array<ItemMapsSpecificLocation>)
     const [lstAskContribution, setlstAskContribution] = useState<Array<ItemMapsLocationModels>>([] as Array<ItemMapsLocationModels>)
     const [lstInfoHouseless, setlstInfoHouseless] = useState<Array<ItemMapsLocationModels>>([] as Array<ItemMapsLocationModels>);
     const [isLoading, setIsLoading] = useState(true);
@@ -42,6 +44,14 @@ const MapsScreen = ({ ...props }) => {
     const [cardDetails, setCardDetails] = useState<CardDetails | undefined>()
     const [iscardorderpoint, setIsCardOrderPoint] = useState(false);
 
+
+    //state about notification
+    const [isVisible, setIsVisible] = useState(false)
+    const [text, setText] = useState("")
+    const [colorbackground, setColorBackground] = useState("")
+    const [textcolor, setTextColor] = useState("")
+    const [subcolorButton, setSubcolorButton] = useState("")
+    const [title, setTitle] = useState("")
 
     function WatchGeolocation() {
         const idWatch = Geolocation.watchPosition((sucess) => {
@@ -65,7 +75,6 @@ const MapsScreen = ({ ...props }) => {
                 if (response != undefined) {
 
                     setlstAskContribution(response.lstAskContribution);
-                    setlstContribution(response.lstContribution);
                     setlstInfoHouseless(response.lstInfoHouseless);
 
                 }
@@ -91,23 +100,31 @@ const MapsScreen = ({ ...props }) => {
     }
 
     async function getDetailsCardAskontributions(idDocument: string) {
-        const objCardDetails = await GetDetailsCardAskConstributions(idDocument, user);
+        try {
+            const objCardDetails = await GetDetailsCardAskConstributions(idDocument, user);
 
-        if (objCardDetails) {
-            setCardDetails(objCardDetails)
-            console.log(objCardDetails)
+            if (objCardDetails) {
+                setCardDetails(objCardDetails)
+                console.log(objCardDetails)
+            }
+        } catch (error) {
+            SwitchErros(error, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+            setIsVisible(true)
         }
-
     }
 
     async function getDetailsCardInfoHouseless(idDocument: string) {
-        const objCardDetails = await GetDetailsCardInfoHouseless(idDocument, user);
+        try {
+            const objCardDetails = await GetDetailsCardInfoHouseless(idDocument, user);
 
-        if (objCardDetails) {
-            setCardDetails(objCardDetails)
-            console.log(objCardDetails)
+            if (objCardDetails) {
+                setCardDetails(objCardDetails)
+                console.log(objCardDetails)
+            }
+        } catch (error) {
+            SwitchErros(error, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+            setIsVisible(true)
         }
-
     }
 
     function CloseCardDetails() {
@@ -116,17 +133,46 @@ const MapsScreen = ({ ...props }) => {
     }
 
     async function acceptOrders(idDocument: string, user: UserLogin | undefined, typeorder: string) {
-        await AcceptOrders(idDocument, user, typeorder);
-        Alert.alert("Você aceitou um chamado. Obrigado!.")
+        try {
+            await AcceptOrders(idDocument, user, typeorder);
+            SwitchErros(200, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+            setIsVisible(true)
+        } catch (error) {
+            SwitchErros(error, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+            setIsVisible(true)
+        }
     }
 
     async function reportOrders(idDocument: string, user: UserLogin | undefined, typeorder: string) {
-        await ReportOrders(idDocument, user, typeorder);
-        Alert.alert("Você solicitou um alerta para este chamado. Obrigado!.");
+        try {
+            await ReportOrders(idDocument, user, typeorder);
+            SwitchErros(200, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+            setIsVisible(true)
+        } catch (error) {
+            SwitchErros(error, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+            setIsVisible(true)
+        }
+
     }
 
-    function test(){
+    function showiscardorderpoint() {
         setIsCardOrderPoint(!iscardorderpoint)
+    }
+
+    //search for speciflocation branch or meetpoint
+    async function GetDataBySpecificPoint() {
+        try {
+            const lstresponse = await GetDatasMapsSpecificPoint(user!)
+            setlstContribution(lstresponse)
+            showiscardorderpoint()
+        } catch (error) {
+            SwitchErros(error, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+            setIsVisible(true)
+        }
+    }
+
+    function onPress() {
+        setIsVisible(!isVisible)
     }
 
     if (isLoading) {
@@ -149,7 +195,7 @@ const MapsScreen = ({ ...props }) => {
                     visibileAnimatable={visibileAnimatable}
                     getDetailsCardAskontributions={getDetailsCardAskontributions}
                     getDetailsCardInfoHouseless={getDetailsCardInfoHouseless}
-                    teste={test}
+                    GetDataBySpecificPoint={GetDataBySpecificPoint}
                 />
                 <FabButton switchtheme={switchtheme} drawernavigator={props.navigate} />
 
@@ -167,11 +213,19 @@ const MapsScreen = ({ ...props }) => {
 
                 {iscardorderpoint
                     ?
-                    <CardOrderPoint teste={test}/>
+                    <CardOrderPoint showiscardorderpoint={showiscardorderpoint} lstContribution={lstContribution} title="contribution_menu" key={Math.round(5) * 3} />
                     :
                     null
                 }
-
+                <SnackBarYes isVisible={isVisible} onDismiss={onPress} onPress={onPress}
+                    text={text}
+                    style={{
+                        height: 50, width: "90%",
+                        backgroundColor: colorbackground, alignSelf: "center", bottom: 15,
+                        display: "flex", flexWrap: "wrap", justifyContent: "center", alignContent: "center"
+                    }}
+                    textcolor={textcolor} subcolorButton={subcolorButton} title={title}
+                />
             </SafeAreaView>
         )
     }

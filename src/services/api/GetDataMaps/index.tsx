@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { BASE_URL } from '../';
-import { UserLogin, ItemMapsLocationModels } from '../../../models'
+import { UserLogin, ItemMapsLocationModels, ItemMapsSpecificLocation } from '../../../models'
+import { ValidationException } from '../../../helpers/errors/validation'
 
 export async function GetDataMaps(user: UserLogin) {
     try {
 
-        let lstContribution: Array<ItemMapsLocationModels> = [];
         let lstAskContribution: Array<ItemMapsLocationModels> = [];
         let lstInfoHouseless: Array<ItemMapsLocationModels> = [];
 
@@ -17,21 +17,41 @@ export async function GetDataMaps(user: UserLogin) {
 
         if (response.data) {
 
-            lstContribution = response.data.lstContribution;
             lstAskContribution = response.data.lstAskContribution;
             lstInfoHouseless = response.data.lstInfoHouseless;
 
         }
 
-        console.log({ lstContribution, lstAskContribution, lstInfoHouseless })
+        console.log({ lstAskContribution, lstInfoHouseless })
 
         return {
-            lstContribution,
             lstAskContribution,
             lstInfoHouseless
         }
 
     } catch (error) {
         console.log(error)
+    }
+}
+
+export async function GetDatasMapsSpecificPoint(user: UserLogin) {
+    try {
+
+        let lstResponse: Array<ItemMapsSpecificLocation> = []
+
+        const response = await axios.get(`${BASE_URL}orderstype/getdatamaps/13035270`, {
+            headers: {
+                Authorization: `Bearer ${user!.token!}`
+            }
+        })
+
+        if (response.data) {
+            lstResponse = response.data
+            return lstResponse
+        }
+        return []
+    } catch (error) {
+        const value = ValidationException(error)
+        return Promise.reject(value)
     }
 }

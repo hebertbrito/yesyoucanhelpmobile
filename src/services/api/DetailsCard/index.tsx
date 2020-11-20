@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { UserLogin } from 'src/models';
 import { BASE_URL } from '../'
-
+import { ValidationException } from '../../../helpers/errors/validation'
 export async function GetDetailsCardAskConstributions(idDocument: string, user: UserLogin | undefined) {
     try {
 
@@ -18,7 +18,8 @@ export async function GetDetailsCardAskConstributions(idDocument: string, user: 
         return null
 
     } catch (error) {
-        console.log(error)
+        const value = ValidationException(error)
+        return Promise.reject(value)
     }
 }
 
@@ -38,6 +39,7 @@ export async function GetDetailsCardInfoHouseless(idDocument: string, user: User
         return null
 
     } catch (error) {
-        console.log(error)
+        const value = ValidationException(error)
+        return Promise.reject(value)
     }
 }
