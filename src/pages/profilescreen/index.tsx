@@ -15,7 +15,7 @@ import { AvatarUser } from '../../models/AvatarUser';
 import { lstGenders } from '../../data/dataUserRegister'
 
 import { styles } from './styles'
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-community/picker';
 
 //Services
@@ -38,6 +38,7 @@ function ProfileScreen() {
 
     const theme = useTheme();
     const { user } = useContext(AuthContext);
+    const { navigate } = useNavigation()
 
     const [firstname, setFirstName] = useState('');
     const [lastname, setlastName] = useState('');
@@ -146,6 +147,11 @@ function ProfileScreen() {
         setEditableInput(!editableInput ? true : false)
     }
 
+    function backScreen(){
+        setEditableInput(false)
+        navigate("OptionsScreens")
+    }
+
     const getImage = () => {
         ImagePicker.launchImageLibrary(options, (response) => {
             if (response.didCancel) {
@@ -167,6 +173,11 @@ function ProfileScreen() {
             }
         });
     }
+
+    function removephoto() {
+        setAvatarSource({ uri: user?.avatarsource?.uri })
+    }
+
     async function updateuser() {
         try {
             setIsSendUpdate(true)
@@ -221,6 +232,13 @@ function ProfileScreen() {
                                 <Avatar.Image size={100} source={require('../../assets/imageperfil/defaultavatar.jpg')} style={{ alignSelf: "center", }} />
                             }
                             <IconButton
+                                icon="eraser"
+                                size={25}
+                                color={theme.colors.text}
+                                onPress={() => removephoto()}
+                                style={{ position: "absolute", bottom: 0, alignSelf: "flex-start" }}
+                            />
+                            <IconButton
                                 icon="camera"
                                 size={25}
                                 color={theme.colors.text}
@@ -229,7 +247,13 @@ function ProfileScreen() {
                             />
                         </View>
                     </View>
-                    <View style={{ width: '100%' }}>
+                    <View style={{ width: '100%', display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                        <IconButton
+                            icon={() => <Icon name="chevron-left" size={20} color={theme.colors.surface} />}
+                            size={25}
+                            style={{ marginRight: '9%', marginTop: '2%', alignSelf: "flex-start", marginLeft: "10%" }}
+                            onPress={() => backScreen()}
+                        />
                         <IconButton
                             icon={() => <Icon name="user-edit" size={20} color={theme.colors.surface} />}
                             size={25}
@@ -280,8 +304,15 @@ function ProfileScreen() {
 
                             <View style={styles.containerInput}>
                                 <View style={styles.view_1_input}>
-                                    <Subheading style={{ fontWeight: "bold" }}>Date Birth: </Subheading>
-                                    <Text>{usermodel?.datebirth!}</Text>
+                                    {usermodel?.datebirth != "" ?
+                                        <>
+                                            <Subheading style={{ fontWeight: "bold" }}>Date Birth: </Subheading>
+                                            <Text>{usermodel?.datebirth}</Text>
+                                        </>
+                                        :
+                                        null
+                                    }
+
                                 </View>
 
                                 {editableInput &&
@@ -299,8 +330,15 @@ function ProfileScreen() {
 
                             <View style={styles.containerInput}>
                                 <View style={styles.view_1_input}>
-                                    <Subheading style={{ fontWeight: "bold" }}>Gender: </Subheading>
-                                    <Text>{usermodel?.gender!}</Text>
+                                    {usermodel?.gender != "" ?
+                                        <>
+                                            <Subheading style={{ fontWeight: "bold" }}>Gender: </Subheading>
+                                            <Text>{usermodel?.gender}</Text>
+                                        </>
+                                        :
+                                        null
+                                    }
+
                                 </View>
 
                                 {editableInput &&
@@ -347,8 +385,15 @@ function ProfileScreen() {
 
                             <View style={styles.containerInput}>
                                 <View style={styles.view_1_input}>
-                                    <Subheading style={{ fontWeight: "bold" }}>RG: </Subheading>
-                                    <Text>{usermodel?.RG!}</Text>
+                                    {usermodel?.RG != "" ?
+                                        <>
+                                            <Subheading style={{ fontWeight: "bold" }}>RG: </Subheading>
+                                            <Text>{usermodel?.RG}</Text>
+                                        </>
+                                        :
+                                        null
+                                    }
+
                                 </View>
                             </View>
 
@@ -525,7 +570,7 @@ function ProfileScreen() {
                             </View>
                             {editableInput || avatarSource.data ?
 
-                                <MainButton MainActionScreen={updateuser} isSend={isSendUpdate}/>
+                                <MainButton MainActionScreen={updateuser} isSend={isSendUpdate} />
                                 :
                                 null
                             }

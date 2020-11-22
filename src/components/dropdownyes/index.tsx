@@ -20,7 +20,7 @@ const DropdownYes = (props: DropdownYes) => {
     const { dropdownvalueproduct, setDropdownValueProduct } = props;
 
     return (
-        <View style={{width: '40%'}}>
+        <View style={{width: '35%'}}>
             <Picker mode="dialog" style={{ width: '100%', color: paperTheme.colors.text, alignItems: "center", alignContent: "center", justifyContent: "center" }}
                 selectedValue={dropdownvalueproduct}
                 onValueChange={(itemvalue, itemindex) => setDropdownValueProduct(itemvalue.toString())}

@@ -4,7 +4,7 @@ export interface CardDetails {
     description: string,
     email: string,
     uri: any,
-    urihouseless?: any,
+    uriHouseless?: any,
     createdAt: {
         _nanoseconds: number,
         _seconds: number

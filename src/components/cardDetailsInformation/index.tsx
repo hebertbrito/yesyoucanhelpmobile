@@ -37,7 +37,7 @@ export function CardDetailsInfo(props: CardDetailsInfo) {
             style={styles.animatableView}
         >
             {objCardDetails.uri != "" ?
-                <Avatar.Image size={100} source={{uri: objCardDetails.uri}}
+                <Avatar.Image size={100} source={{ uri: objCardDetails.uri }}
                     style={styles.styleaVatar}
                 />
                 :
@@ -77,7 +77,7 @@ export function CardDetailsInfo(props: CardDetailsInfo) {
                                 <View style={{ display: 'flex', flexDirection: 'column' }}>
                                     {objCardDetails.type == '3' ?
                                         <View>
-                                            <Title>Name:</Title>
+                                            <Title>{translate("name")}</Title>
                                             <Paragraph>
                                                 {objCardDetails.name}
                                             </Paragraph>
@@ -118,8 +118,12 @@ export function CardDetailsInfo(props: CardDetailsInfo) {
                             </View>
 
                             {objCardDetails.type == '3' ?
-                                <View style={{ width: '95%', height: 500, borderColor: 'red', borderWidth: 2 }}>
-                                    <Image source={require('../../assets/fotospublic/logoApp2.png')} style={{ width: '100%', height: '100%', resizeMode: "cover", alignSelf: "center" }} />
+                                <View style={{ width: '95%', height: 500 }}>
+                                    {objCardDetails.uriHouseless != "" ?
+                                        <Image source={{ uri: objCardDetails.uriHouseless }} style={{ width: '100%', height: '100%', resizeMode: "cover", alignSelf: "center" }} />
+                                        :
+                                        null
+                                    }
                                 </View>
                                 :
                                 null

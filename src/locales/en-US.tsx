@@ -84,4 +84,12 @@ export default {
     "address_um": "344, Paulo Mazetto - Paulinia/SP",
     "address_dois": "1661, Vila Industrial - Campinas/SP",
     "contributions": "Contributions",
+    "select_filters": "Select filters",
+    "stardate": "Start date",
+    "enddate": "End date",
+    "accepted": "Accepted",
+    "reported": "Reported",
+    "back": "Back",
+    "search": "Search",
+    "clean": "Clean",
 }

@@ -3,7 +3,8 @@ import { View } from 'react-native';
 import { IconButton, Text, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-
+//translate
+import translate from '../../services/translate/translate'
 interface DatePickers {
     ShowStartDate(): void,
     ShowEndDate(): void,
@@ -18,11 +19,11 @@ const DatePickers = (props: DatePickers) => {
     const { ShowStartDate, ShowEndDate, startdate, enddate } = props;
 
     return (
-        <View style={{display: 'flex', flexDirection: "row", justifyContent: "space-evenly", width: '100%'}}>
+        <View style={{ display: 'flex', flexDirection: "row", justifyContent: "space-evenly", width: '100%' }}>
             <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
                 <View style={{ display: "flex", flexDirection: "column", alignContent: "center", alignItems: "center", justifyContent: "center", elevation: 5 }}>
                     <Text>
-                        StartDate
+                        {translate("stardate")}
                     </Text>
                     <Text>
                         {startdate.toLocaleDateString('en-US')}
@@ -36,7 +37,7 @@ const DatePickers = (props: DatePickers) => {
             <View style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>
                 <View style={{ display: "flex", flexDirection: "column", alignContent: "center", alignItems: "center", justifyContent: "center", elevation: 5 }}>
                     <Text>
-                        EndDate
+                        {translate("enddate")}
                     </Text>
                     <Text>
                         {enddate.toLocaleDateString('en-US')}

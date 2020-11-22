@@ -49,7 +49,6 @@ function CardOrderItem(props: ItemMapsSpecificLocation) {
                     {translate(product)}, {number} - {description}
                 </Paragraph>
             </View>
-
             <Divider style={{ backgroundColor: theme.colors.accent, height: 1, width: "95%" }} />
         </>
     )

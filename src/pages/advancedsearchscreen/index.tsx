@@ -15,6 +15,9 @@ import {
     DropdownYesComponent
 } from '../../components';
 
+//translate
+import translate from '../../services/translate/translate'
+
 //mock
 import { GetFormatDate, ValidationInputDate } from './mock';
 
@@ -131,7 +134,7 @@ const AdvancedSerach = () => {
 
             <View style={{ width: "100%", display: "flex", justifyContent: "center", marginBottom: '3%', marginTop: '5%' }}>
                 <Headline style={{ alignSelf: "center", fontWeight: "bold" }}>
-                    Advanced Search
+                    {translate("advanced_search_menu")}
                 </Headline>
             </View>
             <View style={{
@@ -142,14 +145,14 @@ const AdvancedSerach = () => {
             }}>
                 <View style={{ width: '100%', height: 40, backgroundColor: paperTheme.colors.primary, borderTopLeftRadius: 20, borderTopRightRadius: 20, justifyContent: "center" }}>
                     <Subheading style={{ paddingLeft: '4%', alignSelf: "center" }}>
-                        Select filter
+                        {translate("select_filters")}
                     </Subheading>
                 </View>
                 <View style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                     <DatePicker ShowStartDate={ShowStartDate} startdate={startdate} enddate={enddate} ShowEndDate={ShowEndDate} />
                     <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly" }}>
-                        <CheckBoxComponent isValue={isReported} setValueCheckbox={setIsReported} title="Report" />
-                        <CheckBoxComponent isValue={isliked} setValueCheckbox={setIsLiked} title="Accept" />
+                        <CheckBoxComponent isValue={isReported} setValueCheckbox={setIsReported} title="reported" />
+                        <CheckBoxComponent isValue={isliked} setValueCheckbox={setIsLiked} title="accepted" />
                         <DropdownYesComponent dropdownvalueproduct={dropdownvalueproduct} setDropdownValueProduct={setDropdownValueProduct} />
                     </View>
                 </View>
@@ -190,15 +193,15 @@ const AdvancedSerach = () => {
                     style={{ width: '25%', padding: 2, alignSelf: "center", justifyContent: "space-evenly", borderWidth: 1, borderColor: paperTheme.colors.text }}
                     color={paperTheme.colors.text}
                 >
-                    Back
+                    {translate("back")}
                 </Button>
-                <ButtonComponent iconName="search" isSend={false} nameButton="Search" size={20} styles={styles.buttoncomponente} MainActionScreen={getadvancedsearch} />
+                <ButtonComponent iconName="search" isSend={false} nameButton={translate("search")} size={20} styles={styles.buttoncomponente} MainActionScreen={getadvancedsearch} />
                 <Button mode="outlined"
                     onPress={() => { }}
                     style={{ width: '25%', padding: 2, alignSelf: "center", justifyContent: "space-evenly", borderWidth: 1, borderColor: paperTheme.colors.surface }}
                     color={paperTheme.colors.surface}
                 >
-                    Clear
+                    {translate("clean")}
                 </Button>
             </View>
         </SafeAreaView>

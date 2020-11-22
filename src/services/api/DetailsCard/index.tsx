@@ -12,6 +12,7 @@ export async function GetDetailsCardAskConstributions(idDocument: string, user: 
         })
 
         if (objResponse.status == 200) {
+            console.log(objResponse.data)
             return objResponse.data
         }
 

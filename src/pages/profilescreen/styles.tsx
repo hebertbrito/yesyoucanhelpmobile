@@ -39,7 +39,6 @@ export const styles = StyleSheet.create({
         width: '90%',
         flexDirection: "column",
         alignItems: "flex-start",
-        marginBottom: '2%',
         alignSelf: "center"
     },
 
