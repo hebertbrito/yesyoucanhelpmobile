@@ -58,6 +58,8 @@ function ProfileScreen() {
     const [usermodel, setUserModel] = useState<User | undefined>({} as User);
     const [avatarSource, setAvatarSource] = useState<AvatarUser>({} as AvatarUser);
     const [cepJSON, setCEPJSON] = useState<CEPjson | undefined>({} as CEPjson);
+    const [isSendUpdate, setIsSendUpdate] = useState(false);
+
 
     //state about notification
     const [isVisible, setIsVisible] = useState(false)
@@ -167,16 +169,19 @@ function ProfileScreen() {
     }
     async function updateuser() {
         try {
-
+            setIsSendUpdate(true)
             const objNewValues = GetNewValues(
                 { firstname, lastname, datebirth, gender, email, password, cellphone },
                 { country, city, street, number, state, CEP, neighbourhood }
             )
 
             await UpdateUser(objNewValues, avatarSource, user!)
-
+            setIsSendUpdate(false)
+            SwitchErros(201, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, theme)
+            setIsVisible(true)
         } catch (error) {
-            SwitchErros(error, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+            setIsSendUpdate(false)
+            SwitchErros(error, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, theme)
             setIsVisible(true)
         }
     }
@@ -520,7 +525,7 @@ function ProfileScreen() {
                             </View>
                             {editableInput || avatarSource.data ?
 
-                                <MainButton MainActionScreen={updateuser} />
+                                <MainButton MainActionScreen={updateuser} isSend={isSendUpdate}/>
                                 :
                                 null
                             }

@@ -80,5 +80,6 @@ export default {
     "completed_order_message": "Sua ação foi completa. Obrigado.",
     "error_location": "Erro ao tentar encontrar sua localização",
     "error_location_address": "Erro ao tentar encontrar o endereço",
+    "update_message": "Atualização de perfil com sucesso",
 
 }

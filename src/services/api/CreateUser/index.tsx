@@ -9,6 +9,7 @@ import { ValidationException } from '../../../helpers/errors/validation'
 
 export async function CreateUser(user: User) {
     try {
+        console.log(user)
         const response = await axios.post(`${BASE_URL}user/addusers`, user)
         
         const data = switchState(response)
@@ -28,8 +29,9 @@ export async function SetAvatarUser(avatarsource: ImagePickerResponse) {
             // element with property `filename` will be transformed into `file` in form data
             { name: 'avatar', filename: avatarsource.fileName, data: avatarsource.data }
         ])
-        console.log(response)
+        console.log(response.data)
     } catch (error) {
+        console.log(error)
         const value = ValidationException(error)
         return Promise.reject(value)
     }

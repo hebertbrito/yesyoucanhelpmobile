@@ -50,6 +50,7 @@ function RegisterScreen({ ...props }) {
     const [cepJSON, setCEPJSON] = useState<CEPjson | undefined>({} as CEPjson);
     const [avatarsource, setAvatarSource] = useState<ImagePickerResponse | null>();
     const [error, setError] = useState(false)
+    const [issend, setIsSend] = useState(false)
 
     //state about notification
     const [isVisible, setIsVisible] = useState(false)
@@ -140,6 +141,7 @@ function RegisterScreen({ ...props }) {
 
     async function createuser() {
         try {
+            setIsSend(true)
             let objuser: User = {
                 typeuser, firstname, lastname, gender, datebirth, cellphone, RG, cpf_cnpj, email, password,
                 address: { CEP, city, country, neighbourhood, number, state, street }
@@ -148,9 +150,12 @@ function RegisterScreen({ ...props }) {
             if (validateCreateUser(objuser)) {
                 const data = await CreateUser(objuser!)
                 if (avatarsource && data) {
+                    console.log("cai pra enviar imagem")
                     await AddAvatar(avatarsource, { idDocument: data.idDocument })
                 }
                 clearfields()
+                setIsSend(false)
+                setStep(1)
                 Alert.alert('Criado com sucesso', 'Redirecionar para tela inical',
                     [{
                         text: 'OK',
@@ -159,11 +164,13 @@ function RegisterScreen({ ...props }) {
                     { cancelable: false }
                 )
             } else {
+                setIsSend(false)
                 setError(true)
                 SwitchErros(204, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, theme)
                 setIsVisible(true)
             }
         } catch (error) {
+            setIsSend(false)
             SwitchErros(error, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, theme)
             setIsVisible(true)
         }
@@ -288,7 +295,7 @@ function RegisterScreen({ ...props }) {
 
                 <View style={{ display: "flex", flexDirection: "column", width: '90%', justifyContent: "center", padding: 10, marginTop: 5 }}>
                     {step === 4 ?
-                        <MainButton MainActionScreen={createuser} />
+                        <MainButton MainActionScreen={createuser} isSend={issend} />
                         :
                         null
                     }

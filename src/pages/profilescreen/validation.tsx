@@ -12,7 +12,7 @@ export function SwitchErros(
     switch (value) {
         case 201:
             setTitle("completed")
-            setText("completed_order_message")
+            setText("update_message")
             setColorBackground(paperTheme.colors.onSurface)
             setTextColor("#212121")
             setSubcolorButton("#212121")

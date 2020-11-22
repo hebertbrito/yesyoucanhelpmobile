@@ -79,4 +79,5 @@ export default {
     "completed_order_message": "You action has been completed. Thank you.",
     "error_location": "Error trying to find your location",
     "error_location_address": "Error trying to find address",
+    "update_message": "Perfil Update Successful",
 }
