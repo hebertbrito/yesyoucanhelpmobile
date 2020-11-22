@@ -352,10 +352,10 @@ const AskContributionScreen = () => {
                     }
                     {checked === "AskUseGPS" &&
                         <Animatable.View style={styles.informationAnimatable} animation="fadeIn" easing="ease-in-out" delay={200}>
-                            <Subheading style={{ color: '#e53935' }}>Warning *</Subheading>
+                            <Subheading style={{ color: '#e53935' }}>{translate("warning")} *</Subheading>
                             <Paragraph style={{ color: '#000000' }}>
-                                For the best possible use, check if there is an internet connection and if the GPS is turned on, check the app's permissions in the system tools.
-                        </Paragraph>
+                                {translate("message_gps")}
+                            </Paragraph>
                         </Animatable.View>
                     }
 

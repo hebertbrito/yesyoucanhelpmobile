@@ -134,13 +134,26 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
                         >
                             {translate('button_login')}
                         </Button>
-                        <TouchableOpacity style={{ width: 120, height: 50, alignSelf: "center" }}
+                        {error ?
+                            <TouchableOpacity style={{ height: 50 }}
+                                onPress={() => { }}
+                            >
+                                <Text style={{ alignSelf: "center", margin: 3, color: 'red' }}>
+                                    Esqueci minha senha.
+                            </Text>
+                            </TouchableOpacity>
+                            :
+                            null
+                        }
+
+                        <TouchableOpacity style={{ height: 50 }}
                             onPress={() => navigation.navigate('RegisterUserScreen')}
                         >
                             <Text style={{ alignSelf: "center", margin: 3, color: 'red' }}>
                                 {translate('register_button')}
                             </Text>
                         </TouchableOpacity>
+
                     </KeyboardAvoidingView>
 
                 </Animatable.View>
