@@ -10,11 +10,13 @@ import styles from './styles'
 
 //Components
 import { Thumbs } from '../../components';
-import AuthContext from '../../context/auth'
+import AuthContext from '../../context/auth';
 
 //models
-import { CardDetails, UserLogin } from '../../models'
+import { CardDetails, UserLogin } from '../../models';
 
+//translate
+import translate from '../../services/translate/translate'
 interface CardDetailsInfo {
     visibileAnimatable(): void,
     CloseCardDetails(): void,
@@ -30,14 +32,19 @@ export function CardDetailsInfo(props: CardDetailsInfo) {
     const [typeOrder, setTypeorder] = useState('1');
     const { visibileAnimatable, objCardDetails, CloseCardDetails, AcceptOrders, ReportOrders } = props;
 
-
     return (
         <Animatable.View animation="fadeInUp" useNativeDriver={true} easing="ease-out"
             style={styles.animatableView}
         >
-            <Avatar.Image size={100} source={require('../../assets/imageperfil/hebert.jpg')}
-                style={styles.styleaVatar}
-            />
+            {objCardDetails.uri != "" ?
+                <Avatar.Image size={100} source={{uri: objCardDetails.uri}}
+                    style={styles.styleaVatar}
+                />
+                :
+                <Avatar.Image size={100} source={require('../../assets/imageperfil/defaultavatar.jpg')}
+                    style={styles.styleaVatar}
+                />
+            }
 
             <View
                 style={{
@@ -80,9 +87,9 @@ export function CardDetailsInfo(props: CardDetailsInfo) {
                                     }
                                     {objCardDetails.type == '2' ?
                                         <View style={{ marginRight: '10%', justifyContent: "center" }}>
-                                            <Title>Product:</Title>
+                                            <Title>{translate("button_form_product")}</Title>
                                             <Paragraph>
-                                                {objCardDetails.product}
+                                                {translate(objCardDetails.product)}
                                             </Paragraph>
                                         </View>
                                         :
@@ -93,7 +100,7 @@ export function CardDetailsInfo(props: CardDetailsInfo) {
 
                                 {objCardDetails.type == '2' ?
                                     <View style={{ alignSelf: "center", alignItems: "center", alignContent: "center", justifyContent: "center" }}>
-                                        <Title>Quantity/Size:</Title>
+                                        <Title>{translate("label_form_size_quant")}</Title>
                                         <Paragraph>
                                             {objCardDetails.number}
                                         </Paragraph>
@@ -104,7 +111,7 @@ export function CardDetailsInfo(props: CardDetailsInfo) {
 
                             </View>
                             <View style={{ width: '100%', display: "flex" }}>
-                                <Title>Description:  </Title>
+                                <Title>{translate("list_description")}</Title>
                                 <Paragraph style={{ fontStyle: "italic" }}>
                                     {objCardDetails.description}
                                 </Paragraph>

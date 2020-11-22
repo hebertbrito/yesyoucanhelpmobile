@@ -46,6 +46,7 @@ const MapsScreen = ({ ...props }) => {
     const [cardDetails, setCardDetails] = useState<CardDetails | undefined>()
     const [iscardorderpoint, setIsCardOrderPoint] = useState(false);
     const [titleCardOrderPoint, SetTitleCardOrderPoint] = useState("")
+    const [subTitleCardOrderPoint, SetSubTitleCardOrderPoint] = useState("")
 
 
     //state about notification
@@ -165,9 +166,10 @@ const MapsScreen = ({ ...props }) => {
     }
 
     //search for speciflocation branch or meetpoint
-    async function GetDataBySpecificPoint(titlecardpoint: string, point: number) {
+    async function GetDataBySpecificPoint(titlecardpoint: string, point: number, location: string) {
         try {
             const lstresponse = await GetDatasMapsSpecificPoint(user!, point)
+            SetSubTitleCardOrderPoint(location)
             SetTitleCardOrderPoint(titlecardpoint)
             setlstContribution(lstresponse)
             showiscardorderpoint()
@@ -217,7 +219,7 @@ const MapsScreen = ({ ...props }) => {
 
                 {iscardorderpoint
                     ?
-                    <CardOrderPoint showiscardorderpoint={showiscardorderpoint} lstContribution={lstContribution} title={titleCardOrderPoint} />
+                    <CardOrderPoint showiscardorderpoint={showiscardorderpoint} lstContribution={lstContribution} title={titleCardOrderPoint} subTitleCardOrderPoint={subTitleCardOrderPoint}/>
                     :
                     null
                 }

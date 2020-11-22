@@ -16,6 +16,8 @@ import { ItemMapsSpecificLocation } from 'src/models';
 //translate
 import translate from '../../services/translate/translate'
 
+//mocks
+import { transformDate } from '../../mocks/transformDate'
 
 interface CardOrderItem {
     data: ItemMapsSpecificLocation
@@ -39,12 +41,12 @@ function CardOrderItem(props: ItemMapsSpecificLocation) {
                         {ownname}
                     </Paragraph>
                     <Caption style={{ width: "20%", display: "flex" }}>
-                        {new Date(createdAt._seconds * 1000).toLocaleDateString("pt-br")}
+                        {transformDate(createdAt._seconds)}
                     </Caption>
                     <ThumbsOrder AcceptOrders={() => { }} ReportOrders={() => { }} idDocument="text" typeorder="ok" />
                 </View>
-                <Paragraph>
-                    {translate(product)} - {description}
+                <Paragraph style={{fontStyle: "italic"}}>
+                    {translate(product)}, {number} - {description}
                 </Paragraph>
             </View>
 
@@ -57,14 +59,15 @@ function CardOrderItem(props: ItemMapsSpecificLocation) {
 interface CardOrder {
     showiscardorderpoint(): void,
     lstContribution: Array<ItemMapsSpecificLocation>,
-    title: string
+    title: string,
+    subTitleCardOrderPoint: string
 }
 
 function CardOrder(props: CardOrder) {
 
     const theme = useTheme();
     const { user } = useContext(AuthContext);
-    const { showiscardorderpoint, lstContribution, title } = props;
+    const { showiscardorderpoint, lstContribution, title, subTitleCardOrderPoint } = props;
 
 
     return (
@@ -77,9 +80,14 @@ function CardOrder(props: CardOrder) {
                     borderTopRightRadius: 45, borderTopLeftRadius: 45, elevation: 10
                 }}>
                 <View style={{ width: "90%", alignItems: "center", justifyContent: "center", margin: 5 }}>
-                    <Subheading>
-                        {translate(title)}
-                    </Subheading>
+                    <View style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                        <Subheading>
+                            {translate(title)}
+                        </Subheading>
+                        <Caption>
+                            {translate(subTitleCardOrderPoint)}
+                        </Caption>
+                    </View>
                     <Icon size={20} name="times" color={theme.colors.error} style={{ position: "absolute", alignSelf: "flex-end" }}
                         onPress={() => showiscardorderpoint()}
                     />
@@ -93,9 +101,9 @@ function CardOrder(props: CardOrder) {
                             ))
                             :
                             <>
-                            <Text>
+                                <Paragraph>
                                     no content
-                            </Text>
+                            </Paragraph>
                             </>
                         }
 

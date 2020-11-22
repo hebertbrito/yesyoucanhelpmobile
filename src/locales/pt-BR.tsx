@@ -81,5 +81,8 @@ export default {
     "error_location": "Erro ao tentar encontrar sua localização",
     "error_location_address": "Erro ao tentar encontrar o endereço",
     "update_message": "Atualização de perfil com sucesso",
-
+    "message_point": "Contribuições que ainda estão abertas para receber neste local",
+    "address_um": "Rua Paulo Mazetto, 344 - Paulinia/SP",
+    "address_dois": "Vila Industrial, 1661 - Campinas/SP",
+    "contributions": "Doações",
 }

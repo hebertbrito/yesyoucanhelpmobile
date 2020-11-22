@@ -20,6 +20,7 @@ export function Thumbs(props: Thumbs) {
 
     const { AcceptOrders, idDocument, typeorder, ReportOrders } = props;
     const { user } = useContext(AuthContex);
+    const theme = useTheme()
 
     return (
         <View style={{ display: 'flex', flexDirection: "row", justifyContent: 'center' }}>
@@ -28,13 +29,13 @@ export function Thumbs(props: Thumbs) {
                 justifyContent: 'space-evenly'
             }}>
                 <TouchableOpacity style={{ display: "flex", flexDirection: "column" }} disabled={false}>
-                    <IconButton icon={() => <Icon name="thumbs-down" size={20} color="#d50000" />} style={{ alignSelf: "center" }} disabled={false}
+                    <IconButton icon={() => <Icon name="exclamation-circle" size={20} color={theme.colors.third} />} style={{ alignSelf: "center" }} disabled={false}
                         onPress={() => ReportOrders(idDocument, user, typeorder)}
                     />
                     <Paragraph>Report</Paragraph>
                 </TouchableOpacity>
                 <TouchableOpacity style={{ display: "flex", flexDirection: "column" }}>
-                    <IconButton icon={() => <Icon name="thumbs-up" size={20} color="#2979ff" />} style={{ alignSelf: "center" }}
+                    <IconButton icon={() => <Icon name="check-circle" size={20} color={theme.colors.onSurface} />} style={{ alignSelf: "center" }}
                         onPress={() => AcceptOrders(idDocument, user, typeorder)}
                     />
                     <Paragraph>Accept</Paragraph>
@@ -62,7 +63,7 @@ export function ThumbsOrder(props: Thumbs) {
                     />
                 </TouchableOpacity>
                 <TouchableOpacity style={{ display: "flex", flexDirection: "column" }}>
-                    <IconButton icon={() => <Icon name="thumbs-up" size={20} color={theme.colors.surface} />} style={{ alignSelf: "center" }}
+                    <IconButton icon={() => <Icon name="check-circle" size={20} color={theme.colors.onSurface} />} style={{ alignSelf: "center" }}
                         onPress={() => AcceptOrders(idDocument, user, typeorder)}
                     />
                 </TouchableOpacity>

@@ -2,10 +2,11 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState, useContext } from 'react';
 import { Platform, SafeAreaView, View, ActivityIndicator } from 'react-native';
 import MapView, { PROVIDER_GOOGLE, Callout, MarkerAnimated, Marker } from 'react-native-maps';
-import { Text, useTheme } from 'react-native-paper';
+import { Text, Paragraph ,useTheme } from 'react-native-paper';
 const thememaps = require('../../assets/theme/darkmaptheme.json')
 
-//Components
+//translate
+import translate from '../../services/translate/translate'
 
 //Models
 import { ItemMapsLocationModels, MapsLocationModels } from '../../models';
@@ -19,7 +20,7 @@ interface Maps {
     visibileAnimatable(): void,
     getDetailsCardAskontributions(idDocument: string): void
     getDetailsCardInfoHouseless(idDocument: string): void
-    GetDataBySpecificPoint(titlecardpoint: string, point: number): Promise<void>
+    GetDataBySpecificPoint(titlecardpoint: string, point: number, location: string): Promise<void>
 }
 
 export function Maps(props: Maps) {
@@ -71,21 +72,21 @@ export function Maps(props: Maps) {
 
 
             <Marker coordinate={{ latitude: -22.908592, longitude: -47.075944 }} pinColor="violet">
-                <Callout tooltip={false} style={{ width: 120, height: 50, borderRadius: 20, alignItems: "center" }}
-                    onPress={() => { GetDataBySpecificPoint("contribution_menu", 13035270) }}
+                <Callout tooltip={false} style={{ width: 150, height: 50, borderRadius: 20, alignItems: "center" }}
+                    onPress={() => { GetDataBySpecificPoint("contributions", 13035270, "address_dois") }}
                 >
                     <Text style={{ width: '100%', alignSelf: "center", color: '#000000' }}>
-                        poha
+                        {translate("message_point")}
                     </Text>
                 </Callout>
             </Marker>
 
             <Marker coordinate={{ latitude: -22.784969, longitude: -47.1924555 }} pinColor="violet">
-                <Callout tooltip={false} style={{ width: 120, height: 50, borderRadius: 20, alignItems: "center" }}
-                    onPress={() => { GetDataBySpecificPoint("contribution_menu", 13142150) }}
+                <Callout tooltip={false} style={{ width: 150, height: 50, borderRadius: 20, alignItems: "center" }}
+                    onPress={() => { GetDataBySpecificPoint("contributions", 13142150, "address_um") }}
                 >
                     <Text style={{ width: '100%', alignSelf: "center", color: '#000000' }}>
-                        poha2
+                        {translate("message_point")}
                     </Text>
                 </Callout>
             </Marker>

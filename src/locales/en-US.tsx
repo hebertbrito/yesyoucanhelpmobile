@@ -80,4 +80,8 @@ export default {
     "error_location": "Error trying to find your location",
     "error_location_address": "Error trying to find address",
     "update_message": "Perfil Update Successful",
+    "message_point": "Contributions that are still open to receive at this location",
+    "address_um": "344, Paulo Mazetto - Paulinia/SP",
+    "address_dois": "1661, Vila Industrial - Campinas/SP",
+    "contributions": "Contributions",
 }
