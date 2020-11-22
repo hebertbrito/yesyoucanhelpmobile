@@ -44,21 +44,18 @@ export function FabButton(props: FabButton) {
                 },
                 {
                     icon: 'palette',
-                    label: 'Theme Maps',
                     color: theme.colors.primary,
                     onPress: () => switchtheme(),
                     style: { backgroundColor: theme.colors.background }
                 },
                 {
                     icon: 'home',
-                    label: 'Inicial Page',
                     color: theme.colors.primary,
                     onPress: () => navigate('BottomNavigator', { screen: 'HomeScreen' }),
                     style: { backgroundColor: theme.colors.background }
                 },
                 {
                     icon: 'sync',
-                    label: 'Refresh Data',
                     color: theme.colors.primary,
                     onPress: () => { },
                     style: { backgroundColor: theme.colors.background }

@@ -4,6 +4,8 @@ import { Button, Text, useTheme, ProgressBar } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native';
 
+//translate
+import translate from '../../services/translate/translate'
 
 interface Props {
     MainActionScreen(): Promise<any>,
@@ -23,7 +25,7 @@ export const MainButton = (props: Props) => {
             onPress={() => MainActionScreen()}
             loading={isSend}
         >
-            Send
+            {translate("send")}
         </Button>
     )
 }

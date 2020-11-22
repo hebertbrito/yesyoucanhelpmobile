@@ -92,4 +92,7 @@ export default {
     "back": "Back",
     "search": "Search",
     "clean": "Clean",
+    "accept": "Accept",
+    "report": "Report",
+    "send": "Send",
 }

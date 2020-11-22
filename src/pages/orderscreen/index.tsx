@@ -158,8 +158,8 @@ const OrderScreen = () => {
                     fontWeight: "bold"
                 }}
                 >
-                    Contribution
-            </Headline>
+                    {translate("contribution_menu")}
+                </Headline>
 
                 <FormProduct dropdownvalueproduct={dropdownvalueproduct} setDropdownValueProduct={setDropdownValueProduct}
                     numberInput={numberInput} setNumberInput={setNumberInput}

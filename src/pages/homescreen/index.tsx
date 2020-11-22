@@ -25,7 +25,6 @@ const HomeScreen = ({ ...props }) => {
                 <View style={{ marginBottom: 20, marginTop: 30 }}>
                     <ProgressBarComponent title="home_progressbar_best_profile" value={6} />
                     <ProgressBarComponent title="home_progressbar_contributions" value={4} />
-                    <ProgressBarComponent title="home_progressbar_request" value={6} />
                 </View>
 
 

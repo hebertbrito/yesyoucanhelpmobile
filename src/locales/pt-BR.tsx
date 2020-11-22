@@ -94,4 +94,7 @@ export default {
     "back": "Voltar",
     "search": "Buscar",
     "clean": "Limpar",
+    "accept": "Aceitar",
+    "report": "Notificar",
+    "send": "Enviar",
 }

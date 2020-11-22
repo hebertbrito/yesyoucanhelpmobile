@@ -303,11 +303,11 @@ const HouseLessScreen = () => {
     return (
         <SafeAreaView style={styles.safeView}>
             <ScrollView style={styles.scrollContainer} contentContainerStyle={styles.contentContainerStyle}>
-                <View style={styles.viewTitle}>
-                    <Headline style={{ fontWeight: "bold" }}>
+               
+                    <Headline style={{ fontWeight: "bold", marginTop: 10, marginBottom: 10 }}>
                         {translate('informs_houseless')}
                     </Headline>
-                </View>
+               
                 <View style={{ width: '95%' }}>
                     <TextInput
                         value={name}

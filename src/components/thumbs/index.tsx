@@ -3,6 +3,9 @@ import { TouchableOpacity, View } from 'react-native';
 import { IconButton, Paragraph, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+//translate
+import translate from '../../services/translate/translate'
+
 //context
 import AuthContex from '../../context/auth'
 
@@ -32,13 +35,13 @@ export function Thumbs(props: Thumbs) {
                     <IconButton icon={() => <Icon name="exclamation-circle" size={20} color={theme.colors.third} />} style={{ alignSelf: "center" }} disabled={false}
                         onPress={() => ReportOrders(idDocument, user, typeorder)}
                     />
-                    <Paragraph>Report</Paragraph>
+                    <Paragraph>{translate("report")}</Paragraph>
                 </TouchableOpacity>
                 <TouchableOpacity style={{ display: "flex", flexDirection: "column" }}>
                     <IconButton icon={() => <Icon name="check-circle" size={20} color={theme.colors.onSurface} />} style={{ alignSelf: "center" }}
                         onPress={() => AcceptOrders(idDocument, user, typeorder)}
                     />
-                    <Paragraph>Accept</Paragraph>
+                    <Paragraph>{translate("accept")}</Paragraph>
                 </TouchableOpacity>
             </View>
         </View>
