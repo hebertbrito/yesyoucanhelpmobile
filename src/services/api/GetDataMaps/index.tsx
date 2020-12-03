@@ -9,7 +9,7 @@ export async function GetDataMaps(user: UserLogin) {
         let lstAskContribution: Array<ItemMapsLocationModels> = [];
         let lstInfoHouseless: Array<ItemMapsLocationModels> = [];
 
-        const response = await axios.get(`${BASE_URL}orderstype/getdatamaps`, {
+        const response = await axios.get(`${BASE_URL}orderstype/getdatamaps/${user.idDocument}`, {
             headers: {
                 Authorization: `Bearer ${user!.token!}`
             }
@@ -39,7 +39,7 @@ export async function GetDatasMapsSpecificPoint(user: UserLogin, point: number) 
 
         let lstResponse: Array<ItemMapsSpecificLocation> = []
 
-        const response = await axios.get(`${BASE_URL}orderstype/getdatamaps/${point}`, {
+        const response = await axios.get(`${BASE_URL}orderstype/getdatamaps/${point}/${user.idDocument}`, {
             headers: {
                 Authorization: `Bearer ${user!.token!}`
             }
