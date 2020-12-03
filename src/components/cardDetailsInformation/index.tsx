@@ -49,7 +49,7 @@ export function CardDetailsInfo(props: CardDetailsInfo) {
             <View
                 style={{
                     width: '100%', marginTop: '13%', flex: 1, backgroundColor: theme.colors.background, zIndex: -1,
-                    borderTopRightRadius: 45, borderTopLeftRadius: 45, elevation: 10
+                    borderTopRightRadius: 20, borderTopLeftRadius: 20, elevation: 10
                 }}>
                 <Icon size={25} name="times" style={styles.Icon} color={theme.colors.error} onPress={() => CloseCardDetails()} />
                 <View style={styles.sub_body}>
@@ -64,6 +64,7 @@ export function CardDetailsInfo(props: CardDetailsInfo) {
                     <ScrollView style={{ width: '100%' }} contentContainerStyle={{ flexGrow: 1, alignContent: "center", alignItems: "center" }}>
 
                         <Thumbs
+                            CloseCardDetails={CloseCardDetails}
                             AcceptOrders={AcceptOrders}
                             ReportOrders={ReportOrders}
                             idDocument={objCardDetails.idDocument}

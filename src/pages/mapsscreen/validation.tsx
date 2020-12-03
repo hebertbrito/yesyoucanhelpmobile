@@ -10,6 +10,13 @@ export function SwitchErros(
     paperTheme: any
 ): void {
     switch (value) {
+        case 200:
+            setTitle("completed")
+            setText("completed_order_message")
+            setColorBackground(paperTheme.colors.onSurface)
+            setTextColor("#212121")
+            setSubcolorButton("#212121")
+            break;
         case 201:
             setTitle("completed")
             setText("completed_order_message")
@@ -26,7 +33,7 @@ export function SwitchErros(
             break;
         case 401:
             setTitle("error")
-            setText("necessary_data_not_informed")
+            setText("no_authorized")
             setColorBackground(paperTheme.colors.notification)
             setTextColor("#fafafa")
             setSubcolorButton("#fafafa")

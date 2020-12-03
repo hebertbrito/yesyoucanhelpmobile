@@ -103,7 +103,6 @@ const AdvancedSerach = () => {
                 const datas = await GetAdvancedSearch(objModel, user!)
                 if (datas) {
                     setLstDatas(datas)
-                    console.log(lstDatas)
                 }
 
             } else {
@@ -139,11 +138,11 @@ const AdvancedSerach = () => {
             </View>
             <View style={{
                 width: '95%', height: 196,
-                borderRadius: 20, backgroundColor: paperTheme.colors.background, shadowColor: '#FAFAFA',
+                borderRadius: 10, backgroundColor: paperTheme.colors.background, shadowColor: '#FAFAFA',
                 shadowOffset: { width: 0, height: 12 }, shadowOpacity: 1, shadowRadius: 16.00, elevation: 20, display: "flex",
                 flexDirection: "column",
             }}>
-                <View style={{ width: '100%', height: 40, backgroundColor: paperTheme.colors.primary, borderTopLeftRadius: 20, borderTopRightRadius: 20, justifyContent: "center" }}>
+                <View style={{ width: '100%', height: 40, backgroundColor: paperTheme.colors.primary, borderTopLeftRadius: 10, borderTopRightRadius: 10, justifyContent: "center" }}>
                     <Subheading style={{ paddingLeft: '4%', alignSelf: "center" }}>
                         {translate("select_filters")}
                     </Subheading>

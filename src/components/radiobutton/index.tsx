@@ -24,7 +24,7 @@ const radioGroup = (props: radioGroup) => {
                 alignContent: "center",
                 backgroundColor: paperTheme.colors.onSurface,
                 justifyContent: "center",
-                borderRadius: 10,
+                borderRadius: 5,
                 width: '30%',
                 elevation: 2
             }}>
@@ -45,7 +45,7 @@ const radioGroup = (props: radioGroup) => {
                 alignContent: "center",
                 backgroundColor: paperTheme.colors.onSurface,
                 justifyContent: "center",
-                borderRadius: 10,
+                borderRadius: 5,
                 width: '35%',
                 elevation: 2
             }}>
@@ -66,7 +66,7 @@ const radioGroup = (props: radioGroup) => {
                 alignContent: "center",
                 backgroundColor: paperTheme.colors.onSurface,
                 justifyContent: "center",
-                borderRadius: 10,
+                borderRadius: 5,
                 width: '30%',
                 elevation: 2
             }}>

@@ -16,12 +16,13 @@ interface Thumbs {
     AcceptOrders(idDocument: string, user: UserLogin | undefined, typeorder: string): void,
     ReportOrders(idDocument: string, user: UserLogin | undefined, typeorder: string): void,
     idDocument: string,
-    typeorder: string
+    typeorder: string,
+    CloseCardDetails(): void
 }
 
 export function Thumbs(props: Thumbs) {
 
-    const { AcceptOrders, idDocument, typeorder, ReportOrders } = props;
+    const { AcceptOrders, idDocument, typeorder, ReportOrders, CloseCardDetails } = props;
     const { user } = useContext(AuthContex);
     const theme = useTheme()
 
@@ -31,24 +32,38 @@ export function Thumbs(props: Thumbs) {
                 width: '50%', display: "flex", flexDirection: "row", marginTop: '2%',
                 justifyContent: 'space-evenly'
             }}>
-                <TouchableOpacity style={{ display: "flex", flexDirection: "column" }} disabled={false}>
+                <TouchableOpacity style={{ display: "flex", flexDirection: "column", width: "40%" }} disabled={false}>
                     <IconButton icon={() => <Icon name="exclamation-circle" size={20} color={theme.colors.third} />} style={{ alignSelf: "center" }} disabled={false}
-                        onPress={() => ReportOrders(idDocument, user, typeorder)}
+                        onPress={() => { ReportOrders(idDocument, user, typeorder), CloseCardDetails() }}
                     />
-                    <Paragraph>{translate("report")}</Paragraph>
+                    <Paragraph style={{ alignSelf: "center" }}>{translate("report")}</Paragraph>
                 </TouchableOpacity>
-                <TouchableOpacity style={{ display: "flex", flexDirection: "column" }}>
-                    <IconButton icon={() => <Icon name="check-circle" size={20} color={theme.colors.onSurface} />} style={{ alignSelf: "center" }}
-                        onPress={() => AcceptOrders(idDocument, user, typeorder)}
-                    />
-                    <Paragraph>{translate("accept")}</Paragraph>
-                </TouchableOpacity>
+                {typeorder != "3" ?
+                    <TouchableOpacity style={{ display: "flex", flexDirection: "column", width: "40%" }}>
+                        <IconButton icon={() => <Icon name="check-circle" size={20} color={theme.colors.onSurface} />} style={{ alignSelf: "center" }}
+                            onPress={() => { AcceptOrders(idDocument, user, typeorder) }}
+                        />
+                        <Paragraph style={{ alignSelf: "center" }}>
+                            {translate("accept")}
+                        </Paragraph>
+                    </TouchableOpacity>
+                    :
+                    null
+                }
+
             </View>
         </View>
     )
 }
 
-export function ThumbsOrder(props: Thumbs) {
+interface ThumbsOrders {
+    AcceptOrders(idDocument: string): Promise<void>,
+    ReportOrders(idDocument: string): Promise<void>,
+    idDocument: string,
+    typeorder: string
+}
+
+export function ThumbsOrder(props: ThumbsOrders) {
 
     const { AcceptOrders, idDocument, typeorder, ReportOrders } = props;
     const { user } = useContext(AuthContex);
@@ -60,14 +75,14 @@ export function ThumbsOrder(props: Thumbs) {
                 width: '50%', display: "flex", flexDirection: "row", marginTop: '2%',
                 justifyContent: 'space-evenly'
             }}>
-                <TouchableOpacity style={{ display: "flex", flexDirection: "column" }} disabled={false}>
+                <TouchableOpacity style={{ display: "flex", flexDirection: "column", width: "40%" }} disabled={false}>
                     <IconButton icon={() => <Icon name="exclamation-circle" size={20} color={theme.colors.third} />} style={{ alignSelf: "center" }} disabled={false}
-                        onPress={() => ReportOrders(idDocument, user, typeorder)}
+                        onPress={() => ReportOrders(idDocument)}
                     />
                 </TouchableOpacity>
-                <TouchableOpacity style={{ display: "flex", flexDirection: "column" }}>
+                <TouchableOpacity style={{ display: "flex", flexDirection: "column", width: "40%" }}>
                     <IconButton icon={() => <Icon name="check-circle" size={20} color={theme.colors.onSurface} />} style={{ alignSelf: "center" }}
-                        onPress={() => AcceptOrders(idDocument, user, typeorder)}
+                        onPress={() => AcceptOrders(idDocument)}
                     />
                 </TouchableOpacity>
             </View>

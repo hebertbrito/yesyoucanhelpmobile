@@ -15,7 +15,7 @@ import { SwitchErros } from './validation'
 //Services
 import { GetDataMaps, GetDatasMapsSpecificPoint } from '../../services/api/GetDataMaps';
 import { GetDetailsCardAskConstributions, GetDetailsCardInfoHouseless } from '../../services/api/DetailsCard';
-import { AcceptOrders, ReportOrders } from '../../services/api/ActionOrders'
+import { AcceptOrders, ReportOrders, AcceptOrdersContributions, ReportOrdersContributions } from '../../services/api/ActionOrders'
 
 //Context
 import AuthContext from '../../context/auth'
@@ -60,7 +60,6 @@ const MapsScreen = ({ ...props }) => {
     function WatchGeolocation() {
         const idWatch = Geolocation.watchPosition((sucess) => {
             if (sucess.coords) {
-                console.log(sucess.coords)
                 setLocation({ latitude: sucess.coords.latitude, longitude: sucess.coords.longitude, latitudeDelta: 1.0, longitudeDelta: 1.5 });
             }
         }, (error) => {
@@ -111,7 +110,6 @@ const MapsScreen = ({ ...props }) => {
 
             if (objCardDetails) {
                 setCardDetails(objCardDetails)
-                console.log(objCardDetails)
             }
         } catch (error) {
             SwitchErros(error, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
@@ -125,7 +123,6 @@ const MapsScreen = ({ ...props }) => {
 
             if (objCardDetails) {
                 setCardDetails(objCardDetails)
-                console.log(objCardDetails)
             }
         } catch (error) {
             SwitchErros(error, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
@@ -138,9 +135,16 @@ const MapsScreen = ({ ...props }) => {
         setCardDetails(undefined)
     }
 
+    function RemoveItemOfListAskContribution(idDocument: string) {
+        setlstAskContribution(lstAskContribution.filter(item => item.idDocument !== idDocument))
+    }
+
+
     async function acceptOrders(idDocument: string, user: UserLogin | undefined, typeorder: string) {
         try {
             await AcceptOrders(idDocument, user, typeorder);
+            RemoveItemOfListAskContribution(idDocument)
+            CloseCardDetails()
             SwitchErros(200, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
             setIsVisible(true)
         } catch (error) {
@@ -152,6 +156,7 @@ const MapsScreen = ({ ...props }) => {
     async function reportOrders(idDocument: string, user: UserLogin | undefined, typeorder: string) {
         try {
             await ReportOrders(idDocument, user, typeorder);
+
             SwitchErros(200, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
             setIsVisible(true)
         } catch (error) {
@@ -159,6 +164,29 @@ const MapsScreen = ({ ...props }) => {
             setIsVisible(true)
         }
 
+    }
+
+    async function accpetorderscontributions(idDocument: string) {
+        try {
+            await AcceptOrdersContributions(idDocument, user!)
+            setlstContribution(lstContribution.filter(item => item.id != idDocument))
+            SwitchErros(200, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+            setIsVisible(true)
+        } catch (error) {
+            SwitchErros(error, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+            setIsVisible(true)
+        }
+    }
+
+    async function ratingorderscontributions(idDocument: string) {
+        try {
+            await ratingorderscontributions(idDocument)
+            SwitchErros(200, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+            setIsVisible(true)
+        } catch (error) {
+            SwitchErros(error, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+            setIsVisible(true)
+        }
     }
 
     function showiscardorderpoint() {
@@ -186,7 +214,12 @@ const MapsScreen = ({ ...props }) => {
     if (isLoading) {
         return (
             <SafeAreaView style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                <LottieView source={require('../../assets/lottiefiles/location-maps.json')} autoPlay loop />
+                {/* <LottieView source={require('../../assets/lottiefiles/location-maps.json')} autoPlay loop /> */}
+                <View>
+                    <Text>
+                        carregando
+                    </Text>
+                </View>
             </SafeAreaView>
         )
     } else {
@@ -219,7 +252,11 @@ const MapsScreen = ({ ...props }) => {
 
                 {iscardorderpoint
                     ?
-                    <CardOrderPoint showiscardorderpoint={showiscardorderpoint} lstContribution={lstContribution} title={titleCardOrderPoint} subTitleCardOrderPoint={subTitleCardOrderPoint}/>
+                    <CardOrderPoint showiscardorderpoint={showiscardorderpoint} lstContribution={lstContribution}
+                        title={titleCardOrderPoint} subTitleCardOrderPoint={subTitleCardOrderPoint}
+                        accpetorderscontributions={accpetorderscontributions}
+                        ratingorderscontributions={ratingorderscontributions}
+                    />
                     :
                     null
                 }
@@ -230,7 +267,7 @@ const MapsScreen = ({ ...props }) => {
                     style={{
                         height: 50, width: "90%",
                         backgroundColor: colorbackground, alignSelf: "center", bottom: 15,
-                        display: "flex", flexWrap: "wrap", justifyContent: "center", alignContent: "center"
+                        display: "flex", flexWrap: "wrap", justifyContent: "center", alignContent: "center", zIndex: 2
                     }}
                     textcolor={textcolor} subcolorButton={subcolorButton} title={title}
                 />

@@ -22,7 +22,7 @@ export async function GetDataMaps(user: UserLogin) {
 
         }
 
-        console.log({ lstAskContribution, lstInfoHouseless })
+        // console.log({ lstAskContribution, lstInfoHouseless })
 
         return {
             lstAskContribution,

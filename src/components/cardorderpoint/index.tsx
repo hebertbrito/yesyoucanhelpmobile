@@ -20,14 +20,15 @@ import translate from '../../services/translate/translate'
 import { transformDate } from '../../mocks/transformDate'
 
 interface CardOrderItem {
-    data: ItemMapsSpecificLocation
+    ratingorderscontributions(idDocument: string): Promise<void>
+    accpetorderscontributions(idDocument: string): Promise<void>
 }
-
-function CardOrderItem(props: ItemMapsSpecificLocation) {
+type Props =  ItemMapsSpecificLocation & CardOrderItem
+function CardOrderItem(props: Props) {
 
     const theme = useTheme();
-    const { createdAt, description, id, number, ownname, product, uri } = props;
-
+    const { createdAt, description, id, number, ownname, product, uri, accpetorderscontributions, ratingorderscontributions } = props;
+    
     return (
         <>
             <View style={{ width: "95%", display: "flex", flexDirection: "column", marginBottom: 5 }} key={id}>
@@ -43,7 +44,7 @@ function CardOrderItem(props: ItemMapsSpecificLocation) {
                     <Caption style={{ width: "20%", display: "flex" }}>
                         {transformDate(createdAt._seconds)}
                     </Caption>
-                    <ThumbsOrder AcceptOrders={() => { }} ReportOrders={() => { }} idDocument="text" typeorder="ok" />
+                    <ThumbsOrder AcceptOrders={accpetorderscontributions} ReportOrders={ratingorderscontributions} idDocument={id} typeorder="ok" />
                 </View>
                 <Paragraph style={{fontStyle: "italic"}}>
                     {translate(product)}, {number} - {description}
@@ -59,14 +60,16 @@ interface CardOrder {
     showiscardorderpoint(): void,
     lstContribution: Array<ItemMapsSpecificLocation>,
     title: string,
-    subTitleCardOrderPoint: string
+    subTitleCardOrderPoint: string,
+    ratingorderscontributions(idDocument: string): Promise<void>
+    accpetorderscontributions(idDocument: string): Promise<void>
 }
 
 function CardOrder(props: CardOrder) {
 
     const theme = useTheme();
     const { user } = useContext(AuthContext);
-    const { showiscardorderpoint, lstContribution, title, subTitleCardOrderPoint } = props;
+    const { showiscardorderpoint, lstContribution, title, subTitleCardOrderPoint, accpetorderscontributions, ratingorderscontributions } = props;
 
 
     return (
@@ -76,7 +79,7 @@ function CardOrder(props: CardOrder) {
             <View
                 style={{
                     width: '100%', marginTop: '13%', flex: 1, backgroundColor: theme.colors.background, zIndex: -1,
-                    borderTopRightRadius: 45, borderTopLeftRadius: 45, elevation: 10
+                    borderTopRightRadius: 20, borderTopLeftRadius: 20, elevation: 10
                 }}>
                 <View style={{ width: "90%", alignItems: "center", justifyContent: "center", margin: 5 }}>
                     <View style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
@@ -96,7 +99,7 @@ function CardOrder(props: CardOrder) {
                         {lstContribution.length > 0
                             ?
                             lstContribution.map(item => (
-                                <CardOrderItem key={item.id} {...item} />
+                                <CardOrderItem key={item.id} {...item} accpetorderscontributions={accpetorderscontributions} ratingorderscontributions={ratingorderscontributions}/>
                             ))
                             :
                             <>

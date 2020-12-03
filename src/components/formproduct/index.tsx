@@ -33,13 +33,13 @@ export function FormProduct(props: FormProduct) {
         <>
             <View style={{
                 width: '85%', height: 210, marginTop: '3%', marginBottom: '4%',
-                borderRadius: 20, backgroundColor: paperTheme.colors.background, shadowColor: '#FAFAFA',
+                borderRadius: 10, backgroundColor: paperTheme.colors.background, shadowColor: '#FAFAFA',
                 shadowOffset: { width: 0, height: 12 }, shadowOpacity: 1, shadowRadius: 16.00, elevation: 20, display: "flex",
                 flexDirection: "column",
             }}>
                 <View style={{
                     width: '100%', alignItems: "center", backgroundColor: paperTheme.colors.surface,
-                    borderTopLeftRadius: 20, borderTopRightRadius: 20, height: '20%', justifyContent: "center"
+                    borderTopLeftRadius: 10, borderTopRightRadius: 10, height: '20%', justifyContent: "center"
                 }}>
                     <Title style={{ color: '#fafafa' }}>
                         {translate('title_form_produc')}

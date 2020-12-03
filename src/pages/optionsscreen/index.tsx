@@ -44,7 +44,7 @@ function OptionsScreens() {
                 </LinearGradient>
                 <View style={{
                     width: '85%', height: '25%', marginTop: '20%',
-                    borderRadius: 20, backgroundColor: theme.colors.background, shadowColor: theme.colors.background,
+                    borderRadius: 10, backgroundColor: theme.colors.background, shadowColor: theme.colors.background,
                     shadowOffset: { width: 0, height: 9 }, shadowOpacity: 0.58, shadowRadius: 11.95, elevation: 10,
                     alignItems: "center", justifyContent: "center"
                 }}>

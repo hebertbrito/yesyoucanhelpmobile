@@ -192,7 +192,7 @@ const OrderScreen = () => {
                             alignContent: "center",
                             backgroundColor: paperTheme.colors.onSurface,
                             justifyContent: "center",
-                            borderRadius: 10,
+                            borderRadius: 5,
                             width: '45%',
                             elevation: 2
                         }}>
@@ -215,7 +215,7 @@ const OrderScreen = () => {
                             alignContent: "center",
                             backgroundColor: paperTheme.colors.onSurface,
                             justifyContent: "center",
-                            borderRadius: 10,
+                            borderRadius: 5,
                             width: '45%',
                             elevation: 2
 

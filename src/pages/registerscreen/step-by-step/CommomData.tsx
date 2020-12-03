@@ -55,7 +55,7 @@ export function CommomData(props: DataCommum) {
                             alignContent: "center",
                             backgroundColor: theme.colors.onSurface,
                             justifyContent: "center",
-                            borderRadius: 10,
+                            borderRadius: 5,
                             width: '45%',
                             elevation: 2
                         }}>
@@ -78,7 +78,7 @@ export function CommomData(props: DataCommum) {
                             alignContent: "center",
                             backgroundColor: theme.colors.onSurface,
                             justifyContent: "center",
-                            borderRadius: 10,
+                            borderRadius: 5,
                             width: '45%',
                             elevation: 2
                         }}>

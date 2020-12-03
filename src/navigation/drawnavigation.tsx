@@ -13,7 +13,7 @@ import {
   DarkTheme as PaperDarkTheme,
   Button
 } from 'react-native-paper';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { toString } from 'lodash';
 import { AuthProvider } from '../context/auth'
 import Icon from 'react-native-vector-icons/FontAwesome';

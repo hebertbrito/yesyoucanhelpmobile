@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { GetLoginUser } from '../services/api/Login'
 import { UserLogin } from '../models/UserLogin';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 interface AutheContextData {
     signed: boolean,
     user: UserLogin | undefined;

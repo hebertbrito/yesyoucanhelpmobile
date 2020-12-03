@@ -315,7 +315,7 @@ const HouseLessScreen = () => {
                         placeholder={`${translate('example')}: Peter`}
                         keyboardAppearance="light"
                         keyboardType="email-address"
-                        style={{ margin: 10, color: `${paperTheme.colors.text}`, width: '60%' }}
+                        style={{ margin: 10, color: `${paperTheme.colors.text}`, width: '92%' }}
                         focusable={false}
                         mode="outlined"
                         label={`${translate('name')}`}
@@ -354,7 +354,7 @@ const HouseLessScreen = () => {
                         alignContent: "center",
                         backgroundColor: paperTheme.colors.onSurface,
                         justifyContent: "center",
-                        borderRadius: 10,
+                        borderRadius: 5,
                         width: '45%',
                         elevation: 2
                     }}>
@@ -377,7 +377,7 @@ const HouseLessScreen = () => {
                         alignContent: "center",
                         backgroundColor: paperTheme.colors.onSurface,
                         justifyContent: "center",
-                        borderRadius: 10,
+                        borderRadius: 5,
                         width: '45%',
                         elevation: 2
                     }}>

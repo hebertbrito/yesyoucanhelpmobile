@@ -137,8 +137,6 @@ const AskContributionScreen = () => {
             }
         });
         setLstProducts([...lstProducts])
-
-        console.log(lstProducts)
     }
 
     //#region find lat and long by CEP
@@ -224,7 +222,6 @@ const AskContributionScreen = () => {
 
                         const pathAddress = `${location.lat}, ${location.long}`
                         const response = await SearchGeocoding(pathAddress, setMessageError, CEP);
-                        console.log(lstProducts)
                         if (response != undefined && lstProducts.length > 0) {
                             const objdata: AskContributionModel = {
                                 idDocument: user?.idDocument!,
@@ -304,7 +301,7 @@ const AskContributionScreen = () => {
                             alignContent: "center",
                             backgroundColor: paperTheme.colors.onSurface,
                             justifyContent: "center",
-                            borderRadius: 10,
+                            borderRadius: 5,
                             width: '45%',
                             elevation: 2
                         }}>
@@ -325,7 +322,7 @@ const AskContributionScreen = () => {
                             alignContent: "center",
                             backgroundColor: paperTheme.colors.onSurface,
                             justifyContent: "center",
-                            borderRadius: 10,
+                            borderRadius: 5,
                             width: '45%',
                             elevation: 2
                         }}>
