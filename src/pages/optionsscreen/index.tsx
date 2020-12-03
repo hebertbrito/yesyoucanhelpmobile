@@ -50,7 +50,7 @@ function OptionsScreens() {
                 }}>
                     <View style={styles.bodyCard}>
                         {user?.avatarsource?.uri ?
-                            <Avatar.Image size={125} source={{uri: user.avatarsource.uri}} />
+                            <Avatar.Image size={125} source={{ uri: user.avatarsource.uri }} />
                             :
                             <Avatar.Image size={125} source={require('../../assets/imageperfil/defaultavatar.jpg')} style={{ alignSelf: "center", }} />
                         }
@@ -58,21 +58,36 @@ function OptionsScreens() {
                 </View>
                 <ScrollView style={{ width: '100%', marginTop: '1%' }} contentContainerStyle={{ flexGrow: 1 }}>
                     <View style={{ width: '100%', margin: '4%', elevation: 3 }}>
-                        {listMenuItems.map(itemMenu => (
 
+                        {user?.typeuser == '2' ?
+                            listMenuItems.map(itemMenu => (
+
+                                <List.Item
+                                    title={`${translate(itemMenu.title)}`} key={itemMenu.id}
+                                    description={`${translate(itemMenu.description)}`}
+                                    left={props => <List.Icon {...props}
+                                        icon={() => <Icon name={itemMenu.nameIcon!}
+                                            size={25} color={theme.colors.text}
+                                        />}
+                                    />}
+                                    onPress={() => navigate(`${itemMenu.screenNavigation}`)}
+                                    style={{ width: '90%', elevation: 5 }}
+                                />
+
+                            ))
+                            :
                             <List.Item
-                                title={`${translate(itemMenu.title)}`} key={itemMenu.id}
-                                description={`${translate(itemMenu.description)}`}
+                                title={`${translate(listMenuItems[0].title)}`} key={listMenuItems[0].id}
+                                description={`${translate(listMenuItems[0].description)}`}
                                 left={props => <List.Icon {...props}
-                                    icon={() => <Icon name={itemMenu.nameIcon!}
+                                    icon={() => <Icon name={listMenuItems[0].nameIcon!}
                                         size={25} color={theme.colors.text}
                                     />}
                                 />}
-                                onPress={() => navigate(`${itemMenu.screenNavigation}`)}
+                                onPress={() => navigate(`${listMenuItems[0].screenNavigation}`)}
                                 style={{ width: '90%', elevation: 5 }}
                             />
-
-                        ))}
+                        }
                     </View>
 
                     <NavigationButon
