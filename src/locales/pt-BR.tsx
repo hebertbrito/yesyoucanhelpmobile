@@ -99,5 +99,7 @@ export default {
     "send": "Enviar",
     "message_gps": `Para o melhor aproveitamento possível, verifique se há conexão com a internet e se o GPS está ligado, verifique as permissões do aplicativo nas ferramentas do sistema.`,
     "warning": "Atenção",
-    "no_authorized": "Não autorizado"
+    "no_authorized": "Não autorizado",
+    "status_items": "Status dos itens",
+
 }

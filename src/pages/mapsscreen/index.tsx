@@ -214,12 +214,7 @@ const MapsScreen = ({ ...props }) => {
     if (isLoading) {
         return (
             <SafeAreaView style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                {/* <LottieView source={require('../../assets/lottiefiles/location-maps.json')} autoPlay loop /> */}
-                <View>
-                    <Text>
-                        carregando
-                    </Text>
-                </View>
+                <LottieView source={require('../../assets/lottiefiles/location-maps.json')} autoPlay loop />
             </SafeAreaView>
         )
     } else {

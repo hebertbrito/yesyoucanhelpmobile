@@ -97,5 +97,6 @@ export default {
     "send": "Send",
     "message_gps": `For the best possible use, check if there is an internet connection and if the GPS is turned on, check the app's permissions in the system tools.`,
     "warning": "Warning",
-    "no_authorized": "Unauthorized"
+    "no_authorized": "Unauthorized",
+    "status_items": "Status od Items",
 }

@@ -37,6 +37,12 @@ export const DrawContent = (props: Props) => {
             navigate: () => navigation.navigate('BottomNavigator', { screen: 'HomeScreen' })
         },
         {
+            nameIcon: 'stream',
+            labelName: 'status_items',
+            route: 'HomeScreen',
+            navigate: () => navigation.navigate('StatusScreen')
+        },
+        {
             nameIcon: 'map-marked-alt',
             icon: () => <Icon color="#ef6c00" size={20} name="map-marker-alt" style={styles.IconStylesDraw} />,
             labelName: 'maps_menu',
