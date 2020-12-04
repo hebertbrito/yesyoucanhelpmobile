@@ -7,3 +7,15 @@ export interface MakeContributionModel {
     cep?: number,
     products: ModelList[]
 }
+
+export interface Contribution{
+    idDocument: string,
+    product: string,
+    number: string,
+    description: string,
+    accept: boolean,
+    createdAt: {
+        _seconds: number,
+        _nanoseconds: number
+    }
+}

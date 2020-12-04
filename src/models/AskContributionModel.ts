@@ -7,3 +7,15 @@ export interface AskContributionModel {
     long?: number,
     products?: Array<ModelList>
 }
+
+export interface AskContribution{
+    idDocument: string,
+    product: string,
+    number: string,
+    description: string,
+    accept: boolean,
+    createdAt: {
+        _seconds: number,
+        _nanoseconds: number
+    }
+}

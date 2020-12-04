@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import translate from '../services/translate/translate';
 import AuthContext from '../context/auth'
+import { ScrollView } from 'react-native-gesture-handler';
 
 interface Props {
     toggleTheme?: () => void,
@@ -80,7 +81,7 @@ export const DrawContent = (props: Props) => {
         )
     }
 
-    function hehehe(event: any){
+    function hehehe(event: any) {
         navigation.navigate("ProfileScreen")
 
     }
@@ -91,7 +92,7 @@ export const DrawContent = (props: Props) => {
                     <View style={styles.PerfilViews}>
                         {user?.avatarsource?.uri != "" ?
                             <>
-                                <Avatar.Image size={80} source={{uri: user?.avatarsource?.uri}} onTouchStart={(event) => hehehe(event)}/>
+                                <Avatar.Image size={80} source={{ uri: user?.avatarsource?.uri }} onTouchStart={(event) => hehehe(event)} />
                                 <Subheading>{user?.firstname} {user?.lastname}</Subheading>
                             </>
                             :
@@ -108,26 +109,28 @@ export const DrawContent = (props: Props) => {
                 <Drawer.Section style={{
                     marginTop: 15,
                     borderBottomColor: `${paperTheme.colors.accent}`,
-                    borderBottomWidth: 0.4
+                    borderBottomWidth: 0.4, height: 350
                 }}
 
                 >
-                    {sidebarMenus.length > 0 && (
-                        sidebarMenus.map(menu => {
-                            return (
-                                <DrawerItem key={menu.labelName} label={translate(menu.labelName)}
-                                    icon={({ color, size }) => (
-                                        <Icon name={menu.nameIcon} size={size} color={paperTheme.colors.primary}
-                                            style={{ alignSelf: "flex-start", width: 35, height: 35, textAlign: "center" }} />
-                                    )}
-                                    onPress={() => menu.navigate()}
-                                    //the error is here
-                                    labelStyle={{ alignSelf: "stretch", fontWeight: "bold" }}
-                                    style={{ justifyContent: 'center', alignContent: "center" }}
-                                />
-                            )
-                        })
-                    )}
+                    <ScrollView style={{ width: '95%' }} showsVerticalScrollIndicator={true} contentContainerStyle={{ flexGrow: 1, marginTop: '1%' }}>
+                        {sidebarMenus.length > 0 && (
+                            sidebarMenus.map(menu => {
+                                return (
+                                    <DrawerItem key={menu.labelName} label={translate(menu.labelName)}
+                                        icon={({ color, size }) => (
+                                            <Icon name={menu.nameIcon} size={size} color={paperTheme.colors.primary}
+                                                style={{ alignSelf: "flex-start", width: 35, height: 35, textAlign: "center" }} />
+                                        )}
+                                        onPress={() => menu.navigate()}
+                                        //the error is here
+                                        labelStyle={{ alignSelf: "stretch", fontWeight: "bold" }}
+                                        style={{ justifyContent: 'center', alignContent: "center" }}
+                                    />
+                                )
+                            })
+                        )}
+                    </ScrollView>
                 </Drawer.Section>
 
                 <View style={styles.CommumViews}>

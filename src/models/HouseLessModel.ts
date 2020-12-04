@@ -10,3 +10,14 @@ export interface HouseLessModel {
     photo?: ImagePickerResponse,
     createdAt?: string
 }
+
+export interface Houseless{
+    idDocument: string,
+    name: string,
+    description: string,
+    accept: boolean,
+    createdAt: {
+        _seconds: number,
+        _nanoseconds: number
+    }
+}

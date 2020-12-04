@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, SafeAreaView, TouchableOpacity } from 'react-native';
+import { View, SafeAreaView, TouchableOpacity, Platform } from 'react-native';
 import { Button, Text, ProgressBar, useTheme } from 'react-native-paper';
 import * as Animatable from 'react-native-animatable';
 import { styles } from './styles'
@@ -30,7 +30,7 @@ const HomeScreen = ({ ...props }) => {
 
                 <TouchableOpacity style={styles.touchpad} onPress={() => navigate("MapsScreen")}>
                     <Icon name="map-marked-alt" size={30} />
-                    <Text style={{color: "#000000"}}>
+                    <Text style={{ color: "#000000" }}>
                         Maps
                     </Text>
                 </TouchableOpacity>
