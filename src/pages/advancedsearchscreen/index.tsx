@@ -56,7 +56,16 @@ const AdvancedSerach = () => {
                 null
             }
         }, [])
-    );    
+    );
+
+
+    useEffect(() => {
+
+        if(radiovalue == "infohouseless"){
+            setDropdownValueProduct("")
+        }
+
+    }, [radiovalue])
 
     function clearfields() {
         setIsLiked(false)
@@ -97,7 +106,7 @@ const AdvancedSerach = () => {
                     typeaction: radiovalue,
                     accept: "",
                     rating: "",
-                    products: "" //dropdownvalueproduct
+                    products: dropdownvalueproduct
                 }
 
                 const datas = await GetAdvancedSearch(objModel, user!)
@@ -152,7 +161,11 @@ const AdvancedSerach = () => {
                     <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-evenly" }}>
                         <CheckBoxComponent isValue={isReported} setValueCheckbox={setIsReported} title="reported" />
                         <CheckBoxComponent isValue={isliked} setValueCheckbox={setIsLiked} title="accepted" />
-                        <DropdownYesComponent dropdownvalueproduct={dropdownvalueproduct} setDropdownValueProduct={setDropdownValueProduct} />
+                        {radiovalue != "infohouseless" ?
+                            <DropdownYesComponent dropdownvalueproduct={dropdownvalueproduct} setDropdownValueProduct={setDropdownValueProduct} />
+                            :
+                            null
+                        }
                     </View>
                 </View>
                 <RadioGroupComponent value={radiovalue} setValue={setRadioValue} />

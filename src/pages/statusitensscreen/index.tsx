@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Alert, Platform, SafeAreaView, ScrollView, View, TouchableOpacity } from 'react-native'
 import MapView, { Marker, PROVIDER_GOOGLE, Callout, Circle, MarkerAnimated } from 'react-native-maps';
-import { Button, Divider, FAB, List, Text, Title, useTheme } from 'react-native-paper';
+import { Button, Divider, FAB, Headline, List, Text, Title, useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import LottieView from 'lottie-react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -90,9 +90,9 @@ function StatusScreen() {
     return (
         <SafeAreaView style={styles.safeView}>
             <View style={{ width: "95%", height: "30%" }}>
-                <Title style={{ marginTop: '5%', alignSelf: "center" }}>
+                <Headline style={{ marginTop: '5%', alignSelf: "center", fontWeight: "bold" }}>
                     {translate("status_items")}
-                </Title>
+                </Headline>
                 <LottieView source={require('../../assets/lottiefiles/status.json')} autoPlay loop speed={0.7} resizeMode="contain"
                     style={{ width: "100%", height: "85%", alignSelf: "center", marginTop: "1%" }}
                 />
