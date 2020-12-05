@@ -2,8 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { SafeAreaView, View, ScrollView, StatusBar, Platform, StyleSheet, Alert } from 'react-native';
 import { useTheme, Text, Avatar, Headline, List, Title, IconButton, Checkbox, Subheading, Divider, Button } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import Lottie from "lottie-react-native";
 
 import {
     DatePicker,
@@ -12,7 +12,9 @@ import {
     NavigationButon,
     MainButton,
     ButtonComponent,
-    DropdownYesComponent
+    DropdownYesComponent,
+    SnackBarYes,
+    CardAdvanced
 } from '../../components';
 
 //translate
@@ -22,17 +24,19 @@ import translate from '../../services/translate/translate'
 import { GetFormatDate, ValidationInputDate } from './mock';
 
 //models
-import { AdvancedSearch, AdvancedSearchResponse } from '../../models';
+import { AdvancedSearch, AdvancedSearchResponse, ContributionsAdvanced, HouselessAdvanced } from '../../models';
 
 //services
-import { GetAdvancedSearch } from '../../services/api/AdvancedSearch';
+import { GetAdvancedSearchContributions, GetAdvancedSearchAskContributions, GetAdvancedSearchHouseless } from '../../services/api/AdvancedSearch';
 
 //context
 import Auth from '../../context/auth';
 
 //childs
-import { RenderList } from './factory'
+import { CardsContributionsAndAsk, CardsHouseless } from './factory'
 
+//validation
+import { SwitchErros } from './validation'
 const AdvancedSerach = () => {
 
     const paperTheme = useTheme();
@@ -47,10 +51,41 @@ const AdvancedSerach = () => {
     const [isliked, setIsLiked] = useState(false);
     const [radiovalue, setRadioValue] = useState('askcontribution');
     const [dropdownvalueproduct, setDropdownValueProduct] = useState('')
-    const [lstDatas, setLstDatas] = useState<Array<AdvancedSearchResponse>>([] as Array<AdvancedSearchResponse>)
+    const [lstcontributionandAks, setLstcontributionandAks] = useState<Array<ContributionsAdvanced>>([] as Array<ContributionsAdvanced>)
+    const [lstHouselessAdvanced, setLstHouselessAdvanced] = useState<Array<HouselessAdvanced>>([] as Array<HouselessAdvanced>)
+    const [loading, setLoading] = useState(false)
+    const [enableButton, setEnableButton] = useState(true)
+
+
+    //state about notification
+    const [isVisible, setIsVisible] = useState(false)
+    const [text, setText] = useState("")
+    const [colorbackground, setColorBackground] = useState("")
+    const [textcolor, setTextColor] = useState("")
+    const [subcolorButton, setSubcolorButton] = useState("")
+    const [title, setTitle] = useState("")
 
     useFocusEffect(
         React.useCallback(() => {
+            const _startdate = GetFormatDate(startdate)
+            const _enddate = GetFormatDate(enddate)
+            async function getAdvancedSearchAskContributions() {
+                const objModel: AdvancedSearch = {
+                    startdate: _startdate,
+                    enddate: _enddate,
+                    typeaction: radiovalue,
+                    accept: "",
+                    rating: "",
+                    product: dropdownvalueproduct
+                }
+                const response = await GetAdvancedSearchAskContributions(objModel, user!)
+                if (response) {
+                    setLstcontributionandAks(response)
+                    console.log(response)
+                }
+            }
+            getAdvancedSearchAskContributions()
+            setEnableButton(false)
             return () => {
                 clearfields()
                 null
@@ -61,7 +96,7 @@ const AdvancedSerach = () => {
 
     useEffect(() => {
 
-        if(radiovalue == "infohouseless"){
+        if (radiovalue == "infohouseless") {
             setDropdownValueProduct("")
         }
 
@@ -76,7 +111,8 @@ const AdvancedSerach = () => {
         setIsReported(false)
         setRadioValue("askcontribution")
         setDropdownValueProduct("")
-        setLstDatas([])
+        setLstHouselessAdvanced([])
+        setLstcontributionandAks([])
     }
 
     function onChangeStartDate(event: any, selectedDate: any) {
@@ -95,6 +131,41 @@ const AdvancedSerach = () => {
         setShowEndDate(showenddate ? false : true);
     }
 
+    async function switchAPi(objModel: AdvancedSearch) {
+        try {
+            setEnableButton(true)
+            if (objModel.typeaction === "askcontribution") {
+                setLstHouselessAdvanced([])
+                const response = await GetAdvancedSearchAskContributions(objModel, user!)
+                if (response) {
+                    setLstcontributionandAks(response)
+                    // console.log(response)
+                }
+                setEnableButton(false)
+            } else if (objModel.typeaction === "contribution") {
+                setLstHouselessAdvanced([])
+                const response = await GetAdvancedSearchContributions(objModel, user!)
+                if (response) {
+                    setLstcontributionandAks(response)
+                    // console.log(response)
+                }
+                setEnableButton(false)
+            } else if (objModel.typeaction === "infohouseless") {
+                setLstcontributionandAks([])
+                const response = await GetAdvancedSearchHouseless(objModel, user!)
+                if (response) {
+                    setLstHouselessAdvanced(response)
+                    // console.log(response)
+                }
+                setEnableButton(false)
+            }
+
+        } catch (error) {
+            setEnableButton(false)
+            Promise.reject(error)
+        }
+    }
+
     async function getadvancedsearch() {
         try {
             const _startdate = GetFormatDate(startdate)
@@ -106,37 +177,50 @@ const AdvancedSerach = () => {
                     typeaction: radiovalue,
                     accept: "",
                     rating: "",
-                    products: dropdownvalueproduct
+                    product: dropdownvalueproduct
                 }
-
-                const datas = await GetAdvancedSearch(objModel, user!)
-                if (datas) {
-                    setLstDatas(datas)
-                }
+                await switchAPi(objModel)
 
             } else {
+                setEnableButton(false)
                 Alert.alert('EndDate não pode ser menos que StartDate')
             }
         } catch (error) {
-            Alert.alert(error.toString())
+            setEnableButton(false)
+            SwitchErros(error, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
+            setIsVisible(true)
         }
     }
 
-    function DynamicIcon() {
-
-        if ('askcontribution' == radiovalue) {
-            return (
-                <Icon name="hands-helping" size={20} color={paperTheme.colors.text} />
-            )
-        } else {
-            return (
-                <Icon name="home" size={20} color={paperTheme.colors.text} />
-            )
+    function switchresponseData(value: string) {
+        switch (value) {
+            case "askcontribution":
+                return (
+                    <CardsContributionsAndAsk lstcontributionandAks={lstcontributionandAks} />
+                )
+                break;
+            case "contribution":
+                return (
+                    <CardsContributionsAndAsk lstcontributionandAks={lstcontributionandAks} />
+                )
+                break;
+            case "infohouseless":
+                return (
+                    <CardsHouseless lstHouselessAdvanced={lstHouselessAdvanced} />
+                )
+                break;
+            default:
+                return (
+                    <>
+                    </>
+                )
+                break;
         }
-
-
     }
 
+    function onPress() {
+        setIsVisible(!isVisible)
+    }
     return (
         <SafeAreaView style={{ width: "100%", flex: 1, alignContent: "center", alignItems: "center" }}>
 
@@ -149,7 +233,7 @@ const AdvancedSerach = () => {
                 width: '95%', height: 196,
                 borderRadius: 10, backgroundColor: paperTheme.colors.background, shadowColor: '#FAFAFA',
                 shadowOffset: { width: 0, height: 12 }, shadowOpacity: 1, shadowRadius: 16.00, elevation: 20, display: "flex",
-                flexDirection: "column",
+                flexDirection: "column", marginBottom: "2%"
             }}>
                 <View style={{ width: '100%', height: 40, backgroundColor: paperTheme.colors.primary, borderTopLeftRadius: 10, borderTopRightRadius: 10, justifyContent: "center" }}>
                     <Subheading style={{ paddingLeft: '4%', alignSelf: "center" }}>
@@ -193,10 +277,9 @@ const AdvancedSerach = () => {
                 />
             )}
 
-            <Divider style={{ backgroundColor: paperTheme.colors.accent, width: '95%', height: 1, marginTop: 15, marginBottom: 8 }} />
 
             <ScrollView style={{ width: '100%' }} contentContainerStyle={{ flexGrow: 1, marginTop: '1%' }}>
-                <RenderList lstDatas={lstDatas} radiovalue={radiovalue} />
+                {switchresponseData(radiovalue)}
             </ScrollView>
 
             <View style={styles.bottomButonsView}>
@@ -204,18 +287,32 @@ const AdvancedSerach = () => {
                     onPress={() => navigate('OptionsScreens')}
                     style={{ width: '25%', padding: 2, alignSelf: "center", justifyContent: "space-evenly", borderWidth: 1, borderColor: paperTheme.colors.text }}
                     color={paperTheme.colors.text}
+                    disabled={enableButton}
                 >
                     {translate("back")}
                 </Button>
-                <ButtonComponent iconName="search" isSend={false} nameButton={translate("search")} size={20} styles={styles.buttoncomponente} MainActionScreen={getadvancedsearch} />
+                <ButtonComponent iconName="search" isSend={loading} nameButton={translate("search")}
+                    size={20} styles={styles.buttoncomponente} MainActionScreen={getadvancedsearch}
+                    enableButton={enableButton}
+                />
                 <Button mode="outlined"
-                    onPress={() => { }}
+                    onPress={() => clearfields()}
                     style={{ width: '25%', padding: 2, alignSelf: "center", justifyContent: "space-evenly", borderWidth: 1, borderColor: paperTheme.colors.surface }}
                     color={paperTheme.colors.surface}
+                    disabled={enableButton}
                 >
                     {translate("clean")}
                 </Button>
             </View>
+            <SnackBarYes isVisible={isVisible} onDismiss={onPress} onPress={onPress}
+                text={text}
+                style={{
+                    height: 50, width: "90%",
+                    backgroundColor: colorbackground, alignSelf: "center", bottom: 15,
+                    display: "flex", flexWrap: "wrap", justifyContent: "center", alignContent: "center", zIndex: 2
+                }}
+                textcolor={textcolor} subcolorButton={subcolorButton} title={title}
+            />
         </SafeAreaView>
     )
 }

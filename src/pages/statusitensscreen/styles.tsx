@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
         alignItems: "center"
     },
     bottomMenus: {
-        bottom: 5,
+        bottom: "3%",
         width: "95%",
         display: "flex",
         flexDirection: "row",

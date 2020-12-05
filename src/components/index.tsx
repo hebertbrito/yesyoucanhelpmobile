@@ -16,3 +16,4 @@ export * from './inputyes';
 export * from './dropdownyes';
 export * from './snackbaryes';
 export * from './cardorderpoint';
+export * from './cardadvanced';

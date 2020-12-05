@@ -195,21 +195,21 @@ function StatusScreen() {
             <View style={styles.bottomMenus}>
                 <Button mode="text"
                     onPress={() => navigate('BottomNavigator', { screen: 'HomeScreen' })}
-                    style={{ width: "40%", height: 35, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: theme.colors.text }}
+                    style={{ width: "40%", height: 35, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: theme.colors.text, marginRight: "2%" }}
                     color={theme.colors.text}
                     disabled={enableButton}
                 >
                     {translate("back")}
                 </Button>
                 <FAB
-                    style={{ position: "absolute", bottom: 7, backgroundColor: theme.colors.onSurface, zIndex: 1 }}
+                    style={{ position: "absolute", bottom: 3, backgroundColor: theme.colors.onSurface, zIndex: 1 }}
                     icon="sync"
                     onPress={() => getStatusItemsByUser()}
                     disabled={enableButton}
                 />
                 <Button mode="text"
                     onPress={() => clearFields()}
-                    style={{ width: "40%", height: 35, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: theme.colors.surface }}
+                    style={{ width: "40%", height: 35, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: theme.colors.surface, marginLeft: "2%" }}
                     color={theme.colors.surface}
                     disabled={enableButton}
                 >

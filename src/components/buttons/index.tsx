@@ -66,13 +66,14 @@ interface ButtonComponent {
     size: number,
     isSend: boolean,
     MainActionScreen(): Promise<void>,
-    styles: StyleProp<ViewStyle>
+    styles: StyleProp<ViewStyle>,
+    enableButton?: boolean
 }
 
 export const ButtonComponent = (props: ButtonComponent) => {
 
     const paperTheme = useTheme();
-    const { MainActionScreen, iconName, isSend, nameButton, size, styles } = props;
+    const { MainActionScreen, iconName, isSend, nameButton, size, styles, enableButton } = props;
 
     return (
         <Button icon={() => <Icon name={iconName} size={size} />}
@@ -80,6 +81,7 @@ export const ButtonComponent = (props: ButtonComponent) => {
             style={styles}
             onPress={() => MainActionScreen()}
             loading={isSend}
+            disabled={enableButton}
         >
             {nameButton}
         </Button>
