@@ -101,5 +101,5 @@ export default {
     "warning": "Atenção",
     "no_authorized": "Não autorizado",
     "status_items": "Status dos itens",
-
+    "has_been_update": "A senha foi atualizada",
 }

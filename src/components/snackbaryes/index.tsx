@@ -25,6 +25,7 @@ const SnackBarYesComponente = (props: SnackBarYes) => {
             style={style}
             visible={isVisible}
             onDismiss={onDismiss}
+            duration={2500}
             action={{
                 label: 'Undo',
                 onPress: () => {

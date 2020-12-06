@@ -134,9 +134,9 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
                         >
                             {translate('button_login')}
                         </Button>
-                        {error ?
+                        {true ?
                             <TouchableOpacity style={{ height: 50 }}
-                                onPress={() => { }}
+                                onPress={() => navigation.navigate("RecoverPasswordScreen")}
                             >
                                 <Text style={{ alignSelf: "center", margin: 3, color: 'red' }}>
                                     Esqueci minha senha.

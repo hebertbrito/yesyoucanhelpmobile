@@ -99,4 +99,5 @@ export default {
     "warning": "Warning",
     "no_authorized": "Unauthorized",
     "status_items": "Status of Items",
+    "has_been_update": "The password has been updated",
 }

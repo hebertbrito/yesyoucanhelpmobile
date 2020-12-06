@@ -12,6 +12,7 @@ import OptionsScreens from '../pages/optionsscreen';
 import AdvancedSerach from '../pages/advancedsearchscreen';
 import ChartScreen from '../pages/chartscreen';
 import StatusScreen from '../pages/statusitensscreen';
+import RecoverPasswordScreen from '../pages/recoverpasswordscreen';
 import { DrawContent } from '../navigation/drawcontent';
 
 import { CardDetailsInfo } from '../components'
@@ -60,6 +61,7 @@ export const Routes = (props: Props) => {
                     <>
                         <Drawer.Screen name="Login" component={LoginScreen} options={options} />
                         <Drawer.Screen name="RegisterUserScreen" component={RegisterUserScreen} options={options} />
+                        <Drawer.Screen name="RecoverPasswordScreen" component={RecoverPasswordScreen} options={{swipeEnabled: false}} />
                     </>
                 )}
 
