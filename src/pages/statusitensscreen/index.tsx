@@ -77,7 +77,7 @@ function StatusScreen() {
         }, [])
     );
 
-    function clearFields(){
+    function clearFields() {
         setLstAksContributions([])
         setLstContributions([])
         setLstContributions([])
@@ -195,7 +195,7 @@ function StatusScreen() {
             <View style={styles.bottomMenus}>
                 <Button mode="text"
                     onPress={() => navigate('BottomNavigator', { screen: 'HomeScreen' })}
-                    style={{ width: "40%", height: 35, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: theme.colors.text, marginRight: "2%" }}
+                    style={{ width: "40%", height: 35, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: theme.colors.text }}
                     color={theme.colors.text}
                     disabled={enableButton}
                 >
@@ -209,7 +209,7 @@ function StatusScreen() {
                 />
                 <Button mode="text"
                     onPress={() => clearFields()}
-                    style={{ width: "40%", height: 35, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: theme.colors.surface, marginLeft: "2%" }}
+                    style={{ width: "40%", height: 35, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: theme.colors.surface }}
                     color={theme.colors.surface}
                     disabled={enableButton}
                 >

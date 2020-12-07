@@ -63,7 +63,7 @@ export const Routes = (props: Props) => {
                     <>
                         <Drawer.Screen name="Login" component={LoginScreen} options={options} />
                         <Drawer.Screen name="RegisterUserScreen" component={RegisterUserScreen} options={options} />
-                        <Drawer.Screen name="RecoverPasswordScreen" component={RecoverPasswordScreen} options={{swipeEnabled: false}} />
+                        <Drawer.Screen name="RecoverPasswordScreen" component={RecoverPasswordScreen} options={options} />
                     </>
                 )}
 

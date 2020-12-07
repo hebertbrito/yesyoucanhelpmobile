@@ -8,12 +8,13 @@ export const styles = StyleSheet.create({
         alignItems: "center"
     },
     bottomMenus: {
-        bottom: "3%",
         width: "95%",
         display: "flex",
         flexDirection: "row",
         justifyContent: "center",
-        marginTop: "1%"
+        marginTop: "1%",
+        borderColor: "red",
+        marginBottom: "2%"
     },
     button: {
         width: "50%",

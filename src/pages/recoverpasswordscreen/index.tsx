@@ -16,7 +16,7 @@ import styles from './styles'
 import translate from '../../services/translate/translate'
 
 //components
-import { SnackBarYes } from '../../components'
+import { SnackBarYes, MainButton } from '../../components'
 
 //services
 import { RecoverPassword as RecoverPasswordUser } from '../../services/api/RecoverPassword'
@@ -205,20 +205,16 @@ const RecoverPassword = (props: DrawerContentComponentProps<DrawerContentOptions
                             />
                         }
                     />
-                    <View style={{ display: "flex", flexDirection: "row", alignItems: "center", alignContent: "center", width: "100%", justifyContent: "space-evenly" }}>
+                    <View style={{ display: "flex", flexDirection: "row", 
+                    alignItems: "center", alignContent: "center", width: "100%", justifyContent: "space-evenly" }}>
                         <Button mode="outlined"
                             onPress={() => navigation.navigate("Login")}
-                            style={{ width: '30%', padding: 2, alignSelf: "center", justifyContent: "space-evenly", borderWidth: 1, borderColor: paperTheme.colors.text }}
+                            style={{ width: '35%', padding: 2, alignSelf: "center", justifyContent: "space-evenly", borderWidth: 1, borderColor: paperTheme.colors.text }}
                             color={paperTheme.colors.text}
                         >
                             {translate('button_back')}
                         </Button>
-                        <Button icon={iconbutton} mode="contained" onPress={() => recoverpassword()}
-                            style={{ width: '30%', padding: 2, alignSelf: "center" }}
-                            color="#fdd835" loading={isLoading}
-                        >
-                            {translate('button_login')}
-                        </Button>
+                        <MainButton MainActionScreen={recoverpassword}/>
                     </View>
                 </Animatable.View>
 

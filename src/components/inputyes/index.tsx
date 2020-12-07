@@ -11,13 +11,14 @@ interface InputYes {
     width: string,
     maxLength: number,
     secureTextEntry?: boolean,
-    error?: boolean
+    error?: boolean,
+    right?: JSX.Element
 }
 
 function InputYes(props: InputYes) {
 
     const paperTheme = useTheme();
-    const { error, value, setvalue, label, maxLength, placeholder, typeKeyboard, width, secureTextEntry } = props;
+    const { error, value, setvalue, label, maxLength, placeholder, typeKeyboard, width, secureTextEntry, right } = props;
 
     return (
         <TextInput
@@ -33,6 +34,7 @@ function InputYes(props: InputYes) {
             mode="outlined"
             secureTextEntry={secureTextEntry}
             error={error}
+            right={right}
         />
     )
 }

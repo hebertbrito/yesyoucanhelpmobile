@@ -134,7 +134,7 @@ const LoginScreen = (props: DrawerContentComponentProps<DrawerContentOptions>) =
                         >
                             {translate('button_login')}
                         </Button>
-                        {true ?
+                        {error ?
                             <TouchableOpacity style={{ height: 50 }}
                                 onPress={() => navigation.navigate("RecoverPasswordScreen")}
                             >

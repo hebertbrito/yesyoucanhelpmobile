@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { SafeAreaView, View, ScrollView, StatusBar } from 'react-native';
-import { useTheme, Avatar, Headline, Button } from 'react-native-paper';
+import { useTheme, Avatar, Headline, Button, TextInput } from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import AuthContext from '../../context/auth';
@@ -31,6 +31,8 @@ function ChangePasswordScreen() {
     const [error, setError] = useState(false);
     const [issend, setIsSend] = useState(false);
     const [disableButton, setDisableButton] = useState(false);
+    const [eyepassword, setEyePassword] = useState(true)
+
 
     //state about notification
     const [isVisible, setIsVisible] = useState(false)
@@ -50,7 +52,11 @@ function ChangePasswordScreen() {
         }, [])
     );
 
-    function cleanfields(){
+    function eyePassword() {
+        setEyePassword(!eyepassword)
+    }
+
+    function cleanfields() {
         setPassword("")
         setNewPassword("")
         setConfirmPassword("")
@@ -72,6 +78,7 @@ function ChangePasswordScreen() {
             EnableThings()
             if (validationfields(password, newpassword, confirmpassword, setError)) {
                 await UpdatePassword({ idDocument: user!.idDocument!, newpassword, password, token: user!.token! })
+                cleanfields()
                 DisableThings()
                 SwitchErros(201, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, theme)
                 setIsVisible(true);
@@ -118,42 +125,77 @@ function ChangePasswordScreen() {
 
                     <View style={{ width: "95%", display: "flex", alignSelf: "center", alignItems: "center", marginTop: "7%" }}>
 
-                        <InputYesComponent
+                        <TextInput
+                            secureTextEntry={eyepassword}
                             value={password}
-                            setvalue={setPassword}
-                            placeholder="exemple: AOuhfkjds16513"
-                            label="Password"
-                            typeKeyboard="email-address"
-                            width="90%"
-                            maxLength={50}
-                            secureTextEntry={true}
-                            error={password.length < 7 && error}
+                            onChangeText={(text) => setPassword(text)}
+                            placeholder={`exemple: Aiufsd7865`}
+                            label={`Senha`}
+                            style={{ margin: 10, width: "90%" }}
+                            placeholderTextColor={theme.colors.text}
+                            selectionColor={theme.colors.text}
+                            mode="outlined"
+                            theme={{ colors: { placeholder: theme.colors.text, text: theme.colors.text } }}
+                            maxLength={30}
+                            error={((newpassword.length < 7 && error) || (newpassword !== confirmpassword && error))}
+                            right={
+                                <TextInput.Icon
+                                    name="eye"
+                                    color={theme.colors.text}
+                                    onPress={() => {
+                                        eyePassword()
+                                    }}
+                                />
+                            }
                         />
 
-                        <InputYesComponent
+                        <TextInput
+                            secureTextEntry={eyepassword}
                             value={newpassword}
-                            setvalue={setNewPassword}
-                            placeholder="exemple: Aiufsd7865"
-                            label="Nova Senha"
-                            typeKeyboard="email-address"
-                            width="90%"
-                            maxLength={50}
-                            secureTextEntry={true}
+                            onChangeText={(text) => setNewPassword(text)}
+                            placeholder={`exemple: Aiufsd7865`}
+                            label={`Nova Senha`}
+                            style={{ margin: 10, width: "90%" }}
+                            placeholderTextColor={theme.colors.text}
+                            selectionColor={theme.colors.text}
+                            mode="outlined"
+                            theme={{ colors: { placeholder: theme.colors.text, text: theme.colors.text } }}
+                            maxLength={30}
                             error={((newpassword.length < 7 && error) || (newpassword !== confirmpassword && error))}
+                            right={
+                                <TextInput.Icon
+                                    name="eye"
+                                    color={theme.colors.text}
+                                    onPress={() => {
+                                        eyePassword()
+                                    }}
+                                />
+                            }
                         />
 
-                        <InputYesComponent
+                        <TextInput
+                            secureTextEntry={eyepassword}
                             value={confirmpassword}
-                            setvalue={setConfirmPassword}
-                            placeholder="exemple: Aiufsd7865"
-                            label="Confirmar Senha"
-                            typeKeyboard="email-address"
-                            width="90%"
-                            maxLength={50}
-                            secureTextEntry={true}
+                            onChangeText={(text) => setConfirmPassword(text)}
+                            placeholder={`${translate('password')}*`}
+                            label={`exemple: Aiufsd7865"`}
+                            style={{ margin: 10, width: "90%" }}
+                            placeholderTextColor={theme.colors.text}
+                            selectionColor={theme.colors.text}
+                            mode="outlined"
+                            theme={{ colors: { placeholder: theme.colors.text, text: theme.colors.text } }}
+                            maxLength={30}
                             error={((newpassword.length < 7 && error) || (newpassword !== confirmpassword && error))}
+                            right={
+                                <TextInput.Icon
+                                    name="eye"
+                                    color={theme.colors.text}
+                                    onPress={() => {
+                                        eyePassword()
+                                    }}
+                                />
+                            }
                         />
-
                     </View>
 
                     <View style={{
