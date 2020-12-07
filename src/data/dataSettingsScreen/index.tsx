@@ -23,4 +23,11 @@ export const listMenuItems = [
         screenNavigation: 'ChartScreen',
         nameIcon: 'chart-line'
     },
+    {
+        id: 4,
+        title: 'change_password',
+        description: 'description_password_change',
+        screenNavigation: 'ChangePasswordScreen',
+        nameIcon: 'key'
+    },
 ]

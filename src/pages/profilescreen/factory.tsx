@@ -2,7 +2,7 @@
 import { AvatarUser, User } from '../../models'
 export const GetNewValues = (data: User, subdata: any) => {
     const lstValidate = ['firstname', 'lastname', 'datebirth', 'gender',
-        'email', 'password', 'cellphone'
+        'email', 'cellphone'
     ]
     const lstAddresValidate = ['country', 'city', 'street', 'number', 'state', 'CEP', 'neighbourhood']
     let objNewValues: User = {}
@@ -34,4 +34,8 @@ export const GetNewValues = (data: User, subdata: any) => {
     // }
 
     return objNewValues;
+}
+
+export function verifyConfirm(newPassword: string, confirmPassword: string ) {
+    
 }

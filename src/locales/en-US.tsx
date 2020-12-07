@@ -100,4 +100,6 @@ export default {
     "no_authorized": "Unauthorized",
     "status_items": "Status of Items",
     "has_been_update": "The password has been updated",
+    "change_password": "Change Password",
+    "description_password_change": "Change your current Password.",
 }

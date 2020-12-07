@@ -76,17 +76,30 @@ function OptionsScreens() {
 
                             ))
                             :
-                            <List.Item
-                                title={`${translate(listMenuItems[0].title)}`} key={listMenuItems[0].id}
-                                description={`${translate(listMenuItems[0].description)}`}
-                                left={props => <List.Icon {...props}
-                                    icon={() => <Icon name={listMenuItems[0].nameIcon!}
-                                        size={25} color={theme.colors.text}
+                            <>
+                                <List.Item
+                                    title={`${translate(listMenuItems[0].title)}`} key={listMenuItems[0].id}
+                                    description={`${translate(listMenuItems[0].description)}`}
+                                    left={props => <List.Icon {...props}
+                                        icon={() => <Icon name={listMenuItems[0].nameIcon!}
+                                            size={25} color={theme.colors.text}
+                                        />}
                                     />}
-                                />}
-                                onPress={() => navigate(`${listMenuItems[0].screenNavigation}`)}
-                                style={{ width: '90%', elevation: 5 }}
-                            />
+                                    onPress={() => navigate(`${listMenuItems[0].screenNavigation}`)}
+                                    style={{ width: '90%', elevation: 5 }}
+                                />
+                                <List.Item
+                                    title={`${translate(listMenuItems[3].title)}`} key={listMenuItems[3].id}
+                                    description={`${translate(listMenuItems[3].description)}`}
+                                    left={props => <List.Icon {...props}
+                                        icon={() => <Icon name={listMenuItems[3].nameIcon!}
+                                            size={25} color={theme.colors.text}
+                                        />}
+                                    />}
+                                    onPress={() => navigate(`${listMenuItems[3].screenNavigation}`)}
+                                    style={{ width: '90%', elevation: 5 }}
+                                />
+                            </>
                         }
                     </View>
 

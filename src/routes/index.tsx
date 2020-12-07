@@ -13,6 +13,7 @@ import AdvancedSerach from '../pages/advancedsearchscreen';
 import ChartScreen from '../pages/chartscreen';
 import StatusScreen from '../pages/statusitensscreen';
 import RecoverPasswordScreen from '../pages/recoverpasswordscreen';
+import ChangePasswordScreen from '../pages/changepasswordscreen';
 import { DrawContent } from '../navigation/drawcontent';
 
 import { CardDetailsInfo } from '../components'
@@ -55,6 +56,7 @@ export const Routes = (props: Props) => {
                     <Drawer.Screen name="AdvancedSerach" component={AdvancedSerach} options={{ headerShown: false }} />
                     <Drawer.Screen name="ChartScreen" component={ChartScreen} options={{ headerShown: false }} />
                     <Drawer.Screen name="StatusScreen" component={StatusScreen} options={{ headerShown: false }} />
+                    <Drawer.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} options={{ headerShown: false }} />
                 </>
 
             ) : (

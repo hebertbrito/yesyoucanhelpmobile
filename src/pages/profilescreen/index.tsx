@@ -49,7 +49,6 @@ function ProfileScreen() {
     const [city, setCity] = useState('');
     const [number, setNumber] = useState('');
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [state, setState] = useState('');
     const [cellphone, setCellphone] = useState('');
     const [CEP, setCEP] = useState('');
@@ -182,10 +181,10 @@ function ProfileScreen() {
         try {
             setIsSendUpdate(true)
             const objNewValues = GetNewValues(
-                { firstname, lastname, datebirth, gender, email, password, cellphone },
+                { firstname, lastname, datebirth, gender, email, cellphone },
                 { country, city, street, number, state, CEP, neighbourhood }
             )
-
+                
             await UpdateUser(objNewValues, avatarSource, user!)
             setIsSendUpdate(false)
             SwitchErros(201, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, theme)
@@ -535,39 +534,8 @@ function ProfileScreen() {
                                     <Subheading style={{ fontWeight: "bold" }}>Email: </Subheading>
                                     <Text>{usermodel!.email!}</Text>
                                 </View>
-
-                                {editableInput &&
-                                    <InputYesComponent
-                                        value={email}
-                                        setvalue={setEmail}
-                                        placeholder="exemple: test@teste.com"
-                                        label="New Email"
-                                        typeKeyboard="email-address"
-                                        width="60%"
-                                        maxLength={50}
-                                    />
-                                }
                             </View>
 
-                            <View style={styles.containerInput}>
-                                <View style={styles.view_1_input}>
-                                    <Subheading style={{ fontWeight: "bold" }}>Password: </Subheading>
-                                    <Text>******************</Text>
-                                </View>
-
-                                {editableInput &&
-                                    <InputYesComponent
-                                        value={password}
-                                        setvalue={setPassword}
-                                        placeholder="exemple: AOuhfkjds16513"
-                                        label="New Password"
-                                        typeKeyboard="email-address"
-                                        width="60%"
-                                        maxLength={50}
-                                        secureTextEntry={true}
-                                    />
-                                }
-                            </View>
                             {editableInput || avatarSource.data ?
 
                                 <MainButton MainActionScreen={updateuser} isSend={isSendUpdate} />

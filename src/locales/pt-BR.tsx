@@ -102,4 +102,6 @@ export default {
     "no_authorized": "Não autorizado",
     "status_items": "Status dos itens",
     "has_been_update": "A senha foi atualizada",
+    "change_password": "Alterar senha",
+    "description_password_change": "Alterar sua senha atual.",
 }

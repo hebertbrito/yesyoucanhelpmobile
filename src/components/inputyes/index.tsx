@@ -10,13 +10,14 @@ interface InputYes {
     typeKeyboard: any,
     width: string,
     maxLength: number,
-    secureTextEntry?: boolean
+    secureTextEntry?: boolean,
+    error?: boolean
 }
 
 function InputYes(props: InputYes) {
 
     const paperTheme = useTheme();
-    const { value, setvalue, label, maxLength, placeholder, typeKeyboard, width, secureTextEntry } = props;
+    const { error, value, setvalue, label, maxLength, placeholder, typeKeyboard, width, secureTextEntry } = props;
 
     return (
         <TextInput
@@ -31,6 +32,7 @@ function InputYes(props: InputYes) {
             maxLength={maxLength}
             mode="outlined"
             secureTextEntry={secureTextEntry}
+            error={error}
         />
     )
 }

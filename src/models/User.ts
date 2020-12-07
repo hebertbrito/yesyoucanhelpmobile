@@ -12,6 +12,7 @@ export interface User {
     cellphone?: string,
     typeuser?: string,
     token?: string,
+    newpassword?: string,
     address?: {
         CEP?: string,
         city?: string,
@@ -20,6 +21,6 @@ export interface User {
         street?: string,
         state?: string,
         country?: string,
-    }
+    },
     avatarsource?: AvatarUser
 }
