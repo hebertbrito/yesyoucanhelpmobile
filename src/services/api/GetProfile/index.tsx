@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { BASE_URL } from '../index';
-import { UserLogin } from 'src/models/UserLogin';
-import { User } from 'src/models/User';
+import { User, UserLogin } from 'src/models';
 
 export async function GetUserProfile(user: UserLogin | undefined, setUserModel: React.Dispatch<React.SetStateAction<User | undefined>>) {
     try {
@@ -66,31 +65,26 @@ export async function GetUserProfile(user: UserLogin | undefined, setUserModel: 
 }
 
 
+export async function GetUserTORefresh(user: UserLogin) {
+    try {
+
+        // console.log(user);
 
 
+        const response = await axios.get(`${BASE_URL}user/getuser/refresh/${user.idDocument}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${user.token}`
+                }
+            });
 
+        if (response.data) {
+            return response.data;
+        }
 
+        return null;
 
-// export function GetUserProfile(user: UserLogin | undefined) {
-
-//     let objUser: User = {};
-
-//     const hehe = axios.get(`${BASE_URL}user/getuser/${user!.idDocument!}`,
-//         {
-//             headers: {
-//                 Authorization: `Bearer ${user!.token!}`
-//             }
-//         }).then(function (response) {
-//             // return response
-
-//             objUser = response.data.data
-//             return objUser
-
-//         }).catch(function (reject) {
-//             console.log(reject)
-//         });
-
-//     return hehe;
-
-
-// }
+    } catch (error) {
+        console.log(error);
+    }
+}

@@ -37,7 +37,7 @@ interface Props {
 function ProfileScreen() {
 
     const theme = useTheme();
-    const { user } = useContext(AuthContext);
+    const { user, UpdateStorageUser_User } = useContext(AuthContext);
     const { navigate } = useNavigation()
 
     const [firstname, setFirstName] = useState('');
@@ -184,8 +184,8 @@ function ProfileScreen() {
                 { firstname, lastname, datebirth, gender, email, cellphone },
                 { country, city, street, number, state, CEP, neighbourhood }
             )
-                
             await UpdateUser(objNewValues, avatarSource, user!)
+            await UpdateStorageUser_User()
             setIsSendUpdate(false)
             SwitchErros(201, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, theme)
             setIsVisible(true)
