@@ -103,12 +103,26 @@ function ProfileScreen() {
             }, 2000);
 
             return () => {
-                //do something when screen are unfocused
+                cleanfields()
                 null
             }
 
         }, [])
     );
+
+    function cleanfields(){
+        setFirstName("")
+        setlastName("")
+        setdateBirth("")
+        setGender("")
+        setCountry("")
+        setStreet("")
+        setCity("")
+        setNumber("")
+        setNeighbourhood("")
+        setState("")
+        setCellphone("")
+    }
 
     useEffect(() => {
 
@@ -186,6 +200,7 @@ function ProfileScreen() {
             )
             await UpdateUser(objNewValues, avatarSource, user!)
             await UpdateStorageUser_User()
+            cleanfields()
             setIsSendUpdate(false)
             SwitchErros(201, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, theme)
             setIsVisible(true)

@@ -89,14 +89,14 @@ function OptionsScreens() {
                                     style={{ width: '90%', elevation: 5 }}
                                 />
                                 <List.Item
-                                    title={`${translate(listMenuItems[3].title)}`} key={listMenuItems[3].id}
-                                    description={`${translate(listMenuItems[3].description)}`}
+                                    title={`${translate(listMenuItems[2].title)}`} key={listMenuItems[2].id}
+                                    description={`${translate(listMenuItems[2].description)}`}
                                     left={props => <List.Icon {...props}
-                                        icon={() => <Icon name={listMenuItems[3].nameIcon!}
+                                        icon={() => <Icon name={listMenuItems[2].nameIcon!}
                                             size={25} color={theme.colors.text}
                                         />}
                                     />}
-                                    onPress={() => navigate(`${listMenuItems[3].screenNavigation}`)}
+                                    onPress={() => navigate(`${listMenuItems[2].screenNavigation}`)}
                                     style={{ width: '90%', elevation: 5 }}
                                 />
                             </>

@@ -15,14 +15,15 @@ export const listMenuItems = [
         description: 'description_advanced_search',
         screenNavigation: 'AdvancedSerach',
         nameIcon: 'filter'
-    },
-    {
-        id: 3,
-        title: 'chart_menu',
-        description: 'description_chart',
-        screenNavigation: 'ChartScreen',
-        nameIcon: 'chart-line'
-    },
+    }
+    ,
+    // {
+    //     id: 3,
+    //     title: 'chart_menu',
+    //     description: 'description_chart',
+    //     screenNavigation: 'ChartScreen',
+    //     nameIcon: 'chart-line'
+    // },
     {
         id: 4,
         title: 'change_password',

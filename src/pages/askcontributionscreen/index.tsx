@@ -72,6 +72,9 @@ const AskContributionScreen = () => {
         setNeighborhood("")
         setCity("")
     }
+    function cleanListProduct(){
+        setLstProducts([])
+    }
 
     function resetStateCard() {
         setDescriptionInput('');
@@ -202,6 +205,7 @@ const AskContributionScreen = () => {
                             await AskContribution(user!, objdata)
                             setErrorFormLocation(false)
                             clearfieldsaddress()
+                            cleanListProduct()
                             SwitchErros(201, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
                             setIsVisible(true)
                         } else {
@@ -232,6 +236,7 @@ const AskContributionScreen = () => {
                             }
 
                             await AskContribution(user!, objdata)
+                            cleanListProduct()
                             SwitchErros(201, setText, setColorBackground, setTextColor, setSubcolorButton, setTitle, paperTheme)
                             setIsVisible(true)
                         } else {
