@@ -25,7 +25,7 @@ export const MainButton = (props: Props) => {
             onPress={() => MainActionScreen()}
             loading={isSend}
         >
-            {translate("send")}
+            <Text style={{ color: "#000000", fontWeight: "bold" }}>{translate("send")}</Text>
         </Button>
     )
 }
@@ -52,9 +52,11 @@ export const NavigationButon = (props: NavigationButon) => {
                 :
                 { onPress: (() => navigate(`${routeNavigation}`)) }
             }
-            icon={() => <Icon name={iconName} size={20} color={paperTheme.colors.text} />}
+            icon={() => <Icon name={iconName} size={20} color="#000000" />}
         >
-            {nameButton}
+            <Text style={{color: "#000000", fontWeight: "bold"}}>
+                {nameButton}
+            </Text>
         </Button>
     )
 }
@@ -82,8 +84,9 @@ export const ButtonComponent = (props: ButtonComponent) => {
             onPress={() => MainActionScreen()}
             loading={isSend}
             disabled={enableButton}
+            theme={{ colors: { text: "red" } }}
         >
-            {nameButton}
+            <Text style={{ color: "#000000", fontWeight: "bold" }}>{nameButton}</Text>
         </Button>
     )
 }

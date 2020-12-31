@@ -37,7 +37,7 @@ export function AddressInfo(props: AddressInfo) {
         <Animatable.View style={{ justifyContent: "center", margin: 5, width: '90%' }} easing={"ease-in-out"} animation="fadeInLeft" useNativeDriver={true}>
             <Card style={{ backgroundColor: '#eeeeee', elevation: 4 }}>
                 <Card.Content style={{ backgroundColor: '#eeeeee' }}>
-                    <Title style={{ color: '#000000' }}>Address Info</Title>
+                    <Title style={{ color: '#000000' }}>Informações de Endereço</Title>
                     <View style={{ display: "flex", flexDirection: "column" }}>
                         <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
                             <TextInput

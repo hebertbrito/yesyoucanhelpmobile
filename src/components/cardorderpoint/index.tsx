@@ -23,12 +23,12 @@ interface CardOrderItem {
     ratingorderscontributions(idDocument: string): Promise<void>
     accpetorderscontributions(idDocument: string): Promise<void>
 }
-type Props =  ItemMapsSpecificLocation & CardOrderItem
+type Props = ItemMapsSpecificLocation & CardOrderItem
 function CardOrderItem(props: Props) {
 
     const theme = useTheme();
     const { createdAt, description, id, number, ownname, product, uri, accpetorderscontributions, ratingorderscontributions } = props;
-    
+
     return (
         <>
             <View style={{ width: "95%", display: "flex", flexDirection: "column", marginBottom: 5 }} key={id}>
@@ -46,7 +46,7 @@ function CardOrderItem(props: Props) {
                     </Caption>
                     <ThumbsOrder AcceptOrders={accpetorderscontributions} ReportOrders={ratingorderscontributions} idDocument={id} typeorder="ok" />
                 </View>
-                <Paragraph style={{fontStyle: "italic"}}>
+                <Paragraph style={{ fontStyle: "italic" }}>
                     {translate(product)}, {number} - {description}
                 </Paragraph>
             </View>
@@ -99,12 +99,12 @@ function CardOrder(props: CardOrder) {
                         {lstContribution.length > 0
                             ?
                             lstContribution.map(item => (
-                                <CardOrderItem key={item.id} {...item} accpetorderscontributions={accpetorderscontributions} ratingorderscontributions={ratingorderscontributions}/>
+                                <CardOrderItem key={item.id} {...item} accpetorderscontributions={accpetorderscontributions} ratingorderscontributions={ratingorderscontributions} />
                             ))
                             :
                             <>
                                 <Paragraph>
-                                    no content
+                                    nenhum conteúdo
                             </Paragraph>
                             </>
                         }

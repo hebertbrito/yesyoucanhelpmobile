@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { SafeAreaView, View, ScrollView, StatusBar } from 'react-native';
-import { useTheme, Avatar, Headline, Button, TextInput } from 'react-native-paper';
+import { useTheme, Avatar, Headline, Button, TextInput, Text } from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import AuthContext from '../../context/auth';
@@ -178,7 +178,7 @@ function ChangePasswordScreen() {
                             value={confirmpassword}
                             onChangeText={(text) => setConfirmPassword(text)}
                             placeholder={`${translate('password')}*`}
-                            label={`exemple: Aiufsd7865"`}
+                            label={`confirmar nova senha`}
                             style={{ margin: 10, width: "90%" }}
                             placeholderTextColor={theme.colors.text}
                             selectionColor={theme.colors.text}
@@ -215,10 +215,12 @@ function ChangePasswordScreen() {
                             style={{ width: '60%', padding: 2, alignSelf: "center", justifyContent: "space-evenly", elevation: 5 }}
                             color={theme.colors.primary}
                             disabled={disableButton}
-                            icon={() => <Icon name='paper-plane' size={20} color={theme.colors.text} />}
+                            icon={() => <Icon name='paper-plane' size={20} color="#000000" />}
                             loading={issend}
                         >
-                            {translate("send")}
+                            <Text style={{color: "#000000", fontWeight: "bold"}}>
+                                {translate("send")}
+                            </Text>
                         </Button>
                     </View>
                 </ScrollView>

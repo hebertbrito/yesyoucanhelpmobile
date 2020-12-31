@@ -149,6 +149,7 @@ function RegisterScreen({ ...props }) {
 
             if (validateCreateUser(objuser)) {
                 const data = await CreateUser(objuser!)
+                console.log(data)
                 if (avatarsource && data) {
                     console.log("cai pra enviar imagem")
                     await AddAvatar(avatarsource, { idDocument: data.idDocument })
