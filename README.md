@@ -1,2 +1,2 @@
 # Yes!YouCanHelp
-> Mobile application that can helps in a social cause.
+> Uma aplicação mobile, que tem o objetivo de ajudar em uma causa social.
