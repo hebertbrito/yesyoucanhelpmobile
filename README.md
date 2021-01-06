@@ -8,5 +8,5 @@ Pessoas do tipo juridica com ONGs, Prefeituras e Empresas privadas que precisam 
 <div style="display: flex; width: 100%; justify-content: center" >
     <img src="fotosreadme/login_image.jpg"
      alt="login screen"
-     style="float: left; margin-right: 10px; width: 250px; height: 500px" />
+     style="width: 100px;" />
 </div>
