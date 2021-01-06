@@ -9,5 +9,8 @@ Pessoas do tipo juridica com ONGs, Prefeituras e Empresas privadas que precisam 
         <img src="fotosreadme/login_image.jpg"
             alt="login screen"
             width="200" height="430" />
+        <img src="fotosreadme/forgot_password.jpg"
+            alt="login screen"
+            width="200" height="430" />
 </div>
 
