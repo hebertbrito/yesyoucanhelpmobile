@@ -5,7 +5,6 @@
 Pessoas que precisam de alguma ajuda, que queiram fazer alguma doação dos produtos disponiveis no aplicativo.
 Pessoas do tipo juridica com ONGs, Prefeituras e Empresas privadas que precisam de dados para que de alguma forma ajudem no objetivo de ajudar na causa social.
 
-```html
 <pre>
     <div class="container" style="display: flex; width: 100%; justify-content:center; align-items: center; flex-direction: row">
         <img src="fotosreadme/login_image.jpg"
@@ -13,4 +12,3 @@ Pessoas do tipo juridica com ONGs, Prefeituras e Empresas privadas que precisam 
             width="200" height="430" />
     </div>
 </pre>
-```
