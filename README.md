@@ -33,4 +33,7 @@ Usuario com nivel de Pessoa Fisica podem fazer mesmas ações que usuarios do ti
         <img src="fotosreadme/info_houseless.jpg"
             alt="login screen"
             width="200" height="430" />
+        <img src="fotosreadme/advanced_search.jpg"
+            alt="login screen"
+            width="200" height="430" />
 </p>
