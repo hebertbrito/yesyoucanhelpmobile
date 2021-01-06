@@ -7,4 +7,4 @@ Pessoas do tipo juridica com ONGs, Prefeituras e Empresas privadas que precisam 
 
 <img src="fotosreadme/login_image.jpg"
      alt="login screen"
-     style="width: 100px;" />
+     width="100" height="300" />
