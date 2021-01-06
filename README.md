@@ -13,8 +13,12 @@ Pessoas do tipo juridica com ONGs, Prefeituras e Empresas privadas que precisam 
 </p>
 
 ## Ações no aplicativo
-Usuarios tem opções de fazer uma doação, ou pedir um produto no qual ele necessita, sendo pra ele ou para uma pessoa terceira.
-Usuario com nivel de Pessoa Fisica podem fazer mesmas ações que usuarios do tipo comum fazem no Yes!YouCanHelp, como também visualizar dados mais especifico, buscando por filtros disponivel na tela de Busca Avançada
+* Usuarios Fisico
+    * Tem opções de fazer uma doação, ou pedir um produto no qual ele necessita, sendo pra ele ou para uma pessoa terceira.
+    * Pela tela Maps consegue visualizar ações feitas no aplicativo, podendo aceitar os que estão para serem doados, ou para quem está pedindo um produto.
+* Usuario Juridico
+    * Tem todas as ações que o Usuario Fisico tem.
+    * Telas privadas para busca avançadas de dados para fins especificos utilizando filtros para buscar dados que foram gerados no aplicativo.
 
 ## Galeria
 <p align="center" width="100%">
@@ -34,6 +38,9 @@ Usuario com nivel de Pessoa Fisica podem fazer mesmas ações que usuarios do ti
             alt="login screen"
             width="200" height="430" />
         <img src="fotosreadme/advanced_search.jpg"
+            alt="login screen"
+            width="200" height="430" />
+        <img src="fotosreadme/maps.jpg"
             alt="login screen"
             width="200" height="430" />
 </p>
